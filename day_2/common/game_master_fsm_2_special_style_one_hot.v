@@ -1,11 +1,11 @@
 `include "game_config.vh"
 
-module game_master_fsm_4_good_style_of_one_hot_two_always
+module game_master_fsm_2_special_style_one_hot
 (
     input      clk,
     input      reset,
 
-    input      key,
+    input      launch_key,
 
     output reg sprite_target_write_xy,
     output reg sprite_torpedo_write_xy,
@@ -100,7 +100,7 @@ module game_master_fsm_4_good_style_of_one_hot_two_always
 
                 d_state [STATE_END] = 1;
             end
-            else if (key)
+            else if (launch_key)
             begin
                 d_state [STATE_SHOOT] = 1;
             end

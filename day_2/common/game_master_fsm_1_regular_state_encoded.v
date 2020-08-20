@@ -1,11 +1,11 @@
 `include "game_config.vh"
 
-module game_master_fsm_9_bad_priority_logic
+module game_master_fsm_1_regular_state_encoded
 (
     input      clk,
     input      reset,
 
-    input      key,
+    input      launch_key,
 
     output reg sprite_target_write_xy,
     output reg sprite_torpedo_write_xy,
@@ -27,15 +27,13 @@ module game_master_fsm_9_bad_priority_logic
     input      end_of_game_timer_running
 );
 
-    // Using one-hot
+    localparam [1:0] STATE_START  = 0,
+                     STATE_AIM    = 1,
+                     STATE_SHOOT  = 2,
+                     STATE_END    = 3;
 
-    localparam STATE_START  = 0,
-               STATE_AIM    = 1,
-               STATE_SHOOT  = 2,
-               STATE_END    = 3;
-
-    reg [3:0] state;
-    reg [3:0] d_state;
+    reg [1:0] state;
+    reg [1:0] d_state;
 
     reg d_sprite_target_write_xy;
     reg d_sprite_torpedo_write_xy;
@@ -60,7 +58,7 @@ module game_master_fsm_9_bad_priority_logic
 
     always @*
     begin
-        d_state = 4'b0;
+        d_state = state;
 
         d_sprite_target_write_xy        = 1'b0;
         d_sprite_torpedo_write_xy       = 1'b0;
@@ -76,9 +74,9 @@ module game_master_fsm_9_bad_priority_logic
 
         //--------------------------------------------------------------------
 
-        // Bad style that infers priority
+        case (state)
 
-        if (state [STATE_START])
+        STATE_START:
         begin
             d_sprite_target_write_xy        = 1'b1;
             d_sprite_torpedo_write_xy       = 1'b1;
@@ -87,10 +85,10 @@ module game_master_fsm_9_bad_priority_logic
 
             d_game_won                      = 1'b0;
 
-            d_state [STATE_AIM] = 1;
+            d_state = STATE_AIM;
         end
 
-        else if (state [STATE_AIM])
+        STATE_AIM:
         begin
             d_sprite_target_enable_update   = 1'b1;
 
@@ -98,19 +96,15 @@ module game_master_fsm_9_bad_priority_logic
             begin
                 d_end_of_game_timer_start   = 1'b1;
 
-                d_state [STATE_END] = 1;
+                d_state = STATE_END;
             end
-            else if (key)
+            else if (launch_key)
             begin
-                d_state [STATE_SHOOT] = 1;
-            end
-            else
-            begin
-                d_state [STATE_AIM] = 1;
+                d_state = STATE_SHOOT;
             end
         end
 
-        else if (state [STATE_SHOOT])
+        STATE_SHOOT:
         begin
             d_sprite_torpedo_write_dxy      = 1'b1;
 
@@ -124,15 +118,11 @@ module game_master_fsm_9_bad_priority_logic
             begin
                 d_end_of_game_timer_start   = 1'b1;
 
-                d_state [STATE_END] = 1;
-            end
-            else
-            begin
-                d_state [STATE_SHOOT] = 1;
+                d_state = STATE_END;
             end
         end
 
-        else if (state [STATE_END])
+        STATE_END:
         begin
             // TODO: Investigate why it needs collision detection here
             // and not in previous state
@@ -141,10 +131,10 @@ module game_master_fsm_9_bad_priority_logic
                 d_game_won = 1'b1;
 
             if (! end_of_game_timer_running)
-                d_state [STATE_START] = 1;
-            else
-                d_state [STATE_END] = 1;
+                d_state = STATE_START;
         end
+
+        endcase
     end
 
     //------------------------------------------------------------------------
@@ -152,7 +142,7 @@ module game_master_fsm_9_bad_priority_logic
     always @ (posedge clk or posedge reset)
         if (reset)
         begin
-            state                         <= (1 << STATE_START);
+            state                         <= STATE_START;
 
             sprite_target_write_xy        <= 1'b0;
             sprite_torpedo_write_xy       <= 1'b0;

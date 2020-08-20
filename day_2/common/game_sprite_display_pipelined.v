@@ -1,6 +1,6 @@
 `include "game_config.vh"
 
-module game_sprite_display_alt_1
+module game_sprite_display_pipelined
 #(
     parameter SPRITE_WIDTH  = 8,
               SPRITE_HEIGHT = 8,

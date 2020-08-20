@@ -5,11 +5,6 @@
 
 #-----------------------------------------------------------------------------
 
-guarded rm    -rf $SYN_DIR
-guarded mkdir -p  $SYN_DIR
-guarded cd        $SYN_DIR
-
-guarded cp ../top.qsf .
 guarded echo "# This file can be empty, all the settings are in .qsf file" > top.qpf
 
 #-----------------------------------------------------------------------------

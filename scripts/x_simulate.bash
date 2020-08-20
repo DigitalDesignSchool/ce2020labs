@@ -5,12 +5,6 @@
 
 #-----------------------------------------------------------------------------
 
-guarded rm    -rf $SIM_DIR
-guarded mkdir -p  $SIM_DIR
-guarded cd        $SIM_DIR
-
-#-----------------------------------------------------------------------------
-
 run_iverilog=0
 run_gtkwave=0
 run_vsim=0
@@ -55,8 +49,8 @@ fi
 if [ $run_iverilog = 1 ]
 then
     iverilog -g2005  \
-        -I .. -I ../../common -I ../../game  \
-        ../*.v ../../common/*.v ../../game/*.v  \
+        -I .. -I ../../../common  \
+        ../*.v ../../../common/*.v  \
         &> icarus.compile.log 
         
     ec=$?

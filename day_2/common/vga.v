@@ -1,3 +1,5 @@
+`include "config.vh"
+
 module vga
 # (
     parameter N_MIXER_PIPE_STAGES = 0,
@@ -17,9 +19,7 @@ module vga
               V_DISPLAY           = 480,  // Vertical display height
               V_BOTTOM            =  10,  // Vertical bottom border
               V_SYNC              =   2,  // Vertical sync # lines
-              V_TOP               =  33,  // Vertical top border
-              
-              CLK_MHZ             =  50   // Clock frequency (50 or 100 MHz)
+              V_TOP               =  33   // Vertical top border
 )
 (
     input                         clk,
@@ -64,17 +64,39 @@ module vga
         end
     end
 
-    // Enable to divide clock from 50 or 100 MHz to 25 MHz
+    // Enable to divide clock from 50 MHz to 25 MHz
 
-    reg [1:0] clk_en_cnt;
+    `ifdef CLK_100_MHZ
 
-    always @ (posedge clk or posedge reset)
-        if (reset)
-            clk_en_cnt <= 2'b0;
-        else
-            clk_en_cnt <= clk_en_cnt + 1;
+        reg [1:0] clk_en_cnt;
 
-    wire clk_en = clk_en_cnt [CLK_MHZ == 100 ? 1 :0];
+        always @ (posedge clk or posedge reset)
+            if (reset)
+                clk_en_cnt <= 2'b0;
+            else
+                clk_en_cnt <= clk_en_cnt + 1;
+
+        wire clk_en = clk_en_cnt [1];
+
+    `elsif CLK_50_MHZ
+
+        reg clk_en;
+
+        always @ (posedge clk or posedge reset)
+            if (reset)
+                clk_en <= 1'b0;
+            else
+                clk_en <= ~ clk_en;
+
+    `elsif CLK_25_MHZ
+
+        wire clk_en = 1'b1;
+
+    `else
+
+        `error_either_CLK_100_MHZ_or_CLK_50_MHZ_or_CLK_25_MHZ_has_to_be_set
+
+    `endif
 
     // Making all outputs registered
 

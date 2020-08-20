@@ -2,14 +2,15 @@
 
 module game_top
 # (
-    parameter strobe_to_update_xy_counter_width = 20
+    parameter clk_mhz = 50,
+              strobe_to_update_xy_counter_width = 20
 )
 (
     input        clk,
     input        reset,
 
-    input        key,
-    input  [1:0] sw,
+    input        launch_key,
+    input  [1:0] left_right_keys,
 
     output       hsync,
     output       vsync,
@@ -27,7 +28,9 @@ module game_top
         .N_MIXER_PIPE_STAGES ( `N_MIXER_PIPE_STAGES ),
 
         .HPOS_WIDTH          ( `X_WIDTH             ),
-        .VPOS_WIDTH          ( `Y_WIDTH             )
+        .VPOS_WIDTH          ( `Y_WIDTH             ),
+        
+        .CLK_MHZ             ( clk_mhz              )
     )
     i_vga
     (
@@ -179,14 +182,14 @@ module game_top
 
     always @*
     begin
-        case (sw)
+        case (left_right_keys)
         2'b00: sprite_torpedo_write_dx = 2'b00;
         2'b01: sprite_torpedo_write_dx = 2'b01;
         2'b10: sprite_torpedo_write_dx = 2'b11;
         2'b11: sprite_torpedo_write_dx = 2'b00;
         endcase
 
-        case (sw)
+        case (left_right_keys)
         2'b00: sprite_torpedo_write_dy = 3'b111;
         2'b01: sprite_torpedo_write_dy = 3'b110;
         2'b10: sprite_torpedo_write_dy = 3'b110;
@@ -316,7 +319,7 @@ module game_top
         .clk                           ( clk                           ),
         .reset                         ( reset                         ),
 
-        .key                           ( key                           ),
+        .lauch_key                     ( launch_key                    ),
 
         .sprite_target_write_xy        ( sprite_target_write_xy        ),
         .sprite_torpedo_write_xy       ( sprite_torpedo_write_xy       ),

@@ -8,10 +8,8 @@ module testbench;
 
     top
     # (
-        .debounce_depth                    ( 1 ),
-        .shift_strobe_width                ( 1 ),
-        .seven_segment_strobe_width        ( 1 ),
-        .strobe_to_update_xy_counter_width ( 1 )
+        .clk_mhz (1),
+        .strobe_to_update_xy_counter_width (1)
     )
     i_top
     (

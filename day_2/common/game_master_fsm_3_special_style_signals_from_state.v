@@ -1,11 +1,72 @@
 `include "game_config.vh"
 
-module game_master_fsm_7_signals_from_state
+/*
+
+6 bit state:
+
+START -> AIM
+
+1 sprite_target_write_xy
+1 sprite_torpedo_write_xy
+1 sprite_target_write_dxy
+0 sprite_torpedo_write_dxy
+0 sprite_target_enable_update
+0 sprite_torpedo_enable_update
+0 end_of_game_timer_start
+0 game_won
+
+AIM -> AIM, SHOOT, LOST
+
+0 sprite_target_write_xy
+0 sprite_torpedo_write_xy
+0 sprite_target_write_dxy
+0 sprite_torpedo_write_dxy
+1 sprite_target_enable_update
+0 sprite_torpedo_enable_update
+0 end_of_game_timer_start
+0 game_won
+
+SHOOT -> SHOOT, WON, LOST
+
+0 sprite_target_write_xy
+0 sprite_torpedo_write_xy
+0 sprite_target_write_dxy
+1 sprite_torpedo_write_dxy
+1 sprite_target_enable_update
+1 sprite_torpedo_enable_update
+0 end_of_game_timer_start
+0 game_won
+
+WON -> WON_END                         LOST -> LOST_END
+
+0 sprite_target_write_xy               0 sprite_target_write_xy
+0 sprite_torpedo_write_xy              0 sprite_torpedo_write_xy
+0 sprite_target_write_dxy              0 sprite_target_write_dxy
+0 sprite_torpedo_write_dxy             0 sprite_torpedo_write_dxy
+0 sprite_target_enable_update          0 sprite_target_enable_update
+0 sprite_torpedo_enable_update         0 sprite_torpedo_enable_update
+1 end_of_game_timer_start              1 end_of_game_timer_start
+1 game_won                             0 game_won
+
+WON_END -> WON_END, START              LOST_END -> LOST_END, START
+
+0 sprite_target_write_xy               0 sprite_target_write_xy
+0 sprite_torpedo_write_xy              0 sprite_torpedo_write_xy
+0 sprite_target_write_dxy              0 sprite_target_write_dxy
+0 sprite_torpedo_write_dxy             0 sprite_torpedo_write_dxy
+0 sprite_target_enable_update          0 sprite_target_enable_update
+0 sprite_torpedo_enable_update         0 sprite_torpedo_enable_update
+0 end_of_game_timer_start              0 end_of_game_timer_start
+1 game_won                             0 game_won
+
+*/
+
+module game_master_fsm_3_special_style_signals_from_state
 (
     input  clk,
     input  reset,
 
-    input  key,
+    input  launch_key,
 
     output sprite_target_write_xy,
     output sprite_torpedo_write_xy,
@@ -71,7 +132,7 @@ module game_master_fsm_7_signals_from_state
 
         STATE_AIM      : n_state = out_of_screen             ? STATE_LOST
                                  : collision                 ? STATE_WON
-                                 : key                       ? STATE_SHOOT
+                                 : launch_key                ? STATE_SHOOT
                                  :                             STATE_AIM;
 
         STATE_SHOOT    : n_state = out_of_screen             ? STATE_LOST

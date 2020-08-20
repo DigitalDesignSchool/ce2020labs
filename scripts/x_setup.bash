@@ -17,9 +17,6 @@ export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$MODELSIM_ROOTDIR/lib32"
 export QUARTUS_ROOTDIR=${HOME}/intelFPGA_lite/18.1/quartus
 export PATH=${PATH}:${QUARTUS_ROOTDIR}/bin
 
-SIM_DIR=${PWD}/sim
-SYN_DIR=${PWD}/syn
-
 #-----------------------------------------------------------------------------
 
 error ()
