@@ -20,8 +20,8 @@ module top
     output [2:0] rgb
 );
 
-    assign led       = 4'b0;
-    assign abcdefgh  = 8'b0;
+    assign led       = key_sw;
+    assign abcdefgh  = { key_sw, key_sw };
     assign digit     = 4'b0;
     assign buzzer    = 1'b0;
 
@@ -34,15 +34,15 @@ module top
     )
     i_game_top
     (
-        .clk              (   clk                       ),
-        .reset            ( ~ reset_n                   ),
+        .clk              (   clk                           ),
+        .reset            ( ~ reset_n                       ),
 
-        .launch_key       (   key_sw [3] | key_sw [0]   ),
-        .left_right_keys  ( { key_sw [3] , key_sw [0] } ),
+        .launch_key       (   ~ key_sw [3] | ~ key_sw [0]   ),
+        .left_right_keys  ( { ~ key_sw [3] , ~ key_sw [0] } ),
 
-        .hsync            (   hsync                     ),
-        .vsync            (   vsync                     ),
-        .rgb              (   rgb                       )
+        .hsync            (   hsync                         ),
+        .vsync            (   vsync                         ),
+        .rgb              (   rgb                           )
     );
 
 endmodule

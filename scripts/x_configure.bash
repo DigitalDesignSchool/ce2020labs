@@ -3,11 +3,6 @@
 
 . ./x_setup.bash
 
-[ -d "$SYN_DIR" ] ||  \
-    error 1 "synthesis directory $SYN_DIR does not exist. Run synthesis first."
-
-guarded cd $SYN_DIR
-
 is_command_available_or_error quartus_pgm " from Intel FPGA Quartus II package"
 
 guarded quartus_pgm -l &> cable_list
