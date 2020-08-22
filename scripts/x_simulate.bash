@@ -90,7 +90,7 @@ then
     then
         gtkwave                                 \
             --dump dump.vcd                     \
-            --script ../xx_gtkwave.tcl  \
+            --script xx_gtkwave.tcl  \
             &> waveform.log
 
     elif [ ${OSTYPE/[0-9]*/} = "darwin" ]
@@ -99,12 +99,12 @@ then
         # For some reason the following way of opening the application
         # does not read the script file:
         #
-        # open -a gtkwave dump.vcd --args --script $PWD/../xx_gtkwave.tcl
+        # open -a gtkwave dump.vcd --args --script $PWD/xx_gtkwave.tcl
         #
         # This way works:
 
         /Applications/gtkwave.app/Contents/MacOS/gtkwave-bin  \
-            --dump dump.vcd --script ../xx_gtkwave.tcl        \
+            --dump dump.vcd --script xx_gtkwave.tcl           \
             &> waveform.log
     else
         error 1 "don't know how to run GTKWave on your OS $OSTYPE"
@@ -129,7 +129,7 @@ then
        || [ "$OSTYPE" = "cygwin"    ]  \
        || [ "$OSTYPE" = "msys"      ]
     then
-        vsim -do ../xx_modelsim.tcl &> modelsim.log
+        vsim -do xx_modelsim.tcl &> modelsim.log
     else
         error 1 "don't know how to run ModelSim on your OS $OSTYPE"
     fi

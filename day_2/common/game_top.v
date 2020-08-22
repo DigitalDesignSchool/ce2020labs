@@ -319,7 +319,7 @@ module game_top
         .clk                           ( clk                           ),
         .reset                         ( reset                         ),
 
-        .lauch_key                     ( launch_key                    ),
+        .launch_key                    ( launch_key                    ),
 
         .sprite_target_write_xy        ( sprite_target_write_xy        ),
         .sprite_torpedo_write_xy       ( sprite_torpedo_write_xy       ),

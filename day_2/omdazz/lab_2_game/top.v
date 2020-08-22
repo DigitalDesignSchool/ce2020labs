@@ -20,6 +20,11 @@ module top
     output [2:0] rgb
 );
 
+    assign led       = 4'b0;
+    assign abcdefgh  = 8'b0;
+    assign digit     = 4'b0;
+    assign buzzer    = 1'b0;
+
     game_top
     # (
         .clk_mhz (clk_mhz),
@@ -35,9 +40,9 @@ module top
         .launch_key       (   key_sw [3] | key_sw [0]   ),
         .left_right_keys  ( { key_sw [3] , key_sw [0] } ),
 
-        .hsync            ( hsync                       ),
-        .vsync            ( vsync                       ),
-        .rgb              ( rgb                         )
+        .hsync            (   hsync                     ),
+        .vsync            (   vsync                     ),
+        .rgb              (   rgb                       )
     );
 
 endmodule
