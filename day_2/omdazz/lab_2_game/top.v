@@ -25,6 +25,14 @@ module top
     assign digit     = 4'b0;
     assign buzzer    = 1'b0;
 
+    wire launch_key = key_sw != 4'b1111;  // Any key is pressed
+    
+    // Either of two leftmost keys is pressed
+    wire left_key   = key_sw [3:2] != 2'b11;
+
+    // Either of two rightmost keys is pressed
+    wire right_key  = key_sw [1:0] != 2'b11;
+
     game_top
     # (
         .clk_mhz (clk_mhz),
@@ -34,15 +42,15 @@ module top
     )
     i_game_top
     (
-        .clk              (   clk                           ),
-        .reset            ( ~ reset_n                       ),
+        .clk              (   clk                   ),
+        .reset            ( ~ reset_n               ),
 
-        .launch_key       (   ~ key_sw [3] | ~ key_sw [0]   ),
-        .left_right_keys  ( { ~ key_sw [3] , ~ key_sw [0] } ),
+        .launch_key       (   launch_key            ),
+        .left_right_keys  ( { left_key, right_key } ),
 
-        .hsync            (   hsync                         ),
-        .vsync            (   vsync                         ),
-        .rgb              (   rgb                           )
+        .hsync            (   hsync                 ),
+        .vsync            (   vsync                 ),
+        .rgb              (   rgb                   )
     );
 
 endmodule

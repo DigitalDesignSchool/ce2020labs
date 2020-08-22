@@ -5,10 +5,6 @@
 
 #-----------------------------------------------------------------------------
 
-guarded echo "# This file can be empty, all the settings are in .qsf file" > top.qpf
-
-#-----------------------------------------------------------------------------
-
 is_command_available_or_error quartus_sh " from Intel FPGA Quartus II package"
 
 quartus_sh --no_banner --flow compile top 2>&1 | tee syn.log
