@@ -1,3 +1,5 @@
+`include "config.vh"
+
 module top
 # (
     parameter clk_mhz = 50,
