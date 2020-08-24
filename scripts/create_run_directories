@@ -1,0 +1,43 @@
+#!/bin/bash
+
+set +e  # Don't exit immediately if a command exits with a non-zero status
+
+script=$(basename "$0")
+
+find ../day_1 ../day_2 -name top.v  \
+| sed "s/\/top\.v//" \
+| while read dir
+  do
+    echo $dir
+    
+    if ! rm -rf "$dir/run"
+    then
+      printf "$script: cannot remove '%s'" "$dir/run" 1>&2
+      exit 1
+    fi
+
+    if ! mkdir "$dir/run"
+    then
+      printf "$script: cannot mkdir '%s'" "$dir/run" 1>&2
+      exit 1
+    fi
+
+    case "$dir" in
+    *omdazz*)    board="omdazz"    ; vendor="intel_fpga" ;;
+    *zeowaa*)    board="zeowaa"    ; vendor="intel_fpga" ;;
+    *de10_lite*) board="de10_lite" ; vendor="intel_fpga" ;;
+    *basys3*)    board="basys3"    ; vendor="xilinx"     ;;
+    *nexys4*)    board="nexys4"    ; vendor="xilinx"     ;;
+    *)
+      printf "$script: unrecognized directory '%s'" "$dir" 1>&2
+      exit 1
+    esac
+
+    if ! echo cp all_${vendor}_boards/* $board/* "$dir/run"
+    then
+      printf "$script: cannot cp into '%s'" "$dir/run" 1>&2
+      exit 1
+    fi
+  done
+
+exit 0
