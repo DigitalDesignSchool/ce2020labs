@@ -35,7 +35,7 @@ module top
     // Exercise 1: Change the code below.
     // Write the same for AND and OR operations
     
-    assign led [11:2] = 10'b0;
+    assign led [11:2] = 10'h3ff;
 
     // Exercise 2: Change the code below.
     // Turn on and off buzzer on the board using key.
