@@ -8,7 +8,7 @@ find ../day_1 ../day_2 -name top.v  \
 | sed "s/\/top\.v//" \
 | while read dir
   do
-    echo $dir
+    echo $dir 1>&2
     
     if ! rm -rf "$dir/run"
     then
@@ -33,7 +33,7 @@ find ../day_1 ../day_2 -name top.v  \
       exit 1
     esac
 
-    if ! echo cp all_${vendor}_boards/* $board/* "$dir/run"
+    if ! cp all_${vendor}_boards/* $board/* "$dir/run"
     then
       printf "$script: cannot cp into '%s'" "$dir/run" 1>&2
       exit 1
