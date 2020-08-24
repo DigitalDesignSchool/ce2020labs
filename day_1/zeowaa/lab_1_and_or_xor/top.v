@@ -41,7 +41,7 @@ module top
     // Turn on and off buzzer on the board using key.
     // Listen to the click sound.
 
-    assign buzzer = 1'b0;
+    assign buzzer = 1'b0
     
     // Exercise 3: Change the code below.
     // Turn on and off segments on 7-segment indicator
