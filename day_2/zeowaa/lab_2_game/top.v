@@ -30,14 +30,6 @@ module top
     assign digit     = 8'b1;
     assign buzzer    = 1'b1;
 
-    wire launch_key = key_sw != 4'b1111;  // Any key is pressed
-    
-    // Either of two leftmost keys is pressed
-    wire left_key   = key_sw [3:2] != 2'b11;
-
-    // Either of two rightmost keys is pressed
-    wire right_key  = key_sw [1:0] != 2'b11;
-
     wire launch_key = ~ key [1] | ~ key [0];
     wire left_key   = ~ key [1];
     wire right_key  = ~ key [0];
@@ -52,7 +44,7 @@ module top
     i_game_top
     (
         .clk              (   clk                   ),
-        .reset            ( ~ reset_n               ),
+        .reset            (   reset                 ),
 
         .launch_key       (   launch_key            ),
         .left_right_keys  ( { left_key, right_key } ),
