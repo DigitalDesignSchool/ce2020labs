@@ -3,5 +3,4 @@
 ./create_run_directories
 pwd=$PWD
 cd ../..
-zip -r -ll -xce2020labs/.git* $pwd/ce2020labs_linux_$(date '+%Y%m%d_%H%M%S').zip   ce2020labs
-zip -r -l  -xce2020labs/.git* $pwd/ce2020labs_windows_$(date '+%Y%m%d_%H%M%S').zip ce2020labs
+zip -r $pwd/ce2020labs_$(date '+%Y%m%d_%H%M%S').zip ce2020labs
