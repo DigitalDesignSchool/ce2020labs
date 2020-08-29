@@ -1,5 +1,11 @@
 *
+
 !.gitignore
+
+!de10_lite
+!omdazz
+!zeowaa
+
 !top.qpf
 !top.qsf
 !top.v
