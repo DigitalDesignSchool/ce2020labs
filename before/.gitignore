@@ -2,10 +2,13 @@
 
 !.gitignore
 
+!basys3
 !de10_lite
+!nexys4
 !omdazz
 !zeowaa
 
 !top.qpf
 !top.qsf
+!top.xdc
 !top.v
