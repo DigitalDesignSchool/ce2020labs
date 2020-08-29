@@ -3,7 +3,7 @@ module top
     input  [ 3:0] key,
     input  [ 7:0] sw,
     output [11:0] led,
-    output        buzzer,
+    output        buzzer
 );
 
     wire a = ~ key [0];

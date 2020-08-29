@@ -14,6 +14,10 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sw*
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to led*
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to buzzer
 
+set_global_assignment   -name USE_CONFIGURATION_DEVICE OFF
+set_global_assignment   -name CRC_ERROR_OPEN_DRAIN OFF
+set_global_assignment   -name RESERVE_ALL_UNUSED_PINS_WEAK_PULLUP "AS INPUT TRI-STATED"
+
 ## ASSIGNMENTS
 # INPUTS
 set_location_assignment PIN_86  -to key[0]
