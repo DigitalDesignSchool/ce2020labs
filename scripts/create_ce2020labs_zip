@@ -9,5 +9,9 @@ rm -rf ${root_name}_*.zip
 cd $root/day_3/uarch
 git clone https://github.com/zhelnio/schoolRISCV
 cd $root/..
+
 zip -r $pwd/${root_name}_$(date '+%Y%m%d_%H%M%S').zip $root_name
-zip -r -x.gitignore $pwd/${root_name}_before_$(date '+%Y%m%d_%H%M%S').zip $root_name/before
+
+zip -r -x$root_name/before/.gitignore \
+  $pwd/${root_name}_before_$(date '+%Y%m%d_%H%M%S').zip \
+  $root_name/before
