@@ -18,6 +18,9 @@ module top
     output [2:0] rgb
 );
 
+    assign abcdefgh  = 8'hff;
+    assign digit     = 4'hf;
+    assign buzzer    = 1'b0;
     assign hsync     = 1'b1;
     assign vsync     = 1'b1;
     assign rgb       = 3'b0;
@@ -32,21 +35,15 @@ module top
     assign led [1] = ~ (~ key_sw [0] ^ ~ key_sw [1]);
 
     // Exercise 1: Change the code below.
-    // Write the same for AND and OR operations
+    // Assign to led [2] the result of AND operation
     
     assign led [2] = 1'b0;
-    assign led [3] = 1'b0;
 
     // Exercise 2: Change the code below.
-    // Turn on and off buzzer on the board using key.
-    // Listen to the click sound.
+    // Assign to led [3] the result of XOR operation
+    // without using "^" operation.
+    // Use only operations "&", "|", "~" and parenthesis, "(" and ")".
 
-    assign buzzer = 1'b0;
-    
-    // Exercise 3: Change the code below.
-    // Turn on and off segments on 7-segment indicator
-
-    assign abcdefgh  = 8'hff;
-    assign digit     = 4'b0;
+    assign led [3] = 1'b0;
 
 endmodule
