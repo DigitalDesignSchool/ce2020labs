@@ -35,7 +35,7 @@ module top
       else
         cnt <= cnt + 32'b1;
         
-    wire enable = (cnt [22:0] == 25'b0);
+    wire enable = (cnt [22:0] == 23'b0);
 
     //------------------------------------------------------------------------
 
@@ -47,12 +47,11 @@ module top
       if (~ reset_n)
         shift_reg <= 4'b0;
       else if (enable)
-        shift_reg <= { shift_reg [2:0], button_on };
+        shift_reg <= { button_on, shift_reg [3:1] };
 
     assign led = ~ shift_reg;
 
-    // Exercise 1: Make the light move not from the left to the right,
-    // but from the right to the left.
+    // Exercise 1: Make the light move in the opposite direction.
 
     // Exercise 2: Make the light moving in a loop.
     // Use another key to reset the moving lights back to no lights.
