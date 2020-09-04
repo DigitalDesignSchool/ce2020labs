@@ -1,20 +1,20 @@
-set_global_assignment   -name DEVICE 10M50DAF484C7G
+set_global_assignment   -name DEVICE                    10M50DAF484C7G
 
 set_global_assignment   -name NUM_PARALLEL_PROCESSORS   4
 set_global_assignment   -name PROJECT_OUTPUT_DIRECTORY  .
 
-set_global_assignment   -name TOP_LEVEL_ENTITY top
+set_global_assignment   -name TOP_LEVEL_ENTITY          top
 
-set_global_assignment   -name SEARCH_PATH  ..
-set_global_assignment   -name SEARCH_PATH  ../../../common
+set_global_assignment   -name SEARCH_PATH               ..
+set_global_assignment   -name SEARCH_PATH               ../../../common
 
-set_global_assignment   -name VERILOG_FILE ../top.v
-set_global_assignment   -name SDC_FILE     top.sdc
+set_global_assignment   -name VERILOG_FILE              ../top.v
+set_global_assignment   -name SDC_FILE                  top.sdc
 
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to *
-set_instance_assignment -name IO_STANDARD "3.3 V Schmitt Trigger" -to key[0]
-set_instance_assignment -name IO_STANDARD "3.3 V Schmitt Trigger" -to key[1]
-set_instance_assignment -name IO_STANDARD "3.3 V Schmitt Trigger" -to arduino_reset_n
+set_instance_assignment -name IO_STANDARD               "3.3-V LVTTL" -to *
+set_instance_assignment -name IO_STANDARD               "3.3 V Schmitt Trigger" -to key[0]
+set_instance_assignment -name IO_STANDARD               "3.3 V Schmitt Trigger" -to key[1]
+set_instance_assignment -name IO_STANDARD               "3.3 V Schmitt Trigger" -to arduino_reset_n
 
 set_location_assignment PIN_N5   -to adc_clk_10
 set_location_assignment PIN_P11  -to max10_clk1_50
