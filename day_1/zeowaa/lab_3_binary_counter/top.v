@@ -2,28 +2,31 @@
 
 module top
 (
-    input        clk,
-    input        reset_n,
-    
-    input  [3:0] key_sw,
-    output [3:0] led,
+    input         clk,
+    input  [ 3:0] key,
+    input  [ 7:0] sw,
+    output [11:0] led,
 
-    output [7:0] abcdefgh,
-    output [3:0] digit,
+    output [ 7:0] abcdefgh,
+    output [ 7:0] digit,
 
-    output       buzzer,
+    output        buzzer,
 
-    output       hsync,
-    output       vsync,
-    output [2:0] rgb
+    output        vsync,
+    output        hsync,
+    output [ 2:0] rgb,
+
+    inout  [18:0] gpio
 );
 
-    assign abcdefgh  = 8'b0;
-    assign digit     = 4'b0;
-    assign buzzer    = 1'b0;
-    assign hsync     = 1'b1;
-    assign vsync     = 1'b1;
-    assign rgb       = 3'b0;
+    wire reset = ~ key [3];
+
+    assign abcdefgh = 8'hff;
+    assign digit    = 8'hff;
+    assign buzzer   = 1'b1;
+    assign hsync    = 1'b1;
+    assign vsync    = 1'b1;
+    assign rgb      = 3'b0;
 
     // Exercise 1: Free running counter.
     // How do you change the speed of LED blinking?
@@ -31,13 +34,13 @@ module top
 
     reg [31:0] cnt;
     
-    always @ (posedge clk or negedge reset_n)
-      if (~ reset_n)
+    always @ (posedge clk or posedge reset)
+      if (reset)
         cnt <= 32'b0;
       else
         cnt <= cnt + 32'b1;
         
-    assign { led [0], led [1], led [2], led [3] } = ~ cnt [27:24];
+    assign led = ~ cnt [31:20];
 
     // Exercise 2: Key-controlled counter.
     // Comment out the code above.
@@ -48,31 +51,29 @@ module top
 
     /*
 
-    wire key = key_sw [0];
-
     reg key_r;
     
-    always @ (posedge clk or negedge reset_n)
-      if (~ reset_n)
+    always @ (posedge clk or posedge reset)
+      if (reset)
         key_r <= 1'b0;
       else
-        key_r <= key;
+        key_r <= key [0];
         
-    wire key_pressed = ~ key & key_r;
+    wire key_pressed = ~ key [0] & key_r;
 
-    reg [31:0] cnt;
-    
-    always @ (posedge clk or negedge reset_n)
-      if (~ reset_n)
-        cnt <= 32'b0;
+    reg [11:0] cnt;
+
+    always @ (posedge clk or posedge reset)
+      if (reset)
+        cnt <= 12'b0;
       else if (key_pressed)
-        cnt <= cnt + 32'b1;
+        cnt <= cnt + 12'b1;
         
-    assign { led [0], led [1], led [2], led [3] } = ~ cnt [3:0];
+    assign led = ~ cnt;
     
     */
 
     // Exercise 3 (advanced): Instantiate ../../common/sync_and_debounce.v
-    // module to de-bounce the key.
+    // module to de-bounce the key. Or write the debouncer by yourself.
 
 endmodule

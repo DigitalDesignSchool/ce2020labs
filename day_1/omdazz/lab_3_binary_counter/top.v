@@ -60,19 +60,19 @@ module top
         
     wire key_pressed = ~ key & key_r;
 
-    reg [31:0] cnt;
+    reg [3:0] cnt;
     
     always @ (posedge clk or negedge reset_n)
       if (~ reset_n)
-        cnt <= 32'b0;
+        cnt <= 4'b0;
       else if (key_pressed)
-        cnt <= cnt + 32'b1;
+        cnt <= cnt + 4'b1;
         
-    assign { led [0], led [1], led [2], led [3] } = ~ cnt [3:0];
-    
+    assign { led [0], led [1], led [2], led [3] } = ~ cnt;
+
     */
 
     // Exercise 3 (advanced): Instantiate ../../common/sync_and_debounce.v
-    // module to de-bounce the key.
+    // module to de-bounce the key. Or write the debouncer by yourself.
 
 endmodule
