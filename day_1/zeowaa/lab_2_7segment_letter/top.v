@@ -2,24 +2,27 @@
 
 module top
 (
-    input        clk,
-    input        reset_n,
-    
-    input  [3:0] key_sw,
-    output [3:0] led,
+    input         clk,
+    input  [ 3:0] key,
+    input  [ 7:0] sw,
+    output [11:0] led,
 
-    output [7:0] abcdefgh,
-    output [3:0] digit,
+    output [ 7:0] abcdefgh,
+    output [ 7:0] digit,
 
-    output       buzzer,
+    output        buzzer,
 
-    output       hsync,
-    output       vsync,
-    output [2:0] rgb
+    output        vsync,
+    output        hsync,
+    output [ 2:0] rgb,
+
+    inout  [18:0] gpio
 );
 
-    assign led    = 4'hf;
-    assign buzzer = 1'b0;
+    wire reset = ~ key [3];
+
+    assign led    = 12'hfff;
+    assign buzzer = 1'b1;
     assign hsync  = 1'b1;
     assign vsync  = 1'b1;
     assign rgb    = 3'b0;
@@ -42,8 +45,8 @@ module top
                     I = 8'b11110011,
                     P = 8'b00110001;
 
-    // assign abcdefgh = key_sw [0] ? C : E;
-    // assign digit    = key_sw [1] ? 4'b1110 : 4'b1101;
+    assign abcdefgh = key [0] ? C : E;
+    assign digit    = key [1] ? 8'b1111_1110 : 8'b1111_1101;
 
     // Exercise 1: Display the first letters
     // of your first name and last name instead.
@@ -54,10 +57,11 @@ module top
     // Exercise 2: Display letters of a 4-character word
     // using this code to display letter of ChIP as an example
 
+    /*
     reg [7:0] letter;
     
     always @*
-      case (key_sw)
+      case (key)
       4'b0111: letter = C;
       4'b1011: letter = h;
       4'b1101: letter = I;
@@ -66,6 +70,7 @@ module top
       endcase
       
     assign abcdefgh = letter;
-    assign digit    = key_sw == 4'b1111 ? 4'b0000 : key_sw;
+    assign digit    = key == 4'b1111 ? 8'h00 : { key, key };
+    */
 
 endmodule

@@ -42,8 +42,8 @@ module top
                     I = 8'b11110011,
                     P = 8'b00110001;
 
-    // assign abcdefgh = key_sw [0] ? C : E;
-    // assign digit    = key_sw [1] ? 4'b1110 : 4'b1101;
+    assign abcdefgh = key_sw [0] ? C : E;
+    assign digit    = key_sw [1] ? 4'b1110 : 4'b1101;
 
     // Exercise 1: Display the first letters
     // of your first name and last name instead.
@@ -53,6 +53,8 @@ module top
 
     // Exercise 2: Display letters of a 4-character word
     // using this code to display letter of ChIP as an example
+
+    /*
 
     reg [7:0] letter;
     
@@ -67,5 +69,6 @@ module top
       
     assign abcdefgh = letter;
     assign digit    = key_sw == 4'b1111 ? 4'b0000 : key_sw;
+    */
 
 endmodule
