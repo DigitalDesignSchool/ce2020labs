@@ -19,9 +19,9 @@ module top
     inout  [18:0] gpio
 );
 
-    wire reset = ~ key [3];
+    wire   reset  = ~ key [3];
 
-    assign led    = 4'hf;
+    assign led    = 12'hfff;
     assign buzzer = 1'b1;
     assign hsync  = 1'b1;
     assign vsync  = 1'b1;
@@ -41,13 +41,13 @@ module top
 
     //------------------------------------------------------------------------
 
-    reg [3:0] shift_reg;
+    reg [7:0] shift_reg;
     
     always @ (posedge clk or posedge reset)
       if (reset)
-        shift_reg <= 4'b0001;
+        shift_reg <= 8'b0000_0001;
       else if (enable)
-        shift_reg <= { shift_reg [0], shift_reg [3:1] };
+        shift_reg <= { shift_reg [0], shift_reg [7:1] };
 
     //------------------------------------------------------------------------
 
@@ -67,17 +67,24 @@ module top
                     E = 8'b01100001,
                     h = 8'b11010001,
                     I = 8'b11110011,
-                    P = 8'b00110001;
+                    O = 8'b00000011,
+                    P = 8'b00110001,
+                    X = 8'b10010001;
 
     reg [7:0] letter;
     
     always @*
       case (shift_reg)
-      4'b1000: letter = C;
-      4'b0100: letter = h;
-      4'b0010: letter = I;
-      4'b0001: letter = P;
-      default: letter = E;
+      8'b1000_0000: letter = C;
+      8'b0100_0000: letter = h;
+      8'b0010_0000: letter = I;
+      8'b0001_0000: letter = P;
+
+      8'b0000_1000: letter = E;
+      8'b0000_0100: letter = X;
+      8'b0000_0010: letter = P;
+      8'b0000_0001: letter = O;
+      default:      letter = E;
       endcase
 
     assign abcdefgh = letter;
