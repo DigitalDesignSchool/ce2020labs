@@ -2,34 +2,37 @@
 
 module top
 (
-    input        clk,
-    input        reset_n,
-    
-    input  [3:0] key_sw,
-    output [3:0] led,
+    input         clk,
+    input  [ 3:0] key,
+    input  [ 7:0] sw,
+    output [11:0] led,
 
-    output [7:0] abcdefgh,
-    output [3:0] digit,
+    output [ 7:0] abcdefgh,
+    output [ 7:0] digit,
 
-    output       buzzer,
+    output        buzzer,
 
-    output       hsync,
-    output       vsync,
-    output [2:0] rgb
+    output        vsync,
+    output        hsync,
+    output [ 2:0] rgb,
+
+    inout  [18:0] gpio
 );
 
+    wire reset = ~ key [3];
+
     assign led    = 4'hf;
-    assign buzzer = 1'b0;
+    assign buzzer = 1'b1;
     assign hsync  = 1'b1;
     assign vsync  = 1'b1;
     assign rgb    = 3'b0;
-    
+
     //------------------------------------------------------------------------
 
     reg [31:0] cnt;
     
-    always @ (posedge clk or negedge reset_n)
-      if (~ reset_n)
+    always @ (posedge clk or posedge reset)
+      if (reset)
         cnt <= 32'b0;
       else
         cnt <= cnt + 32'b1;
@@ -40,8 +43,8 @@ module top
 
     reg [3:0] shift_reg;
     
-    always @ (posedge clk or negedge reset_n)
-      if (~ reset_n)
+    always @ (posedge clk or posedge reset)
+      if (reset)
         shift_reg <= 4'b0001;
       else if (enable)
         shift_reg <= { shift_reg [0], shift_reg [3:1] };
