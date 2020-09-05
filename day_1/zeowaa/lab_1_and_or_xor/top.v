@@ -19,9 +19,12 @@ module top
     inout  [18:0] gpio
 );
 
-    assign hsync = 1'b1;
-    assign vsync = 1'b1;
-    assign rgb   = 3'b0;
+    assign abcdefgh = 8'hff;
+    assign digit    = 8'b0;
+    assign buzzer   = 1'b1;
+    assign hsync    = 1'b1;
+    assign vsync    = 1'b1;
+    assign rgb      = 3'b0;
 
     wire a = ~ key [0];
     wire b = ~ key [1];
@@ -35,18 +38,16 @@ module top
     // Exercise 1: Change the code below.
     // Write the same for AND and OR operations
     
-    assign led [11:2] = 10'h3ff;
+    assign led [2] = 1'b1;
+    assign led [3] = 1'b1;
 
     // Exercise 2: Change the code below.
-    // Turn on and off buzzer on the board using key.
-    // Listen to the click sound.
+    // Assign to led [4] the result of XOR operation
+    // without using "^" operation.
+    // Use only operations "&", "|", "~" and parenthesis, "(" and ")".
 
-    assign buzzer = 1'b1;
-    
-    // Exercise 3: Change the code below.
-    // Turn on and off segments on 7-segment indicator
+    assign led [4] = 1'b1;
 
-    assign abcdefgh  = 8'hff;
-    assign digit     = 8'b0;
+    assign led [11:5] = 7'h7f;
 
 endmodule

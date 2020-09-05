@@ -6,12 +6,7 @@ module testbench;
     reg [1:0] key;
     reg [9:0] sw;
 
-    top
-    # (
-        .clk_mhz (1),
-        .strobe_to_update_xy_counter_width (1)
-    )
-    i_top
+    top i_top
     (
         .clk ( clk ),
         .key ( key ),

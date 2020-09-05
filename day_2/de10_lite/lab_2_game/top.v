@@ -6,9 +6,7 @@ module top
               strobe_to_update_xy_counter_width = 20
 )
 (
-    input           adc_clk_10,
-    input           max10_clk1_50,
-    input           max10_clk2_50,
+    input           clk,
 
     input   [ 1:0]  key,
     input   [ 9:0]  sw,
@@ -21,37 +19,17 @@ module top
     output  [ 7:0]  hex4,
     output  [ 7:0]  hex5,
 
-    output  [ 3:0]  vga_b,
-    output  [ 3:0]  vga_g,
     output          vga_hs,
-    output  [ 3:0]  vga_r,
     output          vga_vs,
-
-    output  [12:0]  dram_addr,
-    output  [ 1:0]  dram_ba,
-    output          dram_cas_n,
-    output          dram_cke,
-    output          dram_clk,
-    output          dram_cs_n,
-    inout   [15:0]  dram_dq,
-    output          dram_ldqm,
-    output          dram_ras_n,
-    output          dram_udqm,
-    output          dram_we_n,
-
-    output          gsensor_cs_n,
-    input   [ 2:1]  gsensor_int,
-    output          gsensor_sclk,
-    inout           gsensor_sdi,
-    inout           gsensor_sdo,
-
-    inout   [15:0]  arduino_io,
-    inout           arduino_reset_n,
+    output  [ 3:0]  vga_r,
+    output  [ 3:0]  vga_g,
+    output  [ 3:0]  vga_b,
 
     inout   [35:0]  gpio
 );
 
     assign led  = 10'b0;
+
     assign hex0 = 8'hff;
     assign hex1 = 8'hff;
     assign hex2 = 8'hff;
@@ -59,7 +37,6 @@ module top
     assign hex4 = 8'hff;
     assign hex5 = 8'hff;
 
-    wire clk   = max10_clk1_50;
     wire reset = sw [9];
 
     wire [2:0] rgb;
