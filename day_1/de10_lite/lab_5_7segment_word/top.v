@@ -24,31 +24,21 @@ module top
     inout   [35:0]  gpio
 );
 
-    assign led  = 10'b0;
+    assign led = 10'b0;
 
     wire reset = sw [9];
 
     //------------------------------------------------------------------------
 
     reg [31:0] cnt;
-    
+
     always @ (posedge clk or posedge reset)
       if (reset)
         cnt <= 32'b0;
       else
         cnt <= cnt + 32'b1;
-        
+
     wire enable = (cnt [22:0] == 23'b0);
-
-    //------------------------------------------------------------------------
-
-    reg [7:0] shift_reg;
-    
-    always @ (posedge clk or posedge reset)
-      if (reset)
-        shift_reg <= 8'b0000_0001;
-      else if (enable)
-        shift_reg <= { shift_reg [0], shift_reg [7:1] };
 
     //------------------------------------------------------------------------
 
@@ -62,43 +52,29 @@ module top
     //  |     |
     //   --d--  h
     //
+    //  hgfedcba
     //  0 means light
 
-    parameter [7:0] C = 8'b01100011,
-                    E = 8'b01100001,
-                    h = 8'b11010001,
-                    I = 8'b11110011,
-                    O = 8'b00000011,
-                    P = 8'b00110001,
-                    X = 8'b10010001;
+    parameter [7:0] C  = 8'b11000110,
+                    h  = 8'b10001011,
+                    I  = 8'b11001111,
+                    P  = 8'b10001100,
+                    _  = 8'b11111111;
 
-    reg [7:0] letter;
-    
-    always @*
-      case (shift_reg)
-      8'b1000_0000: letter = C;
-      8'b0100_0000: letter = h;
-      8'b0010_0000: letter = I;
-      8'b0001_0000: letter = P;
+    reg [10 * 8 - 1:0] shift_reg;
 
-      8'b0000_1000: letter = E;
-      8'b0000_0100: letter = X;
-      8'b0000_0010: letter = P;
-      8'b0000_0001: letter = O;
-      default:      letter = E;
-      endcase
+    always @ (posedge clk or posedge reset)
+      if (reset)
+        shift_reg <= { C, h, I, P, { 6 { _ } } };
+      else if (enable)
+        shift_reg <= { shift_reg [7:0], shift_reg [10 * 8 - 1:8] };
 
-    assign abcdefgh = letter;
-    assign digit    = ~ shift_reg;
+    assign { hex5, hex4, hex3, hex2, hex1, hex0 }
+      = shift_reg [6 * 8 - 1:0];
+      
+    // Exercise 1: Modify the code so the speed and the direction
+    // of the movement changes when you press a key.
 
-    // Exercise 1: Increase the frequency of enable signal
-    // to the level your eyes see the letters as a solid word
-    // without any blinking. What is the threshold of such frequency?
-
-    // Exercise 2: Put your name or another word to the display.
-
-    // Exercise 3: Comment out the "default" clause from the "case" statement
-    // in the "always" block,and re-synthesize the example.
-    // Are you getting any warnings or errors? Try to explain why.
+    // Exercise 2: Put your name, another word or a picture to the display.
 
 endmodule
