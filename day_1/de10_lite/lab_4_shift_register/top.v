@@ -49,15 +49,15 @@ module top
 
     wire button_on = ~ key [0];
 
-    reg [11:0] shift_reg;
+    reg [9:0] shift_reg;
     
     always @ (posedge clk or posedge reset)
       if (reset)
-        shift_reg <= 12'b0;
+        shift_reg <= 10'b0;
       else if (enable)
-        shift_reg <= { button_on, shift_reg [11:1] };
+        shift_reg <= { button_on, shift_reg [9:1] };
 
-    assign led = ~ shift_reg;
+    assign led = shift_reg;
 
     // Exercise 1: Make the light move in the opposite direction.
 
