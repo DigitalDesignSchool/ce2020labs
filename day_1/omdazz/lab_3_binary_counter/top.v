@@ -18,6 +18,8 @@ module top
     output [2:0] rgb
 );
 
+    wire reset = ~ reset_n;
+
     assign abcdefgh  = 8'b0;
     assign digit     = 4'b0;
     assign buzzer    = 1'b0;
@@ -31,8 +33,8 @@ module top
 
     reg [31:0] cnt;
     
-    always @ (posedge clk or negedge reset_n)
-      if (~ reset_n)
+    always @ (posedge clk or posedge reset)
+      if (reset)
         cnt <= 32'b0;
       else
         cnt <= cnt + 32'b1;
@@ -52,8 +54,8 @@ module top
 
     reg key_r;
     
-    always @ (posedge clk or negedge reset_n)
-      if (~ reset_n)
+    always @ (posedge clk or posedge reset)
+      if (reset)
         key_r <= 1'b0;
       else
         key_r <= key;
@@ -62,8 +64,8 @@ module top
 
     reg [3:0] cnt;
     
-    always @ (posedge clk or negedge reset_n)
-      if (~ reset_n)
+    always @ (posedge clk or posedge reset)
+      if (reset)
         cnt <= 4'b0;
       else if (key_pressed)
         cnt <= cnt + 4'b1;
