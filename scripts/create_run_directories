@@ -33,7 +33,7 @@ find ../day_1 ../day_2 -name top.v  \
       exit 1
     esac
 
-    if ! cp all_${vendor}_boards/* $board/* "$dir/run"
+    if ! cp -r all_${vendor}_boards/* $board/* "$dir/run"
     then
       printf "$script: cannot cp into '%s'" "$dir/run" 1>&2
       exit 1
