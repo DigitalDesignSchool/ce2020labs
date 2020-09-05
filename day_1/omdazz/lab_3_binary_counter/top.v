@@ -45,7 +45,7 @@ module top
     // Comment out the code above.
     // Uncomment and synthesized the following code.
     // Press the key to see the counter incrementing.
-    // Notice that the increment is not always 1.
+    // Notice that the increment may not be always 1.
     // Why? Hint: google "switch bounce" and "debouncing".
 
     /*

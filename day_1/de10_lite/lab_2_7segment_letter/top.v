@@ -2,30 +2,31 @@
 
 module top
 (
-    input         clk,
-    input  [ 3:0] key,
-    input  [ 7:0] sw,
-    output [11:0] led,
+    input           clk,
 
-    output [ 7:0] abcdefgh,
-    output [ 7:0] digit,
+    input   [ 1:0]  key,
+    input   [ 9:0]  sw,
+    output  [ 9:0]  led,
 
-    output        buzzer,
+    output  [ 7:0]  hex0,
+    output  [ 7:0]  hex1,
+    output  [ 7:0]  hex2,
+    output  [ 7:0]  hex3,
+    output  [ 7:0]  hex4,
+    output  [ 7:0]  hex5,
 
-    output        vsync,
-    output        hsync,
-    output [ 2:0] rgb,
+    output          vga_hs,
+    output          vga_vs,
+    output  [ 3:0]  vga_r,
+    output  [ 3:0]  vga_g,
+    output  [ 3:0]  vga_b,
 
-    inout  [18:0] gpio
+    inout   [35:0]  gpio
 );
 
-    wire reset = ~ key [3];
+    assign led  = 10'b0;
 
-    assign led    = 12'hfff;
-    assign buzzer = 1'b1;
-    assign hsync  = 1'b1;
-    assign vsync  = 1'b1;
-    assign rgb    = 3'b0;
+    wire reset = sw [9];
 
     //   --a--
     //  |     |
@@ -37,40 +38,37 @@ module top
     //  |     |
     //   --d--  h
     //
+    //  hgfedcba
     //  0 means light
 
-    parameter [7:0] C = 8'b01100011,
-                    E = 8'b01100001,
-                    h = 8'b11010001,
-                    I = 8'b11110011,
-                    P = 8'b00110001;
+    parameter [7:0] C  = 8'b11000110,
+                    E  = 8'b10000110,
+                    h  = 8'b10001011,
+                    I  = 8'b11001111,
+                    O  = 8'b11000000,
+                    P  = 8'b10001100,
+                    X  = 8'b10001001,
+                    D0 = 8'b11000000,
+                    D2 = 8'b10100100;
 
-    assign abcdefgh = key [0] ? C : E;
-    assign digit    = key [1] ? 8'b1111_1110 : 8'b1111_1101;
+    wire sel = key [0];
 
-    // Exercise 1: Display the first letters
-    // of your first name and last name instead.
+    assign hex5 = sel ? C : E;
+    assign hex4 = sel ? h : X;
+    assign hex3 = sel ? I : P;
+    assign hex2 = sel ? P : O;
+    assign hex1 =       D2;
+    assign hex0 =       D0;
 
-    // assign abcdefgh = ...
-    // assign digit    = ...
-
-    // Exercise 2: Display letters of a 4-character word
-    // using this code to display letter of ChIP as an example
+    // Alternative way
 
     /*
-    reg [7:0] letter;
-    
-    always @*
-      case (key)
-      4'b0111: letter = C;
-      4'b1011: letter = h;
-      4'b1101: letter = I;
-      4'b1110: letter = P;
-      default: letter = E;
-      endcase
-      
-    assign abcdefgh = letter;
-    assign digit    = key == 4'b1111 ? 8'h00 : { key, key };
+    assign { hex5, hex4, hex3, hex2 } =
+       sel ? { C, h, I, P } : { E, X, P, O };
+
+    assign { hex1, hex0 } = { D2, D0 };
     */
+
+    // Exercise: Display your first and last names
 
 endmodule

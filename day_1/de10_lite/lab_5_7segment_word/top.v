@@ -2,30 +2,31 @@
 
 module top
 (
-    input         clk,
-    input  [ 3:0] key,
-    input  [ 7:0] sw,
-    output [11:0] led,
+    input           clk,
 
-    output [ 7:0] abcdefgh,
-    output [ 7:0] digit,
+    input   [ 1:0]  key,
+    input   [ 9:0]  sw,
+    output  [ 9:0]  led,
 
-    output        buzzer,
+    output  [ 7:0]  hex0,
+    output  [ 7:0]  hex1,
+    output  [ 7:0]  hex2,
+    output  [ 7:0]  hex3,
+    output  [ 7:0]  hex4,
+    output  [ 7:0]  hex5,
 
-    output        vsync,
-    output        hsync,
-    output [ 2:0] rgb,
+    output          vga_hs,
+    output          vga_vs,
+    output  [ 3:0]  vga_r,
+    output  [ 3:0]  vga_g,
+    output  [ 3:0]  vga_b,
 
-    inout  [18:0] gpio
+    inout   [35:0]  gpio
 );
 
-    wire   reset  = ~ key [3];
+    assign led  = 10'b0;
 
-    assign led    = 12'hfff;
-    assign buzzer = 1'b1;
-    assign hsync  = 1'b1;
-    assign vsync  = 1'b1;
-    assign rgb    = 3'b0;
+    wire reset = sw [9];
 
     //------------------------------------------------------------------------
 
