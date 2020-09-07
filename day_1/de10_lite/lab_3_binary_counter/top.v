@@ -49,10 +49,15 @@ module top
 
     // Exercise 2: Key-controlled counter.
     // Comment out the code above.
-    // Uncomment and synthesized the following code.
+    // Uncomment and synthesize the code below.
     // Press the key to see the counter incrementing.
-    // Notice that the increment may not be always 1.
-    // Why? Hint: google "switch bounce" and "debouncing".
+    //
+    // Change the design, for example:
+    //
+    // 1. One key is used to increment, another to decrement.
+    //
+    // 2. Two counters controlled by different keys
+    // displayed in different groups of LEDs.
 
     /*
 
@@ -77,8 +82,5 @@ module top
     assign led = cnt;
 
     */
-
-    // Exercise 3 (advanced): Instantiate ../../common/sync_and_debounce.v
-    // module to de-bounce the key. Or write the debouncer by yourself.
 
 endmodule

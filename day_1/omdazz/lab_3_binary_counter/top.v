@@ -20,8 +20,8 @@ module top
 
     wire reset = ~ reset_n;
 
-    assign abcdefgh  = 8'b0;
-    assign digit     = 4'b0;
+    assign abcdefgh  = 8'hff;
+    assign digit     = 4'hf;
     assign buzzer    = 1'b0;
     assign hsync     = 1'b1;
     assign vsync     = 1'b1;
@@ -38,15 +38,20 @@ module top
         cnt <= 32'b0;
       else
         cnt <= cnt + 32'b1;
-        
+
     assign { led [0], led [1], led [2], led [3] } = ~ cnt [27:24];
 
     // Exercise 2: Key-controlled counter.
     // Comment out the code above.
-    // Uncomment and synthesized the following code.
+    // Uncomment and synthesize the code below.
     // Press the key to see the counter incrementing.
-    // Notice that the increment may not be always 1.
-    // Why? Hint: google "switch bounce" and "debouncing".
+    //
+    // Change the design, for example:
+    //
+    // 1. One key is used to increment, another to decrement.
+    //
+    // 2. Two counters controlled by different keys
+    // displayed in different groups of LEDs.
 
     /*
 
@@ -69,12 +74,9 @@ module top
         cnt <= 4'b0;
       else if (key_pressed)
         cnt <= cnt + 4'b1;
-        
+
     assign { led [0], led [1], led [2], led [3] } = ~ cnt;
 
     */
-
-    // Exercise 3 (advanced): Instantiate ../../common/sync_and_debounce.v
-    // module to de-bounce the key. Or write the debouncer by yourself.
 
 endmodule
