@@ -12,6 +12,8 @@ set_global_assignment   -name SEARCH_PATH               ../../../common
 set_global_assignment   -name VERILOG_FILE              ../top.v
 set_global_assignment   -name SDC_FILE                  top.sdc
 
+set_global_assignment   -name RESERVE_ALL_UNUSED_PINS_WEAK_PULLUP "AS INPUT TRI-STATED"
+
 set_instance_assignment -name IO_STANDARD               "3.3-V LVTTL" -to *
 
 set_location_assignment PIN_23   -to clk
