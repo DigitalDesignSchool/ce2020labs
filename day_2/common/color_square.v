@@ -7,9 +7,7 @@ module color_square
 
               // Display constants
               H_DISPLAY           = 640,  // Horizontal display width
-              V_DISPLAY           = 480,  // Vertical display height
-
-              CLK_MHZ             =  50   // Clock frequency (50 or 100 MHz)
+              V_DISPLAY           = 480   // Vertical display height
 )
 
 (
