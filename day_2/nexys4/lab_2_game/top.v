@@ -1,38 +1,58 @@
+`include "config.vh"
+//Nexus A7 wrapper
 module top
+# (
+    parameter clk_mhz = 100,
+              strobe_to_update_xy_counter_width = 20
+)
 (
-    input         clk100mhz,
-    input         cpu_resetn,
+    input        clk,
+    input        reset_n,
+    
+    input  [3:0] key_sw,
+    output [3:0] led,
 
-    input         btnc,
-    input         btnu,
-    input         btnl,
-    input         btnr,
-    input         btnd,
+    //output [7:0] abcdefgh,
+    //output [3:0] digit,
 
-    input  [15:0] sw, 
+    //output       buzzer,
 
-    output [15:0] led,
-
-    output        led16_b,
-    output        led16_g,
-    output        led16_r,
-    output        led17_b,
-    output        led17_g,
-    output        led17_r,
-
-    output        ca,
-    output        cb,
-    output        cc,
-    output        cd,
-    output        ce,
-    output        cf,
-    output        cg,
-    output        dp,
-
-    output [ 7:0] an,
-
-    inout  [12:1] ja,
-    inout  [12:1] jb
+    output       hsync,
+    output       vsync,
+    output [2:0] rgb
 );
+
+//    assign led       = key_sw;
+//    assign abcdefgh  = { key_sw, key_sw };
+//    assign digit     = 4'b0;
+//    assign buzzer    = 1'b0;
+
+    wire launch_key = key_sw != 4'b1111;  // Any key is pressed
+    
+    // Either of two leftmost keys is pressed
+    wire left_key   = key_sw [3] ;
+
+    // Either of two rightmost keys is pressed
+    wire right_key  = key_sw [1];
+
+    game_top
+    # (
+        .clk_mhz (clk_mhz),
+
+        .strobe_to_update_xy_counter_width
+        (strobe_to_update_xy_counter_width)
+    )
+    i_game_top
+    (
+        .clk              (   clk                   ),
+        .reset            ( ~ reset_n               ),
+
+        .launch_key       (   launch_key            ),
+        .left_right_keys  ( { left_key, right_key } ),
+
+        .hsync            (   hsync                 ),
+        .vsync            (   vsync                 ),
+        .rgb              (   rgb                   )
+    );
 
 endmodule

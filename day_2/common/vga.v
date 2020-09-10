@@ -19,7 +19,8 @@ module vga
               V_SYNC              =   2,  // Vertical sync # lines
               V_TOP               =  33,  // Vertical top border
               
-              CLK_MHZ             =  50   // Clock frequency (50 or 100 MHz)
+              CLK_MHZ             =  50,   // Clock frequency (50 or 100 MHz)
+              VGA_CLOCK           =  25   // Pixel clock of VGA in MHz
 )
 (
     input                         clk,
@@ -66,15 +67,24 @@ module vga
 
     // Enable to divide clock from 50 or 100 MHz to 25 MHz
 
-    reg [1:0] clk_en_cnt;
+    reg [3:0] clk_en_cnt;
+    reg clk_en;
 
-    always @ (posedge clk or posedge reset)
-        if (reset)
-            clk_en_cnt <= 2'b0;
-        else
-            clk_en_cnt <= clk_en_cnt + 1;
-
-    wire clk_en = clk_en_cnt [CLK_MHZ == 100 ? 1 :0];
+    always @ (posedge clk or posedge reset) begin
+        if (reset) begin
+            clk_en_cnt <= 3'b0;
+            clk_en <= 1'b0;
+        end else begin
+            if (clk_en_cnt == (CLK_MHZ/VGA_CLOCK) - 1) begin 
+            	clk_en_cnt <= 3'b0;
+            	clk_en <= 1'b1;
+            end else begin
+            	clk_en_cnt <= clk_en_cnt + 1;
+            	clk_en <= 1'b0;
+            end
+        end
+    end
+    
 
     // Making all outputs registered
 
