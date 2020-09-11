@@ -18,11 +18,9 @@ set_instance_assignment -name IO_STANDARD               "3.3 V Schmitt Trigger" 
 set_instance_assignment -name IO_STANDARD               "3.3 V Schmitt Trigger" -to key[1]
 set_instance_assignment -name IO_STANDARD               "3.3 V Schmitt Trigger" -to arduino_reset_n
 
-set_location_assignment PIN_P11  -to clk
-
-# set_location_assignment PIN_N5   -to adc_clk_10
-# set_location_assignment PIN_P11  -to max10_clk1_50
-# set_location_assignment PIN_N14  -to max10_clk2_50
+set_location_assignment PIN_N5   -to adc_clk_10
+set_location_assignment PIN_P11  -to max10_clk1_50
+set_location_assignment PIN_N14  -to max10_clk2_50
 
 set_location_assignment PIN_B8   -to key[0]
 set_location_assignment PIN_A7   -to key[1]
