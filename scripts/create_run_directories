@@ -8,34 +8,24 @@ find ../day_1 ../day_2 -name top.v  \
 | sed "s/\/top\.v//" \
 | while read dir
   do
-    echo $dir 1>&2
-    
-    if ! rm -rf "$dir/run"
-    then
-      printf "$script: cannot remove '%s'" "$dir/run" 1>&2
-      exit 1
-    fi
-
-    if ! mkdir "$dir/run"
-    then
-      printf "$script: cannot mkdir '%s'" "$dir/run" 1>&2
-      exit 1
-    fi
-
     case "$dir" in
-    *omdazz*)    board="omdazz"    ; vendor="intel_fpga" ;;
-    *zeowaa*)    board="zeowaa"    ; vendor="intel_fpga" ;;
-    *de10_lite*) board="de10_lite" ; vendor="intel_fpga" ;;
-    *basys3*)    board="basys3"    ; vendor="xilinx"     ;;
-    *nexys4*)    board="nexys4"    ; vendor="xilinx"     ;;
+    *omdazz*)          board="omdazz"    ;;
+    *zeowaa*)          board="zeowaa"    ;;
+    *de10_lite*)       board="de10_lite" ;;
+    *basys3*|*nexys4*) continue          ;;
+
     *)
       printf "$script: unrecognized directory '%s'" "$dir" 1>&2
       exit 1
     esac
 
-    if ! cp -r all_${vendor}_boards/* $board/* "$dir/run"
+    echo $dir 1>&2
+
+    if    ! rm -rf "$dir/run" \
+       || ! mkdir  "$dir/run" \
+       || ! cp -r all_intel_fpga_boards/* $board/* "$dir/run"
     then
-      printf "$script: cannot cp into '%s'" "$dir/run" 1>&2
+      printf "$script: cannot copy into '%s'" "$dir/run" 1>&2
       exit 1
     fi
   done
