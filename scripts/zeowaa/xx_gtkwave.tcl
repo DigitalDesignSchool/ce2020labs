@@ -8,7 +8,10 @@ lappend all_signals testbench.sw
 lappend all_signals testbench.i_top.led
 lappend all_signals testbench.i_top.abcdefgh
 lappend all_signals testbench.i_top.digit
-lappend all_signals testbench.i_top.buzzer
+
+# If this signal is not commented out and is not used, it makes annoying sound
+# lappend all_signals testbench.i_top.buzzer
+
 lappend all_signals testbench.i_top.vsync
 lappend all_signals testbench.i_top.hsync
 lappend all_signals testbench.i_top.rgb

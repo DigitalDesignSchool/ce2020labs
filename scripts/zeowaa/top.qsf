@@ -63,7 +63,8 @@ set_location_assignment PIN_136  -to digit[5]
 set_location_assignment PIN_137  -to digit[6]
 set_location_assignment PIN_138  -to digit[7]
 
-set_location_assignment PIN_141  -to buzzer
+# If this signal is not commented out and is not used, it makes annoying sound
+# set_location_assignment PIN_141  -to buzzer
 
 set_location_assignment PIN_143  -to vsync
 set_location_assignment PIN_142  -to hsync

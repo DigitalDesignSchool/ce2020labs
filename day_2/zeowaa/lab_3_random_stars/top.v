@@ -13,8 +13,6 @@ module top
     output [ 7:0] abcdefgh,
     output [ 7:0] digit,
 
-    output        buzzer,
-
     output        vsync,
     output        hsync,
     output [ 2:0] rgb,
@@ -27,7 +25,6 @@ module top
     assign led       = { key, sw };
     assign abcdefgh  = 8'b1;
     assign digit     = 8'b1;
-    assign buzzer    = 1'b1;
 
     wire       display_on;
     wire [9:0] hpos;

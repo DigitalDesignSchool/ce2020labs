@@ -10,8 +10,6 @@ module top
     output [ 7:0] abcdefgh,
     output [ 7:0] digit,
 
-    output        buzzer,
-
     output        vsync,
     output        hsync,
     output [ 2:0] rgb,
@@ -22,7 +20,6 @@ module top
     wire   reset  = ~ key [3];
 
     assign led    = 12'hfff;
-    assign buzzer = 1'b1;
     assign hsync  = 1'b1;
     assign vsync  = 1'b1;
     assign rgb    = 3'b0;

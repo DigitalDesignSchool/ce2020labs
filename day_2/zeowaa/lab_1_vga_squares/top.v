@@ -15,8 +15,6 @@ module top
     output [ 7:0] abcdefgh,
     output [ 7:0] digit,
 
-    output        buzzer,
-
     output        vsync,
     output        hsync,
     output [ 2:0] rgb,
@@ -29,7 +27,6 @@ module top
     assign led      = { key, sw };    
     assign abcdefgh = 8'b1;
     assign digit    = 8'b1;
-    assign buzzer   = 1'b1;
 
     //------------------------------------------------------------------------
 
@@ -57,6 +54,8 @@ module top
 
     //------------------------------------------------------------------------
 
+    wire [3:0] key_sw = ~ key;
+
     color_square 
     # (
        .HPOS_WIDTH  ( X_WIDTH    ),
@@ -68,7 +67,7 @@ module top
         .clk        ( clk        ),
         .reset      ( reset      ),
         .display_on ( display_on ),
-        .key_sw     ( key        ),
+        .key_sw     ( key_sw     ),
         .hpos       ( pixel_x    ),
         .vpos       ( pixel_y    ),
         .rgb        ( rgb        )
