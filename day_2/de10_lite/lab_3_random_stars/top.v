@@ -2,9 +2,7 @@
 
 module top
 # (
-    parameter X_WIDTH          = 10,
-              Y_WIDTH          = 10,
-              clk_mhz          = 50
+    parameter clk_mhz          = 50
 )
 (
     input           adc_clk_10,
@@ -22,8 +20,8 @@ module top
     output  [ 7:0]  hex4,
     output  [ 7:0]  hex5,
 
-    output          hsync,
-    output          vsync,
+    output          vga_hs,
+    output          vga_vs,
     output  [ 3:0]  vga_r,
     output  [ 3:0]  vga_g,
     output  [ 3:0]  vga_b
@@ -38,7 +36,7 @@ module top
     assign hex4       = 8'hff;
     assign hex5       = 8'hff;
     assign led [9:1]  = 9'b0;
-	 assign led [0]    = sw [0];
+    assign led [0]    = sw [0];
 
     wire       reset  = sw [0];
 
@@ -50,8 +48,8 @@ module top
     (
         .clk        ( max10_clk1_50 ),
         .reset      ( reset         ),
-        .hsync      ( hsync         ),
-        .vsync      ( vsync         ),
+        .hsync      ( vga_hs         ),
+        .vsync      ( vga_vs        ),
         .display_on ( display_on    ),
         .hpos       ( hpos          ),
         .vpos       ( vpos          )

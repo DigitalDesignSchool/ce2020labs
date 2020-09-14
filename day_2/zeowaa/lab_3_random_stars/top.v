@@ -2,29 +2,32 @@
 
 module top
 # (
-    parameter clk_mhz          = 50
+    parameter clk_mhz = 50
 )
 (
-    input        clk,
-    input        reset_n,
-    
-    input  [3:0] key_sw,
-    output [3:0] led,
-    
-    output [7:0] abcdefgh,
-    output [3:0] digit,
+    input         clk,
+    input  [ 3:0] key,
+    input  [ 7:0] sw,
+    output [11:0] led,
 
-    output       buzzer,
+    output [ 7:0] abcdefgh,
+    output [ 7:0] digit,
 
-    output       hsync,
-    output       vsync,
-    output [2:0] rgb
+    output        buzzer,
+
+    output        vsync,
+    output        hsync,
+    output [ 2:0] rgb,
+
+    inout  [18:0] gpio
 );
 
-    assign led       = key_sw;
-    assign abcdefgh  = 8'hff;
-    assign digit     = 4'hf;
-    assign buzzer    = 1'b0;
+    wire reset = ~ key [3];
+
+    assign led       = { key, sw };
+    assign abcdefgh  = 8'b1;
+    assign digit     = 8'b1;
+    assign buzzer    = 1'b1;
 
     wire       display_on;
     wire [9:0] hpos;
@@ -33,7 +36,7 @@ module top
     vga i_vga
     (
         .clk        ( clk           ),
-        .reset      ( ! reset_n     ),
+        .reset      ( reset         ),
         .hsync      ( hsync         ),
         .vsync      ( vsync         ),
         .display_on ( display_on    ),
@@ -58,7 +61,7 @@ module top
 //    lfsr_galois #(16, 16'b1000000001011, 0) i_lfsr_galois
     (
         .clk    ( clk           ),
-        .reset  ( ! reset_n     ),
+        .reset  ( reset         ),
         .enable ( lfsr_enable   ),
         .out    ( lfsr_out      )
     );
