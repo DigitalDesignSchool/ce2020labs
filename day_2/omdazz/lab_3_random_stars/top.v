@@ -2,7 +2,7 @@
 
 module top
 # (
-    parameter clk_mhz          = 50
+    parameter clk_mhz = 50
 )
 (
     input        clk,

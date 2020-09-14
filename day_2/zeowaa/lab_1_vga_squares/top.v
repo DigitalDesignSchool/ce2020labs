@@ -2,9 +2,9 @@
 
 module top
 # (
-    parameter X_WIDTH          = 10,
-              Y_WIDTH          = 10,
-              clk_mhz          = 50
+    parameter X_WIDTH = 10,
+              Y_WIDTH = 10,
+              clk_mhz = 50
 )
 (
     input         clk,
@@ -24,12 +24,12 @@ module top
     inout  [18:0] gpio
 );
 
-    wire   reset     = ~ key [3];
+    wire   reset    = ~ key [3];
 
-    assign led       = { key, sw };    
-    assign abcdefgh   = 8'b1;
-    assign digit      = 8'b1;
-    assign buzzer     = 1'b1;
+    assign led      = { key, sw };    
+    assign abcdefgh = 8'b1;
+    assign digit    = 8'b1;
+    assign buzzer   = 1'b1;
 
     //------------------------------------------------------------------------
 
