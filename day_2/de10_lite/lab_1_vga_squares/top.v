@@ -2,9 +2,9 @@
 
 module top
 # (
-    parameter X_WIDTH          = 10,
-              Y_WIDTH          = 10,
-              clk_mhz          = 50
+    parameter X_WIDTH = 10,
+              Y_WIDTH = 10,
+              clk_mhz = 50
 )
 (
     input           adc_clk_10,
@@ -54,9 +54,6 @@ module top
     wire                 display_on;
     wire [X_WIDTH - 1:0] pixel_x;
     wire [Y_WIDTH - 1:0] pixel_y;
-	wire [3:0]           i_sw;
-	 
-	assign i_sw =  sw [3:0];
  
     vga
     # (
@@ -81,20 +78,18 @@ module top
     color_square 
     # (
        .HPOS_WIDTH  ( X_WIDTH    ),
-       .VPOS_WIDTH  ( Y_WIDTH    ),
-        
-       .CLK_MHZ     ( clk_mhz    )
+       .VPOS_WIDTH  ( Y_WIDTH    )
     )
 
     color_square
     (
-        .clk        ( clk        ),
-        .reset      ( reset      ),
-        .display_on ( display_on ),
-        .key_sw     ( i_sw       ),
-        .hpos       ( pixel_x    ),
-        .vpos       ( pixel_y    ),
-        .rgb        ( rgb        )
+        .clk        ( clk                  ),
+        .reset      ( reset                ),
+        .display_on ( display_on           ),
+        .key_sw     ( sw | { 2'b0, ~ key } ),
+        .hpos       ( pixel_x              ),
+        .vpos       ( pixel_y              ),
+        .rgb        ( rgb                  )
     );
 
 endmodule

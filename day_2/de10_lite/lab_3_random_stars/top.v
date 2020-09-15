@@ -2,7 +2,7 @@
 
 module top
 # (
-    parameter clk_mhz          = 50
+    parameter clk_mhz = 50
 )
 (
     input           adc_clk_10,
@@ -48,7 +48,7 @@ module top
     (
         .clk        ( max10_clk1_50 ),
         .reset      ( reset         ),
-        .hsync      ( vga_hs         ),
+        .hsync      ( vga_hs        ),
         .vsync      ( vga_vs        ),
         .display_on ( display_on    ),
         .hpos       ( hpos          ),
@@ -68,8 +68,8 @@ module top
 //    select Fibonacci or Galois lfsr
 //    uncomment one string and comment other
 
-//    lfsr_fibonacci #(16, 16'b1000000001011, 0) i_lfsr_fibonacci   
-    lfsr_galois #(16, 16'b1000000001011, 0) i_lfsr_galois
+    lfsr_fibonacci #(16, 16'b1000000001011, 0) i_lfsr_fibonacci   
+//    lfsr_galois #(16, 16'b1000000001011, 0) i_lfsr_galois
     (
         .clk    ( max10_clk1_50 ),
         .reset  ( reset         ),
