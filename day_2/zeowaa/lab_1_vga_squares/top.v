@@ -61,8 +61,7 @@ module top
        .HPOS_WIDTH  ( X_WIDTH    ),
        .VPOS_WIDTH  ( Y_WIDTH    )
     )
-
-    color_square
+    i_color_square
     (
         .clk        ( clk        ),
         .reset      ( reset      ),

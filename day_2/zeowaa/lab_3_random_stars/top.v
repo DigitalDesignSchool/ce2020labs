@@ -54,8 +54,8 @@ module top
 //    select Fibonacci or Galois lfsr
 //    uncomment one string and comment other
 
-//    lfsr_fibonacci #(16, 16'b1000000001011, 0) i_lfsr_fibonacci   
-    lfsr_galois #(16, 16'b1000000001011, 0) i_lfsr_galois
+    lfsr_fibonacci #(16, 16'b1000000001011, 0) i_lfsr_fibonacci   
+//    lfsr_galois #(16, 16'b1000000001011, 0) i_lfsr_galois
     (
         .clk    ( clk           ),
         .reset  ( reset         ),
