@@ -39,7 +39,7 @@ module top
       else
         cnt <= cnt + 32'b1;
 
-    assign { led [0], led [1], led [2], led [3] } = ~ cnt [27:24];
+    assign led = ~ cnt [27:24];
 
     // Exercise 2: Key-controlled counter.
     // Comment out the code above.
@@ -75,7 +75,7 @@ module top
       else if (key_pressed)
         cnt <= cnt + 4'b1;
 
-    assign { led [0], led [1], led [2], led [3] } = ~ cnt;
+    assign led = ~ cnt;
 
     */
 
