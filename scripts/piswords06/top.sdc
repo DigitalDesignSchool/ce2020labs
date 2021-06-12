@@ -10,8 +10,7 @@ set_false_path -from * -to [get_ports {led[*]}]
 set_false_path -from * -to [get_ports {abcdefgh[*]}]
 set_false_path -from * -to [get_ports {digit[*]}]
 
-# If this signal is not commented out and is not used, it makes annoying sound
-# set_false_path -from * -to buzzer
+set_false_path -from * -to buzzer
 
 set_false_path -from * -to vsync
 set_false_path -from * -to hsync
