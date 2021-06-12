@@ -3,9 +3,23 @@
 set +e  # Don't exit immediately if a command exits with a non-zero status
 
 root_name=ce2020labs
+script=$(basename "$0")
 pwd=$PWD
 root=$pwd/..
 uarch=$root/day_3/uarch
+
+if ! command -v zip &> /dev/null
+then
+  printf "$script: cannot find zip utility" 1>&2
+
+  if [ "$OSTYPE" = "msys" ]
+  then
+    printf "\n$script: download zip for Windows from https://sourceforge.net/projects/gnuwin32/files/zip/3.0/zip-3.0-setup.exe/download" 1>&2
+    printf "\n$script: then add zip to the path: %s" '%PROGRAMFILES(x86)%\GnuWin32\bin' 1>&2
+  fi
+
+  exit 1
+fi
 
 if ! rm -rf ${root_name}_*.zip
 then
@@ -13,7 +27,7 @@ then
     exit 1
 fi
 
-if ! ./create_run_directories
+if ! ./create_run_directories.bash
 then
     printf "$script: cannot create run directories" 1>&2
     exit 1
