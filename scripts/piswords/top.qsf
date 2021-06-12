@@ -1,4 +1,4 @@
-set_global_assignment   -name DEVICE                    EP4CE6E22C8N
+set_global_assignment   -name DEVICE                    EP4CE6E22C8
 
 set_global_assignment   -name NUM_PARALLEL_PROCESSORS   4
 set_global_assignment   -name PROJECT_OUTPUT_DIRECTORY  .
@@ -53,11 +53,6 @@ set_location_assignment PIN_83   -to digit[4]
 set_location_assignment PIN_84   -to digit[5]
 set_location_assignment PIN_85   -to digit[6]
 set_location_assignment PIN_86   -to digit[7]
-
-set_location_assignment PIN_1    -to buzzer
-
-set_location_assignment PIN_6    -to scl
-set_location_assignment PIN_5    -to sda
 
 set_location_assignment PIN_55   -to vsync
 set_location_assignment PIN_1    -to hsync
