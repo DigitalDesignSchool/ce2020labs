@@ -24,6 +24,7 @@ fi
   do
     case "$dir" in
     *omdazz*)          board="omdazz"    ;;
+    *piswords*)        board="piswords"  ;;
     *zeowaa*)          board="zeowaa"    ;;
     *de10_lite*)       board="de10_lite" ;;
     *basys3*|*nexys4*) continue          ;;
