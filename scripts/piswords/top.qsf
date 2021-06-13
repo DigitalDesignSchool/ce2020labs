@@ -59,9 +59,9 @@ set_location_assignment PIN_114  -to digit[7]
 
 set_location_assignment PIN_55   -to vsync
 set_location_assignment PIN_1    -to hsync
-set_location_assignment PIN_54   -to rgb[0]
+set_location_assignment PIN_52   -to rgb[0]
 set_location_assignment PIN_53   -to rgb[1]
-set_location_assignment PIN_52   -to rgb[2]
+set_location_assignment PIN_54   -to rgb[2]
 
 set_location_assignment PIN_2    -to buzzer
 
