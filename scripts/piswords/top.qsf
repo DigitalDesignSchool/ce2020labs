@@ -82,7 +82,7 @@ set_location_assignment PIN_126  -to gpio[13]
 set_location_assignment PIN_125  -to gpio[14]
 set_location_assignment PIN_124  -to gpio[15]
 
-# TODO
+# These pins conflict with digit pins
 
 #set_location_assignment PIN_121 -to gpio[16]
 #set_location_assignment PIN_120 -to gpio[17]
