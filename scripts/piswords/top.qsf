@@ -65,6 +65,11 @@ set_location_assignment PIN_54   -to rgb[2]
 
 set_location_assignment PIN_2    -to buzzer
 
+# These EEPROM pins conflict with VGA and buzzer
+
+#set_location_assignment PIN_1    -to scl
+#set_location_assignment PIN_2    -to sda
+
 set_location_assignment PIN_144  -to gpio[0]
 set_location_assignment PIN_143  -to gpio[1]
 set_location_assignment PIN_142  -to gpio[2]
