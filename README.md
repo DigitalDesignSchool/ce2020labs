@@ -1,5 +1,6 @@
 # ce2020labs
 ChipEXPO 2020 Digital Design School Labs
+Update for 2021 is in progress
 
 How to work with this repository if you are using IntelFPGA / Altera boards:
 
@@ -8,15 +9,15 @@ How to work with this repository if you are using IntelFPGA / Altera boards:
 For Ubuntu/Lubuntu: sudo apt install git
 For Windows: go to https://git-scm.com/download/win, the download will start automatically.
 
-Note that Git for Windows includes many Linux utilities: bash, find, sed etc.
+Note that Git for Windows includes many Linux utilities: bash, find, sed, etc.
 
 2. Install Intel FPGA Quartus Lite from https://fpgasoftware.intel.com/?edition=lite
 
-3. Note that the current version of Quartus (20.1.1) has a bug in USB driver. You have to install a patch to fix it. See the following URL for the instructions:
+3. Note that the current version of Quartus (20.1.1) has a bug in the USB driver. You have to install a patch to fix it. See the following URL for the instructions:
 
 https://www.intel.com/content/altera-www/global/en_us/index/support/support-resources/knowledge-base/tools/2021/why-does-the-intel--fpga-download-cables-drivers-installation-fa.html
 
-4. For Windows, install Gnu version of zip.
+4. For Windows, install the Gnu version of zip.
 Download it from https://sourceforge.net/projects/gnuwin32/files/zip/3.0/zip-3.0-setup.exe/download
 This is necessary for a script that is going to create a user package.
 
@@ -38,14 +39,14 @@ Quartus also edits the setting file, a file with .qsf extension.
 
 This is very annoying for multiple reasons:
 
-9.1. We don't want to mix the source files with generated files in the same directory.
+9.1. We don't want to mix the source files with the generated files in the same directory.
 9.2. A student should be able to start any project from scratch at any moment, discarding all changes made by Quartus.
-9.3. Some of Quartus changes are Quartus version-specific. We don't want this - the examples should run on any version of Quartus starting from ~13.1.
+9.3. Some of Quartus's changes are Quartus version-specific. We don't want this - the examples should run on any version of Quartus starting from ~13.1.
 9.4. We don't want to accidentally check in some temporary file into the Git tree.
 
-We resolve this issue we created a Bash script create_run_directories.bash that creates temporary directories with the copies of the relevant .qsf and .sdc files.
-The script traverses the lab package tree looking for top.v files. When the scrip founds one, it creates a directory named "run" with the copies of the project files from the scripts subdirectory.
-These run subdirectories are not supposed to be checked in - they are ignored by git checkin because "run/" is put into .gitignore file.
+In order to resolve this issue, we created a Bash script create_run_directories.bash that creates temporary directories with the copies of the relevant .qsf and .sdc files.
+The script traverses the source tree looking for the top.v files. When the script finds one, it creates a directory named "run" with the copies of the project files from the scripts subdirectory.
+These run subdirectories are not supposed to be checked in, they are ignored by the git commit command because we put "run/" into the .gitignore file.
 
 To run this scripts under Linux:
 
@@ -57,30 +58,47 @@ To run this scripts under Windows:
 cd c:\github\ce2020labs\scripts
 bash create_run_directories.bash
 
-You can also associate .bash extension with Bash and run the script automatically in Far Commander by pressing Enter.
+Under Windows you can also associate .bash extension with bash.exe executable and run the script automatically in Far Commander by pressing Enter.
 
 Each created run directory contains the following files:
 
-top.qpf - the main project file. Can be loaded into Quartus GUI using "File | Open project" menu (everybody confuses it with "File | Open file" menu from time to time).
-Note that top.qpf is empty. It is OK because Quartus gets the actual information from top.qsf and top.sdc.
+top.qpf - the main project file. You can load the project into Quartus GUI by doing "File | Open project" menu. Note that practically everyone confuses this menu item with a "File | Open file" menu item from time to time.
+Note that top.qpf is empty. It is OK because Quartus gets the actual information from top.qsf and top.sdc located in the same subdirectory as top.qpf.
 
-top.qsf - Tcl file with the project settings, like binding FPGA pins to signal names.
-top.sdc - Tcl file with timing settings.
+top.qsf - Tcl file with the project settings, like bindings of FPGA pins to signal names.
+top.sdc - Tcl file with the timing settings.
 
 Scripts to use in the command line:
 
-x_simulate.bash - run either Icarus Verilog or Mentor / Siemens EDA ModelSim
-x_synthesize.bash - runs x_configure.bash if the synthesis is successful
-x_configure.bash - requires x_synthesize.bash to run first
+x_simulate.bash   - runs either Icarus Verilog or Mentor / Siemens EDA ModelSim.
+x_synthesize.bash - runs x_configure.bash if the synthesis is successful.
+x_configure.bash  - requires x_synthesize.bash to run first.
 
 Scripts in each run directory used by other scripts:
 
-x_setup.bash is sourced by other x_* scripts.
-xx_gtkwave.tcl - is used by x_simulate.bash
-xx_modelsim.tcl - is used by x_simulate.bash
+x_setup.bash      - is sourced by other x_* scripts.
+xx_gtkwave.tcl    - is used by x_simulate.bash
+xx_modelsim.tcl   - is used by x_simulate.bash
 
 10. You can use create_ce2020labs_zip.bash script to create a zip file for anybody who does not want to use git, bash scripts or command line.
-ce2020labs_before_20210613_111848.zip 
-ce2020labs_20210613_111844.zip
 
-TODO
+To run this scripts under Linux:
+
+cd ~/github/ce2020labs/scripts
+./create_ce2020labs_zip.bash
+
+To run this scripts under Windows:
+
+cd c:\github\ce2020labs\scripts
+bash create_ce2020labs_zip.bash
+
+This script does the following:
+
+1. Runs create_run_directories.bash to create all the necessary temporary directories.
+2. Clones schoolRISCV repository for the 3rd day lab exercises from https://github.com/zhelnio/schoolRISCV .
+3. Create two zip files with timestamps:
+
+ce2020labs_before_20210613_111848.zip - a file with simple exercises to check that the system is ready for the rest of the lab (Quartus is installed, all drivers are working with a board a student has).
+ce2020labs_20210613_111844.zip - a complete package.
+
+These zip files can be put into some web location for download. After a student gets this file, all he has to do is to unzip it, run Quartus GUI and open projects from the appropriate run directories. All work can be done in GUI, without command line.
