@@ -8,6 +8,7 @@ How to work with this repository if you are using IntelFPGA / Altera boards:
 
 For Ubuntu/Lubuntu: sudo apt install git
 For Windows: go to https://git-scm.com/download/win, the download will start automatically.
+For other platforms: see https://git-scm.com/book/en/v2/Getting-Started-Installing-Git .
 
 Note that Git for Windows includes many Linux utilities: bash, find, sed, etc.
 
@@ -120,6 +121,10 @@ git clone https://github.com/DigitalDesignSchool/ce2020labs.git
 
 git pull
 
+*** To add new files or directories (recursively)
+
+git add file_or_directory_name
+
 *** To check the status - changed, added, deleted files
 
 git status
@@ -127,10 +132,6 @@ git status
 *** To check the differenced against the repository
 
 git diff
-
-*** To add new files or directories (recursively)
-
-git add file_or_directory_name
 
 *** To undo uncommitted changes to a file or a directory
 
