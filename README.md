@@ -102,3 +102,58 @@ ce2020labs_before_20210613_111848.zip - a file with simple exercises to check th
 ce2020labs_20210613_111844.zip - a complete package.
 
 These zip files can be put into some web location for download. After a student gets this file, all he has to do is to unzip it, run Quartus GUI and open projects from the appropriate run directories. All work can be done in GUI, without command line.
+
+------------------------------------------------------------------------------
+
+The Appendix: Git cheat sheet.
+
+# To config your name and email
+
+git config --global user.name  "Your Name"
+git config --global user.email your@email.com
+
+# To clone a git repository from github
+
+git clone https://github.com/DigitalDesignSchool/ce2020labs.git
+
+# To update your copy of repository files with the changes made by other people
+
+git pull
+
+# To check the status - changed, added, deleted files
+
+git status
+
+# To check the differenced against the repository
+
+git diff
+
+# To add new files or directories (recursively)
+
+git add file_or_directory_name
+
+# To undo uncommitted changes to a file or a directory
+
+git checkout file_or_directory_name
+
+# To undo uncommitted changes all files in this directory, including uncommitted deletions
+
+git checkout file_or_directory_name
+
+# To commit changes with a comment.
+# Note that -a option automatically stages all modifications and file deletions, but not the additions.
+# You need to add the files manually doing "git add" operation.
+# !!! Note 1: Please run "git status" and "git diff" before any commit. Undoing committed and especially pushed changes is more difficult than undoing uncommitted changes.
+# !!! Note 2: Please put a meaningful comment for each commit.
+
+git commit -a -m "A meaningful comment"
+
+# To officially publish all your committed changes in git repository (such as GitHub)
+
+git push
+
+You can browse the repository history on http://github.com itself using web browser interface.
+
+If you need Git to ignore some files, put them in .gitignore. Such files may include automatically generated binaries, temporaries, or unrelated files you don't want to checkin or to appear in git status. Please read about .gitignore in Git documentation before doing it.
+
+If you need to do anything non-trivial (merging, undoing committed or pushed changes), please carefully consult Git documentation. Otherwise you may introduce mess, bugs, or checkin some large binary files polluting the repository.
