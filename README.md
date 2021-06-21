@@ -14,36 +14,40 @@ Note that Git for Windows includes many Linux utilities: bash, find, sed, etc.
 
 2. Install Intel FPGA Quartus Lite from https://fpgasoftware.intel.com/?edition=lite
 
-3. Note that the current version of Quartus (20.1.1) has a bug in the USB driver. You have to install a patch to fix it. See the following URL for the instructions:
+3. Note that the current version of Quartus (20.1.1) has a bug in the USB driver for Windows. You have to install a patch to fix it. See the following URL for the instructions:
 
 https://www.intel.com/content/altera-www/global/en_us/index/support/support-resources/knowledge-base/tools/2021/why-does-the-intel--fpga-download-cables-drivers-installation-fa.html
 
-4. For Windows, install the Gnu version of zip.
+4. Note that the current version of Quartus (20.1.1) has a bug making it incompatible with Linux Ubuntu 20.04 LTS. To fix it:
+
+sudo ln -sf /lib/x86_64-linux-gnu/libudev.so.1 /lib/x86_64-linux-gnu/libudev.so.0
+
+5. For Windows, install the Gnu version of zip.
 Download it from https://sourceforge.net/projects/gnuwin32/files/zip/3.0/zip-3.0-setup.exe/download
 This is necessary for a script that is going to create a user package.
 
-5. Add Quartus and ModelSim (included in Quartus) to the path - it will be necessary to run it in the command line.
+6. Add Quartus and ModelSim (included in Quartus) to the path - it will be necessary to run it in the command line.
 For Windows, in System Properties / Environment Variables / Path add the following paths:
 
 C:\intelFPGA_lite\20.1\modelsim_ase\win32aloem
 C:\intelFPGA_lite\20.1\quartus\bin64
 %PROGRAMFILES(x86)%\GnuWin32\bin
 
-6. Create a directory where you would like to put the tree. For example,  you can create C:\github under Windows or ~/github under Linux.
+7. Create a directory where you would like to put the tree. For example,  you can create C:\github under Windows or ~/github under Linux.
 
-7. In the command line, cd to the directory.
+8. In the command line, cd to the directory.
 
-8. git clone https://github.com/DigitalDesignSchool/ce2020labs.git
+9. git clone https://github.com/DigitalDesignSchool/ce2020labs.git
 
-9. Quartus creates temporary files in the same directory as the project file (a file with the extention .qpf) resides.
+10. Quartus creates temporary files in the same directory as the project file (a file with the extention .qpf) resides.
 Quartus also edits the setting file, a file with .qsf extension.
 
 This is very annoying for multiple reasons:
 
-9.1. We don't want to mix the source files with the generated files in the same directory.
-9.2. A student should be able to start any project from scratch at any moment, discarding all changes made by Quartus.
-9.3. Some of Quartus's changes are Quartus version-specific. We don't want this - the examples should run on any version of Quartus starting from ~13.1.
-9.4. We don't want to accidentally check in some temporary file into the Git tree.
+1) We don't want to mix the source files with the generated files in the same directory.
+2) A student should be able to start any project from scratch at any moment, discarding all changes made by Quartus.
+3) Some of Quartus's changes are Quartus version-specific. We don't want this - the examples should run on any version of Quartus starting from ~13.1.
+4) We don't want to accidentally check in some temporary file into the Git tree.
 
 In order to resolve this issue, we created a Bash script create_run_directories.bash that creates temporary directories with the copies of the relevant .qsf and .sdc files.
 The script traverses the source tree looking for the top.v files. When the script finds one, it creates a directory named "run" with the copies of the project files from the scripts subdirectory.
@@ -81,7 +85,7 @@ x_setup.bash      - is sourced by other x_* scripts.
 xx_gtkwave.tcl    - is used by x_simulate.bash
 xx_modelsim.tcl   - is used by x_simulate.bash
 
-10. You can use create_ce2020labs_zip.bash script to create a zip file for anybody who does not want to use git, bash scripts or command line.
+11. You can use create_ce2020labs_zip.bash script to create a zip file for anybody who does not want to use git, bash scripts or command line.
 
 To run this scripts under Linux:
 
@@ -95,9 +99,9 @@ bash create_ce2020labs_zip.bash
 
 This script does the following:
 
-1. Runs create_run_directories.bash to create all the necessary temporary directories.
-2. Clones schoolRISCV repository for the 3rd day lab exercises from https://github.com/zhelnio/schoolRISCV .
-3. Create two zip files with timestamps:
+1) Runs create_run_directories.bash to create all the necessary temporary directories.
+2) Clones schoolRISCV repository for the 3rd day lab exercises from https://github.com/zhelnio/schoolRISCV .
+3) Create two zip files with timestamps:
 
 ce2020labs_before_20210613_111848.zip - a file with simple exercises to check that the system is ready for the rest of the lab (Quartus is installed, all drivers are working with a board a student has).
 ce2020labs_20210613_111844.zip - a complete package.
