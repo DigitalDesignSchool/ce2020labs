@@ -39,7 +39,9 @@ C:\intelFPGA_lite\20.1\quartus\bin64
 
 #### 9. git clone https://github.com/DigitalDesignSchool/ce2020labs.git
 
-#### 10. Quartus creates temporary files in the same directory as the project file (a file with the extention .qpf) resides.
+#### 10. Run create_run_directories.bash script.
+
+The background: Quartus creates temporary files in the same directory as the project file (a file with the extention .qpf) resides.
 Quartus also edits the setting file, a file with .qsf extension.
 
 This is very annoying for multiple reasons:
