@@ -7,7 +7,9 @@ How to work with this repository if you are using IntelFPGA / Altera boards:
 #### 1. Install Git:
 
 For Ubuntu/Lubuntu: sudo apt install git
+
 For Windows: go to https://git-scm.com/download/win, the download will start automatically.
+
 For other platforms: see https://git-scm.com/book/en/v2/Getting-Started-Installing-Git .
 
 Note that Git for Windows includes many Linux utilities: bash, find, sed, etc.
@@ -23,10 +25,13 @@ https://www.intel.com/content/altera-www/global/en_us/index/support/support-reso
 sudo ln -sf /lib/x86_64-linux-gnu/libudev.so.1 /lib/x86_64-linux-gnu/libudev.so.0
 
 #### 5. For Windows, install the Gnu version of zip.
+
 Download it from https://sourceforge.net/projects/gnuwin32/files/zip/3.0/zip-3.0-setup.exe/download
+
 This is necessary for a script that is going to create a user package.
 
 #### 6. Add Quartus and ModelSim (included in Quartus) to the path - it will be necessary to run it in the command line.
+
 For Windows, in System Properties / Environment Variables / Path add the following paths:
 
 C:\intelFPGA_lite\20.1\modelsim_ase\win32aloem
