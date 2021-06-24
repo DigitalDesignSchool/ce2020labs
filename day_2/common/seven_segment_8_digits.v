@@ -11,23 +11,7 @@ module seven_segment_8_digits
     function [7:0] bcd_to_seg (input [3:0] bcd);
 
         case (bcd)
-        'h0: bcd_to_seg = 8'b11000000;  // h g f e d c b a
-        'h1: bcd_to_seg = 8'b11111001;
-        'h2: bcd_to_seg = 8'b10100100;  //   --a--
-        'h3: bcd_to_seg = 8'b10110000;  //  |     |
-        'h4: bcd_to_seg = 8'b10011001;  //  f     b
-        'h5: bcd_to_seg = 8'b10010010;  //  |     |
-        'h6: bcd_to_seg = 8'b10000010;  //   --g--
-        'h7: bcd_to_seg = 8'b11111000;  //  |     |
-        'h8: bcd_to_seg = 8'b10000000;  //  e     c
-        'h9: bcd_to_seg = 8'b10011000;  //  |     |
-        'ha: bcd_to_seg = 8'b10001000;  //   --d--  h
-        'hb: bcd_to_seg = 8'b10000011;
-        'hc: bcd_to_seg = 8'b11000110;
-        'hd: bcd_to_seg = 8'b10100001;
-        'he: bcd_to_seg = 8'b10000110;
-        'hf: bcd_to_seg = 8'b10001110;
-/*
+
         'h0: bcd_to_seg = 'b00000011;  // a b c d e f g h
         'h1: bcd_to_seg = 'b10011111;
         'h2: bcd_to_seg = 'b00100101;  //   --a--
@@ -44,7 +28,7 @@ module seven_segment_8_digits
         'hd: bcd_to_seg = 'b10000101;
         'he: bcd_to_seg = 'b01100001;
         'hf: bcd_to_seg = 'b01110001;
-*/
+
         endcase
 
     endfunction
