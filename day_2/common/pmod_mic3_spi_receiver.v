@@ -1,6 +1,6 @@
 `include "config.vh"
 
-module pmod_als_spi_receiver
+module pmod_mic3_spi_receiver
 (
     input             clock,
     input             reset,
@@ -14,8 +14,8 @@ module pmod_als_spi_receiver
     reg [15:0] shift;
 
     always @ (posedge clock or posedge reset)
-    begin       
-        if (reset)
+    begin
+        if (! reset)
             cnt <= 22'b100;
         else
             cnt <= cnt + 22'b1;
@@ -25,21 +25,21 @@ module pmod_als_spi_receiver
     assign cs  =   cnt [8];
 
     wire sample_bit = ( cs == 1'b0 && cnt [3:0] == 4'b1111 );
-    wire value_done = ( cnt [21:0] == 22'b0 );
+    wire value_done = ( cnt [8:0] == 9'b0 );
 
     always @ (posedge clock or posedge reset)
-    begin       
-        if (reset)
-        begin       
+    begin
+        if (! reset)
+        begin
             shift <= 16'h0000;
             value <= 16'h0000;
         end
         else if (sample_bit)
-        begin       
+        begin
             shift <= (shift << 1) | sdo;
         end
         else if (value_done)
-        begin       
+        begin
             value <= shift;
         end
     end

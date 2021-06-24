@@ -44,14 +44,14 @@ module top
 
     wire [15:0] value;
 
-    pmod_als_spi_receiver i_pmod_als_spi_receiver
+    pmod_als_spi_receiver i_light_sensor
     (
-        .clock   (   clk        ),
-        .reset_n ( ~ reset      ),
-        .cs      (   gpio  [34] ),
-        .sck     (   gpio  [28] ),
-        .sdo     (   gpio  [30] ),
-        .value   (   value      )
+        .clock ( clk        ),
+        .reset ( reset      ),
+        .cs    ( gpio  [34] ),
+        .sck   ( gpio  [28] ),
+        .sdo   ( gpio  [30] ),
+        .value ( value      )
     );
 
     assign gpio [26] = 1'b0;  // GND for Pmod ALS
