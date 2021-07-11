@@ -29,8 +29,7 @@ module top
 
     wire [15:0] value;
 
-    // pmod_als_spi_receiver  i_light_sensor
-       pmod_mic3_spi_receiver i_microphone
+    pmod_mic3_spi_receiver i_microphone
     (
         .clock ( clk        ),
         .reset ( reset      ),
@@ -45,18 +44,49 @@ module top
 
     //------------------------------------------------------------------------
 
+    assign led = ~ value [13:6];
+
+    //------------------------------------------------------------------------
+
+    reg [15:0] prev_value;
+    reg [31:0] counter;
+    reg [31:0] distance;
+
+    localparam [15:0] threshold = 16'h1000;
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+        begin
+            prev_value <= 16'h0;
+            counter    <= 32'h0;
+            distance   <= 32'h0;
+        end
+        else
+        begin
+            prev_value <= value;
+
+            if (  value      > threshold
+                & prev_value < threshold)
+            begin
+               distance <= counter;
+               counter  <= 32'h0;
+            end
+            else
+            begin
+               counter <= counter + 32'h1;
+            end
+        end
+
+    //------------------------------------------------------------------------
+
     seven_segment_8_digits i_display
     (
         .clock    ( clk      ),
         .reset    ( reset    ),
-        .number   ( value    ),
+        .number   ( distance ),
 
         .abcdefgh ( abcdefgh ),
         .digit    ( digit    )
     );
-
-    //------------------------------------------------------------------------
-
-    assign led = ~ value [15:6];
 
 endmodule
