@@ -29,7 +29,8 @@ module top
 
     wire [15:0] value;
 
-    pmod_als_spi_receiver i_light_sensor
+    // pmod_als_spi_receiver  i_light_sensor
+       pmod_mic3_spi_receiver i_microphone
     (
         .clock ( clk        ),
         .reset ( reset      ),

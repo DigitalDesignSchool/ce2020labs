@@ -50,7 +50,7 @@ module testbench;
 
         @ (negedge reset);
 
-        repeat (1000)
+        repeat (10000)
         begin
             @ (posedge clk);
 

@@ -49,8 +49,8 @@ fi
 if [ $run_iverilog = 1 ]
 then
     iverilog -g2005  \
-        -I .. -I ../../../common  \
-        ../*.v ../../../common/*.v  \
+        -I ..     -I ../../../common     -I ../../../../common      \
+           ../*.v    ../../../common/*.v    ../../../../common/*.v  \
         &> icarus.compile.log 
         
     ec=$?

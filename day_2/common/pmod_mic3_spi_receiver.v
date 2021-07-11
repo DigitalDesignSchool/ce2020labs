@@ -15,21 +15,21 @@ module pmod_mic3_spi_receiver
 
     always @ (posedge clock or posedge reset)
     begin
-        if (! reset)
+        if (reset)
             cnt <= 22'b100;
         else
             cnt <= cnt + 22'b1;
     end
 
-    assign sck = ~ cnt [3];
-    assign cs  =   cnt [8];
+    assign sck = ~ cnt [1];
+    assign cs  =   cnt [6];
 
-    wire sample_bit = ( cs == 1'b0 && cnt [3:0] == 4'b1111 );
-    wire value_done = ( cnt [8:0] == 9'b0 );
+    wire sample_bit = ( cs == 1'b0 && cnt [1:0] == 2'b11 );
+    wire value_done = ( cnt [6:0] == 7'b0 );
 
     always @ (posedge clock or posedge reset)
     begin
-        if (! reset)
+        if (reset)
         begin
             shift <= 16'h0000;
             value <= 16'h0000;
