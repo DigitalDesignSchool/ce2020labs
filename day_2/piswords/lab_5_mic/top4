@@ -6,20 +6,20 @@ module top
               strobe_to_update_xy_counter_width = 20
 )
 (
-    input             clk,
-    input      [ 3:0] key,
-    input      [ 3:0] sw,
-    output     [ 7:0] led,
+    input         clk,
+    input  [ 3:0] key,
+    input  [ 3:0] sw,
+    output [ 7:0] led,
 
-    output reg [ 7:0] abcdefgh,
-    output     [ 7:0] digit,
+    output [ 7:0] abcdefgh,
+    output [ 7:0] digit,
 
-    output            vsync,
-    output            hsync,
-    output     [ 2:0] rgb,
+    output        vsync,
+    output        hsync,
+    output [ 2:0] rgb,
 
-    output            buzzer,
-    inout      [15:0] gpio
+    output        buzzer,
+    inout  [15:0] gpio
 );
 
     wire   reset  = ~ key [3];
@@ -83,16 +83,16 @@ module top
 
     // Frequencies, Hz * 100
 
-    localparam C  = 26163, Cs = 27718, D  = 29366, Ds = 31113,
-               E  = 32963, F  = 34923, Fs = 36999, G  = 39200,
-               Gs = 41530, A  = 44000, As = 46616, B  = 49388;
+    parameter C  = 26163, Cs = 27718, D  = 29366, Ds = 31113,
+              E  = 32963, F  = 34923, Fs = 36999, G  = 39200,
+              Gs = 41530, A  = 44000, As = 46616, B  = 49388;
 
-    function [19:0] low_distance (input [15:0] frq_100);
-       low_distance = clk_mhz * 1000 * 1000 / frq_100 * 98;
+    function [19:0] low_dist (integer frq_100);
+       low_distance = clk_mhz * 1000 * 1000 / frq_100 * 95;
     endfunction
 
-    function [19:0] high_distance (input [15:0] frq_100);
-       high_distance = clk_mhz * 1000 * 1000 / frq_100 * 102;
+    function [19:0] high_dist (integer frq_100);
+       low_distance = clk_mhz * 1000 * 1000 / frq_100 * 105;
     endfunction
 
     wire C__in = distance > low_distance (C ) & distance < high_distance (C );

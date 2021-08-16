@@ -1,0 +1,160 @@
+`include "config.vh"
+
+module top
+# (
+    parameter clk_mhz = 50,
+              strobe_to_update_xy_counter_width = 20
+)
+(
+    input         clk,
+    input  [ 3:0] key,
+    input  [ 3:0] sw,
+    output [ 7:0] led,
+
+    output [ 7:0] abcdefgh,
+    output [ 7:0] digit,
+
+    output        vsync,
+    output        hsync,
+    output [ 2:0] rgb,
+
+    output        buzzer,
+    inout  [15:0] gpio
+);
+
+    wire   reset  = ~ key [3];
+    assign buzzer = ~ reset;
+
+    //------------------------------------------------------------------------
+
+    wire [15:0] value;
+
+    pmod_mic3_spi_receiver i_microphone
+    (
+        .clock ( clk        ),
+        .reset ( reset      ),
+        .cs    ( gpio  [14] ),
+        .sck   ( gpio  [ 8] ),
+        .sdo   ( gpio  [10] ),
+        .value ( value      )
+    );
+
+    assign gpio [4] = 1'b1;  // VCC
+    assign gpio [6] = 1'b0;  // GND
+
+    //------------------------------------------------------------------------
+
+    localparam n_f1_stages_shift = 4,
+               n_f1_stages       = 1 << n_f1_stages_shift;
+
+    reg [15:0] f1_stages [0:n_f1_stages - 1];
+    integer i;
+
+    always @ (posedge clk)
+    begin
+        f1_stages [0] <= value;
+
+        for (i = 1; i < n_f1_stages; i = i + 1)
+            f1_stages [i] <= f1_stages [i - 1];
+    end
+
+    //------------------------------------------------------------------------
+
+    reg [15 + n_f1_stages_shift:0] n_f1ed_value;
+    reg [15:0] f1ed_value;
+
+    always @*
+    begin
+        n_f1ed_value = f1_stages [0];
+
+        for (i = 1; i < n_f1_stages; i = i + 1)
+            n_f1ed_value = n_f1ed_value + f1_stages [i];
+
+        n_f1ed_value = n_f1ed_value >> n_f1_stages_shift;
+    end
+
+    always @ (posedge clk)
+        f1ed_value <= n_f1ed_value [15:0];
+
+    //------------------------------------------------------------------------
+
+    assign led = ~ value [13:6];
+
+    //------------------------------------------------------------------------
+
+    reg [15:0] prev_value;
+    reg [31:0] counter;
+    reg [31:0] distance;
+
+    localparam [15:0] threshold = 16'h1000;
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+        begin
+            prev_value <= 16'h0;
+            counter    <= 32'h0;
+            distance   <= 32'h0;
+        end
+        else
+        begin
+            prev_value <= f1ed_value;
+
+            if (  f1ed_value > threshold
+                & prev_value < threshold)
+            begin
+               distance <= counter;
+               counter  <= 32'h0;
+            end
+            else
+            begin
+               counter <= counter + 32'h1;
+            end
+        end
+
+    //------------------------------------------------------------------------
+
+    localparam n_f2_stages_shift = 4,
+               n_f2_stages       = 1 << n_f2_stages_shift;
+
+    reg [15:0] f2_stages [0:n_f2_stages - 1];
+
+    always @ (posedge clk)
+        if (counter == 32'h0)
+        begin
+            for (i = 1; i < n_f2_stages; i = i + 1)
+                f2_stages [i] <= f2_stages [i - 1];
+
+            f2_stages [0] <= distance;
+        end
+
+    //------------------------------------------------------------------------
+
+    reg [15 + n_f2_stages_shift:0] n_f2ed_distance;
+    reg [15:0] f2ed_distance;
+
+    always @*
+    begin
+        n_f2ed_distance = f2_stages [0];
+
+        for (i = 1; i < n_f2_stages; i = i + 1)
+            n_f2ed_distance = n_f2ed_distance + f2_stages [i];
+
+        n_f2ed_distance = n_f2ed_distance >> n_f2_stages_shift;
+    end
+
+    always @ (posedge clk)
+        f2ed_distance <= n_f2ed_distance [15:0];
+
+    //------------------------------------------------------------------------
+
+    seven_segment_8_digits i_display
+    (
+        .clock    ( clk               ),
+        .reset    ( reset             ),
+        .number   ( f2ed_distance ),
+
+        .abcdefgh ( abcdefgh          ),
+        .digit    ( digit             )
+    );
+
+endmodule
