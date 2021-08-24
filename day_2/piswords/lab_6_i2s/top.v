@@ -1,43 +1,66 @@
 `include "config.vh"
 
+// LUTs pre-generated with gen_luts.sh
+`include "luts.vh"
+
 module lut
+# (
+    parameter y_width = 16
+)
 (
-    input      [31:0] x,
-    output reg [31:0] y
+    input            [2:0] octave,
+    input            [3:0] note,
+    input            [7:0] x,       // Current sample
+    output           [7:0] x_max,   // Last sample in a period
+    output [y_width - 1:0] y
 );
 
-always @ (*)
-    case (x)
-`include "lut.vh"
-    default: y = 32'b0;
-    endcase
+    wire   [y_width - 1:0] lut_y [11:0];
+    wire             [7:0] lut_x;
+    wire             [7:0] lut_x_max [11:0];
+
+    assign lut_x = x << octave;
+    assign x_max = (note < 8'd12) ? (lut_x_max [note] >> octave) : 8'b0;
+    assign y = (note < 8'd12) ? (lut_y [note]) : 8'b0;
+
+    lut_C  lut_C  ( .x(lut_x), .y(lut_y [0] ), .x_max(lut_x_max [0] ));
+    lut_Cs lut_Cs ( .x(lut_x), .y(lut_y [1] ), .x_max(lut_x_max [1] ));
+    lut_D  lut_D  ( .x(lut_x), .y(lut_y [2] ), .x_max(lut_x_max [2] ));
+    lut_Ds lut_Ds ( .x(lut_x), .y(lut_y [3] ), .x_max(lut_x_max [3] ));
+    lut_E  lut_E  ( .x(lut_x), .y(lut_y [4] ), .x_max(lut_x_max [4] ));
+    lut_F  lut_F  ( .x(lut_x), .y(lut_y [5] ), .x_max(lut_x_max [5] ));
+    lut_Fs lut_Fs ( .x(lut_x), .y(lut_y [6] ), .x_max(lut_x_max [6] ));
+    lut_G  lut_G  ( .x(lut_x), .y(lut_y [7] ), .x_max(lut_x_max [7] ));
+    lut_Gs lut_Gs ( .x(lut_x), .y(lut_y [8] ), .x_max(lut_x_max [8] ));
+    lut_A  lut_A  ( .x(lut_x), .y(lut_y [9] ), .x_max(lut_x_max [9] ));
+    lut_As lut_As ( .x(lut_x), .y(lut_y [10]), .x_max(lut_x_max [10]));
+    lut_B  lut_B  ( .x(lut_x), .y(lut_y [11]), .x_max(lut_x_max [11]));
 
 endmodule
 
 module i2s
-# (
-    parameter N
-)
 (
     input       clk,    // CLK - 50 MHz
     input       reset,
-    input [3:0] rshift, // Adjustable attenuation
+    input [2:0] octave,
+    input [3:0] note,
     output      mclk,   // MCLK - 12.5 MHz
     output      bclk,   // BCLK - 3.125 MHz serial clock - for a 48 KHz Sample Rate
     output      lrclk,  // LRCLK - 32-bit L, 32-bit R
     output      sdata
 );
 
-    reg  [31:0] clk_div;
+    reg   [9:0] clk_div;
     reg  [31:0] shift;
-    reg  [31:0] cnt;
-    wire [31:0] value;
+    reg   [7:0] cnt;
+    wire [15:0] value;
+    wire  [7:0] cnt_max;
 
     always @ (posedge clk or posedge reset)
         if (reset)
             clk_div <= 0;
         else
-            clk_div <= clk_div + 1;
+            clk_div <= clk_div + 10'b1;
 
     assign mclk  = clk_div [1];
     assign bclk  = clk_div [3];
@@ -47,7 +70,7 @@ module i2s
         if (reset)
             cnt <= 0;
         else if (clk_div [9:0] == 10'b11_1111_1111)
-            cnt <= (cnt == N - 1) ? 0 : cnt + 1;
+            cnt <= (cnt == cnt_max) ? 8'b0 : cnt + 8'b1;
 
     assign sdata = shift [31];
 
@@ -57,15 +80,18 @@ module i2s
         else
         begin
             if (clk_div [8:0] == 9'b1_1111_1111)
-                shift <= (value >> rshift);
+                shift <= value << 16;
             else if (clk_div [3:0] == 4'b1111)
                 shift <= shift << 1;
         end
 
     lut lut
     (
-        .x(cnt),
-        .y(value)
+        .octave ( octave  ),
+        .note   ( note    ),
+        .x      ( cnt     ),
+        .x_max  ( cnt_max ),
+        .y      ( value   )
     );
 
 endmodule
@@ -77,18 +103,17 @@ module top
     input      [ 3:0] sw,
     output     [ 7:0] led,
 
-    output     [ 7:0] abcdefgh,
+    output reg [ 7:0] abcdefgh,
     output     [ 7:0] digit,
 
-    output            buzzer,
     inout      [15:0] gpio
 );
     wire   reset  = ~ key [3];
-    assign buzzer = ~ reset;
 
-    // Turn off lights
-    assign abcdefgh = 8'hFF;
-    assign led = 8'hFF;
+    wire  [2:0] octave = ~ key [2:0];
+    wire  [3:0] note   = sw [3:0];
+
+    assign led  = { 5'b11111, ~ octave };
 
     wire mclk;
     wire bclk;
@@ -97,19 +122,38 @@ module top
 
     assign gpio [15:12] = { mclk, bclk, lrclk, sdata };
 
-    i2s
-    # (
-        .N (48)
-    )
-    i2s
+    i2s i2s
     (
-        .clk(clk),
-        .reset(reset),
-        .mclk(mclk),
-        .bclk(bclk),
-        .lrclk(lrclk),
-        .sdata(sdata),
-        .rshift(sw)
+        .clk    ( clk       ),
+        .reset  ( reset     ),
+        .octave ( octave    ),
+        .note   ( note      ),
+        .mclk   ( mclk      ),
+        .bclk   ( bclk      ),
+        .lrclk  ( lrclk     ),
+        .sdata  ( sdata     )
     );
+
+    assign digit = 8'b1111_1110;
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            abcdefgh <= 8'b11111111;
+        else
+            case (sw)
+            4'd0:    abcdefgh <= 8'b01100011;  // C   // abcdefgh
+            4'd1:    abcdefgh <= 8'b01100010;  // C#
+            4'd2:    abcdefgh <= 8'b10000101;  // D   //   --a--
+            4'd3:    abcdefgh <= 8'b10000100;  // D#  //  |     |
+            4'd4:    abcdefgh <= 8'b01100001;  // E   //  f     b
+            4'd5:    abcdefgh <= 8'b01110001;  // F   //  |     |
+            4'd6:    abcdefgh <= 8'b01110000;  // F#  //   --g--
+            4'd7:    abcdefgh <= 8'b01000011;  // G   //  |     |
+            4'd8:    abcdefgh <= 8'b01000010;  // G#  //  e     c
+            4'd9:    abcdefgh <= 8'b00010001;  // A   //  |     |
+            4'd10:   abcdefgh <= 8'b00010000;  // A#  //   --d--  h
+            4'd11:   abcdefgh <= 8'b11000001;  // B
+            default: abcdefgh <= 8'b11111111;
+            endcase
 
 endmodule
