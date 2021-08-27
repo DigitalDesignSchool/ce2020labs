@@ -110,15 +110,88 @@ module top
 
     //------------------------------------------------------------------------
 
+    wire [11:0] note = { C__in, Cs_in, D__in, Ds_in,
+                            E__in, F__in, Fs_in, G__in,
+                            Gs_in, A__in, As_in, B__in };
+
+    reg  [11:0] d_note;     // Delayed note
+
+    always @(posedge clk or posedge reset)
+        d_note <= reset ? 12'b0 : note;
+
+    reg  [17:0] t_cnt;      // Threshold counter
+    reg  [11:0] t_note;     // Thresholded note
+
+    always @(posedge clk or posedge reset)
+        if (reset)
+            t_cnt <= 0;
+        else
+            if (note == d_note)
+                t_cnt <= t_cnt + 1;
+            else
+                t_cnt <= (t_cnt != 0) ? (t_cnt - 1) : 0;
+
+    always @(posedge clk or posedge reset)
+        if (reset)
+            t_note <= 12'b0;
+        else
+            if (&t_cnt)
+                t_note <= d_note;
+
+    reg  [11:0] d_t_note;
+
+    always @(posedge clk or posedge reset)
+        d_t_note <= reset ? 12'b0 : t_note;
+
+    reg  [23:0] p_cnt;      // Protection counter
+    reg  [11:0] p_note;     // Protected note
+
+    always @(posedge clk or posedge reset)
+        if (reset)
+            p_cnt <= 0;
+        else
+            if (t_note == d_t_note)
+                p_cnt <= p_cnt + 1;
+            else
+                p_cnt <= 0;
+
+    always @(posedge clk or posedge reset)
+        if (reset)
+            p_note <= 12'b0;
+        else
+            if (t_note != 12'b0)
+                p_note <= t_note;
+            else if (&p_cnt)
+                p_note <= t_note;
+
+    //------------------------------------------------------------------------
+
+    reg [1:0] state;
+
+    always @ (posedge clk or posedge reset)
+    begin
+        if (reset)
+            state <= 0;
+        else if (state != 3)
+            case (p_note)
+            12'b0000_0000_1000: state <= (state == 0) ? 1 : state;
+            12'b0000_0000_0100: state <= (state == 1) ? 2 : state;
+            12'b0000_0000_0010: state <= (state == 2) ? 3 : state;
+            default:            state <= 0;
+            endcase
+    end
+
+    //------------------------------------------------------------------------
+
     assign digit = 8'b1111_1110;
 
     always @ (posedge clk or posedge reset)
         if (reset)
           abcdefgh <= 8'b11111111;
+        else if (state == 3)
+            abcdefgh <= 8'b00110001;                    // P
         else
-          case ({ C__in, Cs_in, D__in, Ds_in,
-                  E__in, F__in, Fs_in, G__in,
-                  Gs_in, A__in, As_in, B__in })
+          case (p_note)
 
           12'b1000_0000_0000: abcdefgh <= 8'b01100011;  // C   // abcdefgh
           12'b0100_0000_0000: abcdefgh <= 8'b01100010;  // C#
@@ -132,7 +205,7 @@ module top
           12'b0000_0000_0100: abcdefgh <= 8'b00010001;  // A   //  |     |
           12'b0000_0000_0010: abcdefgh <= 8'b00010000;  // A#  //   --d--  h
           12'b0000_0000_0001: abcdefgh <= 8'b11000001;  // B
-          default:            ;  // No assignment
+          default:            abcdefgh <= 8'b11111111;
           endcase
 
 endmodule
