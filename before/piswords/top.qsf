@@ -1,0 +1,37 @@
+set_global_assignment -name DEVICE EP4CE6E22C8
+set_global_assignment -name TOP_LEVEL_ENTITY top
+set_global_assignment -name VERILOG_FILE top.v
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name USE_CONFIGURATION_DEVICE OFF
+set_global_assignment -name CRC_ERROR_OPEN_DRAIN OFF
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS_WEAK_PULLUP "AS INPUT TRI-STATED"
+
+## ASSIGNMENTS
+# INPUTS
+
+set_location_assignment PIN_11 -to key[0]
+set_location_assignment PIN_10 -to key[1]
+set_location_assignment PIN_7 -to key[2]
+set_location_assignment PIN_3 -to key[3]
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to key_sw*
+
+#OUTPUTS
+
+set_location_assignment PIN_38 -to led[0]
+set_location_assignment PIN_39 -to led[1]
+set_location_assignment PIN_42 -to led[2]
+set_location_assignment PIN_43 -to led[3]
+set_location_assignment PIN_44 -to led[4]
+set_location_assignment PIN_46 -to led[5]
+set_location_assignment PIN_49 -to led[6]
+set_location_assignment PIN_50 -to led[7]
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to led*
+
+set_location_assignment PIN_110 -to buzzer
+
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to buzzer
+
+# This is necessary even for Cyclone IV to use PIN_101
+set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
