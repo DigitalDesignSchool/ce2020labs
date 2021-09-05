@@ -110,8 +110,115 @@ module top
 );
     wire   reset  = ~ key [3];
 
-    wire  [2:0] octave = ~ key [2:0];
-    wire  [3:0] note   = sw [3:0];
+    reg  [2:0] octave;
+    reg  [3:0] note;
+    reg  [5:0] note_cnt;
+    reg [23:0] clk_div;
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            clk_div <= 0;
+        else
+            clk_div <= clk_div + 1;
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            note_cnt <= 0;
+        else
+            if (&clk_div)
+                note_cnt <= note_cnt + 1;
+
+    localparam [3:0] C  = 4'd0,
+                     Cs = 4'd1,
+                     D  = 4'd2,
+                     Ds = 4'd3,
+                     E  = 4'd4,
+                     F  = 4'd5,
+                     Fs = 4'd6,
+                     G  = 4'd7,
+                     Gs = 4'd8,
+                     A  = 4'd9,
+                     As = 4'd10,
+                     B  = 4'd11;
+
+    always @ (*)
+        case (note_cnt)
+        0:  { octave, note } = { 3'b1, E  };
+        1:  { octave, note } = { 3'b1, Ds };
+        2:  { octave, note } = { 3'b1, E  };
+        3:  { octave, note } = { 3'b1, Ds };
+        4:  { octave, note } = { 3'b1, E  };
+
+        5:  { octave, note } = { 3'b0, B  };
+        6:  { octave, note } = { 3'b1, D  };
+        7:  { octave, note } = { 3'b1, C  };
+        8:  { octave, note } = { 3'b0, A  };
+        9:  { octave, note } = { 3'b0, A  };
+
+        10: { octave, note } = { 3'b0, C  };
+        11: { octave, note } = { 3'b0, E  };
+        12: { octave, note } = { 3'b0, A  };
+        13: { octave, note } = { 3'b0, B  };
+        14: { octave, note } = { 3'b0, B  };
+
+        15: { octave, note } = { 3'b0, E  };
+        16: { octave, note } = { 3'b0, Gs };
+        17: { octave, note } = { 3'b0, B  };
+        18: { octave, note } = { 3'b1, C  };
+        19: { octave, note } = { 3'b1, C  };
+
+        20: { octave, note } = { 3'b1, E  };
+        21: { octave, note } = { 3'b1, Ds };
+        22: { octave, note } = { 3'b1, E  };
+        23: { octave, note } = { 3'b1, Ds };
+        24: { octave, note } = { 3'b1, E  };
+
+        25: { octave, note } = { 3'b0, B  };
+        26: { octave, note } = { 3'b1, D  };
+        27: { octave, note } = { 3'b1, C  };
+        28: { octave, note } = { 3'b0, A  };
+        29: { octave, note } = { 3'b0, A  };
+
+        30: { octave, note } = { 3'b0, C  };
+        31: { octave, note } = { 3'b0, E  };
+        32: { octave, note } = { 3'b0, A  };
+        33: { octave, note } = { 3'b0, B  };
+        34: { octave, note } = { 3'b0, B  };
+
+        35: { octave, note } = { 3'b0, E  };
+        36: { octave, note } = { 3'b1, C  };
+        37: { octave, note } = { 3'b0, B  };
+        38: { octave, note } = { 3'b0, A  };
+        39: { octave, note } = { 3'b0, A  };
+
+        40: { octave, note } = { 3'b0, B  };
+        41: { octave, note } = { 3'b1, C  };
+        42: { octave, note } = { 3'b1, D  };
+        43: { octave, note } = { 3'b1, E  };
+        44: { octave, note } = { 3'b1, E  };
+        45: { octave, note } = { 3'b1, E  };
+
+        46: { octave, note } = { 3'b0, G  };
+        47: { octave, note } = { 3'b1, F  };
+        48: { octave, note } = { 3'b1, E  };
+        49: { octave, note } = { 3'b1, D  };
+        50: { octave, note } = { 3'b1, D  };
+        51: { octave, note } = { 3'b1, D  };
+
+        52: { octave, note } = { 3'b0, F  };
+        53: { octave, note } = { 3'b1, E  };
+        54: { octave, note } = { 3'b1, D  };
+        55: { octave, note } = { 3'b1, C  };
+        56: { octave, note } = { 3'b1, C  };
+        57: { octave, note } = { 3'b1, C  };
+
+        58: { octave, note } = { 3'b0, E  };
+        59: { octave, note } = { 3'b1, D  };
+        60: { octave, note } = { 3'b1, C  };
+        61: { octave, note } = { 3'b0, B  };
+
+        default: {octave, note } = { 3'b0, 4'd12 };
+        endcase
 
     assign led  = { 5'b11111, ~ octave };
 
