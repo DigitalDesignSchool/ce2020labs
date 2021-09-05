@@ -18,10 +18,10 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to key_sw*
 
 #OUTPUTS
 
-set_location_assignment PIN_84 -to led[0]
-set_location_assignment PIN_85 -to led[1]
-set_location_assignment PIN_86 -to led[2]
-set_location_assignment PIN_87 -to led[3]
+set_location_assignment PIN_87 -to led[0]
+set_location_assignment PIN_86 -to led[1]
+set_location_assignment PIN_85 -to led[2]
+set_location_assignment PIN_84 -to led[3]
 
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to led*
 
