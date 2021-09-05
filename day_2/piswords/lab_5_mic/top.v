@@ -173,7 +173,7 @@ module top
             if (note == d_note)
                 t_cnt <= t_cnt + 1;
             else
-                t_cnt <= (t_cnt != 0) ? (t_cnt - 1) : 0;
+                t_cnt <= 0;
 
     always @(posedge clk or posedge reset)
         if (reset)
