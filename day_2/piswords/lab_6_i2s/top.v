@@ -120,7 +120,10 @@ module top
     wire lrclk;
     wire sdata;
 
-    assign gpio [15:12] = { mclk, bclk, lrclk, sdata };
+    assign gpio [1]     = lrclk;
+    assign gpio [3]     = sdata;
+    assign gpio [5]     = mclk;
+    assign gpio [7]     = bclk;
 
     i2s i2s
     (
@@ -140,7 +143,7 @@ module top
         if (reset)
             abcdefgh <= 8'b11111111;
         else
-            case (sw)
+            case (note)
             4'd0:    abcdefgh <= 8'b01100011;  // C   // abcdefgh
             4'd1:    abcdefgh <= 8'b01100010;  // C#
             4'd2:    abcdefgh <= 8'b10000101;  // D   //   --a--
