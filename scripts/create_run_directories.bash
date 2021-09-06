@@ -18,7 +18,7 @@ fi
 
 #-----------------------------------------------------------------------------
 
-"$find_to_run" ../before ../day_1 ../day_2 -name omdazz  \
+"$find_to_run" ../day_1 ../day_2 -name omdazz  \
 | while read dir
   do
     copy_dir="${dir//omdazz/rzrd}"

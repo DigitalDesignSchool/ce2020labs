@@ -9,16 +9,6 @@ readonly script=$(basename "$0")
 
 #-----------------------------------------------------------------------------
 
-export MODELSIM_ROOTDIR="$HOME/intelFPGA_lite/18.1/modelsim_ase"
-export PATH="${PATH}:$MODELSIM_ROOTDIR/bin"
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$MODELSIM_ROOTDIR/lib32"
-
-#export QUARTUS_ROOTDIR=${HOME}/altera/13.0sp1/quartus
-export QUARTUS_ROOTDIR=${HOME}/intelFPGA_lite/18.1/quartus
-export PATH=${PATH}:${QUARTUS_ROOTDIR}/bin
-
-#-----------------------------------------------------------------------------
-
 error ()
 {
     ec=$1
@@ -73,3 +63,106 @@ guarded ()
     is_command_available_or_error $1
     eval "$*" || error $? "cannot $*"
 }
+
+#-----------------------------------------------------------------------------
+
+INTELFPGA_INSTALL_DIR=intelFPGA_lite
+MODELSIM_DIR=modelsim_ase
+QUARTUS_DIR=quartus
+
+if [ "$OSTYPE" = "linux-gnu" ]
+then
+  INTELFPGA_INSTALL_PARENT_DIR="$HOME"
+  MODELSIM_BIN_DIR=bin
+  MODELSIM_LIB_DIR=lib32
+  QUARTUS_BIN_DIR=bin
+
+elif  [ "$OSTYPE" = "cygwin"    ]  \
+   || [ "$OSTYPE" = "msys"      ]
+then
+  INTELFPGA_INSTALL_PARENT_DIR=/c
+
+  MODELSIM_BIN_DIR=win32aloem
+  MODELSIM_LIB_DIR=win32aloem
+  QUARTUS_BIN_DIR=bin64
+else
+  error 1 "this script does not support your OS '$OSTYPE'"
+fi
+
+if ! [ -d "$INTELFPGA_INSTALL_PARENT_DIR/$INTELFPGA_INSTALL_DIR" ]
+then
+    error 1 "expected to find '$INTELFPGA_INSTALL_DIR' directory"  \
+            " in '$INTELFPGA_INSTALL_PARENT_DIR'"
+fi
+
+#-----------------------------------------------------------------------------
+
+# A workaround for a find problem when running bash under Microsoft Windows
+
+find_to_run=find
+true_find=/usr/bin/find
+
+if [ -x "$true_find" ]
+then
+    find_to_run="$true_find"
+fi
+
+#-----------------------------------------------------------------------------
+
+FIND_COMMAND="$find_to_run $INTELFPGA_INSTALL_PARENT_DIR/$INTELFPGA_INSTALL_DIR -mindepth 1 -maxdepth 1 -type d -print"
+FIRST_VERSION_DIR=$($FIND_COMMAND -quit)
+
+if [ -z "$FIRST_VERSION_DIR" ]
+then
+    error 1 "cannot find any version of Intel FPGA installed in "  \
+            "'$INTELFPGA_INSTALL_PARENT_DIR/$INTELFPGA_INSTALL_DIR'"
+fi
+
+#-----------------------------------------------------------------------------
+
+export MODELSIM_ROOTDIR="$FIRST_VERSION_DIR/$MODELSIM_DIR"
+
+if [ -z "$PATH" ]
+then
+    export PATH="$MODELSIM_ROOTDIR/$MODELSIM_BIN_DIR"
+else
+    export PATH="$PATH:$MODELSIM_ROOTDIR/$MODELSIM_BIN_DIR"
+fi
+
+if [ -z "$LD_LIBRARY_PATH" ]
+then
+    export LD_LIBRARY_PATH="$MODELSIM_ROOTDIR/$MODELSIM_LIB_DIR"
+else
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$MODELSIM_ROOTDIR/$MODELSIM_LIB_DIR"
+fi
+
+export QUARTUS_ROOTDIR="$FIRST_VERSION_DIR/$QUARTUS_DIR"
+export PATH="$PATH:$QUARTUS_ROOTDIR/$QUARTUS_BIN_DIR"
+
+#-----------------------------------------------------------------------------
+
+ALL_VERSION_DIRS=$($FIND_COMMAND | xargs echo)
+
+if [ "$FIRST_VERSION_DIR" != "$ALL_VERSION_DIRS" ]
+then
+    warning 1 "multiple Intel FPGA versions installed in"  \
+            "'$INTELFPGA_INSTALL_PARENT_DIR/$INTELFPGA_INSTALL_DIR':"  \
+            "'$ALL_VERSION_DIRS'"
+
+    info "MODELSIM_ROOTDIR=$MODELSIM_ROOTDIR"
+    info "QUARTUS_ROOTDIR=$QUARTUS_ROOTDIR"
+    info "PATH=$PATH"
+    info "LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+
+                     [ -d "$MODELSIM_ROOTDIR" ]  \
+    || error 1 "directory '$MODELSIM_ROOTDIR' expected"
+
+                     [ -d "$MODELSIM_ROOTDIR/$MODELSIM_BIN_DIR" ]  \
+    || error 1 "directory '$MODELSIM_ROOTDIR/$MODELSIM_BIN_DIR' expected"
+
+                     [ -d "$QUARTUS_ROOTDIR" ]  \
+    || error 1 "directory '$QUARTUS_ROOTDIR' expected"
+
+                     [ -d "$QUARTUS_ROOTDIR/$QUARTUS_BIN_DIR" ]  \
+    || error 1 "directory '$QUARTUS_ROOTDIR/$QUARTUS_BIN_DIR' expected"
+fi
