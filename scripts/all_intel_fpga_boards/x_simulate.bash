@@ -129,7 +129,7 @@ then
        || [ "$OSTYPE" = "cygwin"    ]  \
        || [ "$OSTYPE" = "msys"      ]
     then
-        vsim -do xx_modelsim.tcl &> modelsim.log
+        vsim -gui -do xx_modelsim.tcl &> modelsim.log
     else
         error 1 "don't know how to run ModelSim on your OS $OSTYPE"
     fi
