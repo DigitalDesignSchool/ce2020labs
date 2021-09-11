@@ -1,5 +1,11 @@
 `include "config.vh"
 
+// `define USE_STANDARD_FREQUENCIES
+// `define USE_ONE_COMPARISON
+`define OCTAVE_4
+`define OCTAVE_5
+`define OCTAVE_6
+
 module top
 # (
     parameter clk_mhz = 50,
@@ -12,7 +18,7 @@ module top
     output     [ 7:0] led,
 
     output reg [ 7:0] abcdefgh,
-    output     [ 7:0] digit,
+    output reg [ 7:0] digit,
 
     output            vsync,
     output            hsync,
@@ -26,25 +32,12 @@ module top
     assign buzzer = ~ reset;
 
     //------------------------------------------------------------------------
+    //
+    //  The microphone receiver
+    //
+    //------------------------------------------------------------------------
 
     wire [15:0] value;
-
-/*
-    OLD PINS
-
-    pmod_mic3_spi_receiver i_microphone
-    (
-        .clock ( clk        ),
-        .reset ( reset      ),
-        .cs    ( gpio  [14] ),
-        .sck   ( gpio  [ 8] ),
-        .sdo   ( gpio  [10] ),
-        .value ( value      )
-    );
-
-    assign gpio [4] = 1'b1;  // VCC
-    assign gpio [6] = 1'b0;  // GND
-*/
 
     pmod_mic3_spi_receiver i_microphone
     (
@@ -60,9 +53,9 @@ module top
     assign gpio [10] = 1'b1;  // VCC
 
     //------------------------------------------------------------------------
-
-    assign led = ~ value [13:6];
-
+    //
+    //  Measuring frequency
+    //
     //------------------------------------------------------------------------
 
     // It is enough for the counter to be 20 bit. Why?
@@ -97,46 +90,128 @@ module top
         end
 
     //------------------------------------------------------------------------
+    //
+    //  Determining the note
+    //
+    //------------------------------------------------------------------------
 
-    localparam frq_100_C  = 26163,
-               frq_100_Cs = 27718,
-               frq_100_D  = 29366,
-               frq_100_Ds = 31113,
-               frq_100_E  = 32963,
-               frq_100_F  = 34923,
-               frq_100_Fs = 36999,
-               frq_100_G  = 39200,
-               frq_100_Gs = 41530,
-               frq_100_A  = 44000,
-               frq_100_As = 46616,
-               frq_100_B  = 49388;
+    `ifdef USE_STANDARD_FREQUENCIES
+
+    localparam freq_100_C  = 26163,
+               freq_100_Cs = 27718,
+               freq_100_D  = 29366,
+               freq_100_Ds = 31113,
+               freq_100_E  = 32963,
+               freq_100_F  = 34923,
+               freq_100_Fs = 36999,
+               freq_100_G  = 39200,
+               freq_100_Gs = 41530,
+               freq_100_A  = 44000,
+               freq_100_As = 46616,
+               freq_100_B  = 49388;
+
+    `else
+
+    // Custom measured frequencies
+
+    localparam freq_100_C  = 26163,
+               freq_100_Cs = 27718,
+               freq_100_D  = 29366,
+               freq_100_Ds = 31113,
+               freq_100_E  = 32963,
+               freq_100_F  = 34923,
+               freq_100_Fs = 36999,
+               freq_100_G  = 39200,
+               freq_100_Gs = 41530,
+               freq_100_A  = 44000,
+               freq_100_As = 46616,
+               freq_100_B  = 49388;
+
+    `endif
 
     //------------------------------------------------------------------------
 
-    function [19:0] high_distance (input [15:0] frq_100);
-       high_distance = clk_mhz * 1000 * 1000 / frq_100 * 102 / 2;  // 2 to make octave higher
+    function [19:0] high_distance (input [18:0] freq_100);
+       high_distance = clk_mhz * 1000 * 1000 / freq_100 * 102;
     endfunction
 
     //------------------------------------------------------------------------
 
-    wire lt_C  = distance < high_distance (frq_100_C );
-    wire lt_Cs = distance < high_distance (frq_100_Cs);
-    wire lt_D  = distance < high_distance (frq_100_D );
-    wire lt_Ds = distance < high_distance (frq_100_Ds);
-    wire lt_E  = distance < high_distance (frq_100_E );
-    wire lt_F  = distance < high_distance (frq_100_F );
-    wire lt_Fs = distance < high_distance (frq_100_Fs);
-    wire lt_G  = distance < high_distance (frq_100_G );
-    wire lt_Gs = distance < high_distance (frq_100_Gs);
-    wire lt_A  = distance < high_distance (frq_100_A );
-    wire lt_As = distance < high_distance (frq_100_As);
-    wire lt_B  = distance < high_distance (frq_100_B );
-    wire lt_Ch = distance < high_distance (frq_100_C * 2);
+    function [19:0] low_distance (input [18:0] freq_100);
+       low_distance = clk_mhz * 1000 * 1000 / freq_100 * 98;
+    endfunction
 
     //------------------------------------------------------------------------
 
-    localparam w_note  = 13;
-    localparam no_note = { w_note { 1'b0 } };
+    function [19:0] check_freq_single_range (input [18:0] freq_100);
+
+       check_freq_single_range =
+
+       `ifdef USE_ONE_COMPARISON
+             distance < high_distance (freq_100);
+       `else
+             distance > low_distance  (freq_100)
+           & distance < high_distance (freq_100);
+       `endif
+
+    endfunction
+
+    //------------------------------------------------------------------------
+
+    function [19:0] check_freq (input [18:0] freq_100);
+
+       check_freq =
+
+       `ifdef USE_ONE_COMPARISON
+           `ifdef OCTAVE_6
+               check_freq_single_range (freq_100 * 4);
+           `elsif OCTAVE_5
+               check_freq_single_range (freq_100 * 2)
+           `else
+               check_freq_single_range (freq_100);
+           `endif
+       `else
+                 20'd0
+           `ifdef OCTAVE_6
+               | check_freq_single_range (freq_100 * 4)
+           `endif
+
+           `ifdef OCTAVE_5
+               | check_freq_single_range (freq_100 * 2)
+           `endif
+
+           `ifdef OCTAVE_4
+               | check_freq_single_range (freq_100)
+           `endif
+                 ;
+       `endif
+
+    endfunction
+
+    //------------------------------------------------------------------------
+
+    wire check_C  = check_freq (freq_100_C );
+    wire check_Cs = check_freq (freq_100_Cs);
+    wire check_D  = check_freq (freq_100_D );
+    wire check_Ds = check_freq (freq_100_Ds);
+    wire check_E  = check_freq (freq_100_E );
+    wire check_F  = check_freq (freq_100_F );
+    wire check_Fs = check_freq (freq_100_Fs);
+    wire check_G  = check_freq (freq_100_G );
+    wire check_Gs = check_freq (freq_100_Gs);
+    wire check_A  = check_freq (freq_100_A );
+    wire check_As = check_freq (freq_100_As);
+    wire check_B  = check_freq (freq_100_B );
+
+    `ifdef USE_ONE_COMPARISON
+    wire check_Ch = check_freq (freq_100_C * 2);
+    `endif
+
+    //------------------------------------------------------------------------
+
+    `ifdef USE_ONE_COMPARISON
+
+    localparam w_note = 13;
 
     localparam [w_note - 1:0] C  = 13'b1000_0000_0000_0,
                               Cs = 13'b1100_0000_0000_0,
@@ -151,17 +226,56 @@ module top
                               As = 13'b1111_1111_1110_0,
                               B  = 13'b1111_1111_1111_0;
 
+    wire [w_note - 1:0] note = { check_C  , check_Cs , check_D  , check_Ds ,
+                                 check_E  , check_F  , check_Fs , check_G  ,
+                                 check_Gs , check_A  , check_As , check_B  ,
+                                 check_Ch };
+
+    `else  // ! ifdef USE_ONE_COMPARISON
+
+    localparam w_note = 12;
+
+    localparam [w_note - 1:0] C  = 12'b1000_0000_0000,
+                              Cs = 12'b0100_0000_0000,
+                              D  = 12'b0010_0000_0000,
+                              Ds = 12'b0001_0000_0000,
+                              E  = 12'b0000_1000_0000,
+                              F  = 12'b0000_0100_0000,
+                              Fs = 12'b0000_0010_0000,
+                              G  = 12'b0000_0001_0000,
+                              Gs = 12'b0000_0000_1000,
+                              A  = 12'b0000_0000_0100,
+                              As = 12'b0000_0000_0010,
+                              B  = 12'b0000_0000_0001;
+
+    wire [w_note - 1:0] note = { check_C  , check_Cs , check_D  , check_Ds ,
+                                 check_E  , check_F  , check_Fs , check_G  ,
+                                 check_Gs , check_A  , check_As , check_B  };
+    `endif
+
     //------------------------------------------------------------------------
 
-    wire [w_note - 1:0] note = { lt_C  , lt_Cs , lt_D  , lt_Ds ,
-                                 lt_E  , lt_F  , lt_Fs , lt_G  ,
-                                 lt_Gs , lt_A  , lt_As , lt_B  ,
-                                 lt_Ch };
+    localparam no_note = { w_note { 1'b0 } };
 
-    reg  [w_note - 1:0] d_note;     // Delayed note
+    localparam [w_note - 1:0] Db = Cs,
+                              Eb = Ds,
+                              Gb = Fs,
+                              Ab = Gs,
+                              Bb = As;
+
+    //------------------------------------------------------------------------
+    //
+    //  Note filtering
+    //
+    //------------------------------------------------------------------------
+
+    reg  [w_note - 1:0] d_note;  // Delayed note
 
     always @(posedge clk or posedge reset)
-        d_note <= reset ? no_note : note;
+        if (reset)
+            d_note <= no_note;
+        else
+            d_note <= note;
 
     reg  [17:0] t_cnt;           // Threshold counter
     reg  [w_note - 1:0] t_note;  // Thresholded note
@@ -179,103 +293,112 @@ module top
         if (reset)
             t_note <= no_note;
         else
-            if (& t_cnt)
+            if (& t_cnt & d_note != no_note)
                 t_note <= d_note;
 
-    reg  [w_note - 1:0] d_t_note;
+    //------------------------------------------------------------------------
+    //
+    //  FSMs
+    //
+    //------------------------------------------------------------------------
 
-    always @(posedge clk or posedge reset)
-        d_t_note <= reset ? no_note : t_note;
+    localparam w_state = 4;  // Let's keep to 16 states
+    localparam [3:0] recognized = 4'hf;
 
-    reg  [23:0] p_cnt;      // Protection counter
-    reg  [w_note - 1:0] p_note;     // Protected note
-
-    always @(posedge clk or posedge reset)
-        if (reset)
-            p_cnt <= 0;
-        else
-            if (t_note == d_t_note)
-                p_cnt <= p_cnt + 1;
-            else
-                p_cnt <= 0;
-
-    always @(posedge clk or posedge reset)
-        if (reset)
-            p_note <= no_note;
-        else
-            if (t_note != no_note)
-                p_note <= t_note;
-            else if (& p_cnt)
-                p_note <= t_note;
+    reg [w_state - 1:0] state1, state2, state3;
 
     //------------------------------------------------------------------------
 
-    localparam w_state = 3;
+    // The story of love, part 1
 
-    localparam [w_state - 1:0] st_wait_C             = 3'd0,
-                               st_wait_E_or_Ds       = 3'd1,
-                               st_wait_G_for_C_major = 3'd2,
-                               st_wait_G_for_C_minor = 3'd3,
-                               st_C_major            = 3'd4,
-                               st_C_minor            = 3'd5;
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            state1 <= 0;
+        else
+            case (state1)
+            0: if ( t_note == Bb ) state1 <= 1;
+            1: if ( t_note == D  ) state1 <= 2;
+            2: if ( t_note == Bb ) state1 <= 3;
+            3: if ( t_note == D  ) state1 <= 4;
+            4: if ( t_note == Eb ) state1 <= 5;
+            5: if ( t_note == D  ) state1 <= 6;
+            6: if ( t_note == C  ) state1 <= 7;
+            7: if ( t_note == A  ) state1 <= recognized;
+            endcase
 
-    reg [w_state - 1:0] state, new_state;
+    // The story of love, part 2
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            state2 <= 0;
+        else
+            case (state2)
+            0: if ( t_note == C  ) state2 <= 1;
+            1: if ( t_note == A  ) state2 <= 2;
+            2: if ( t_note == C  ) state2 <= 3;
+            3: if ( t_note == D  ) state2 <= 4;
+            4: if ( t_note == C  ) state2 <= 5;
+            5: if ( t_note == Bb ) state2 <= 6;
+            6: if ( t_note == G  ) state2 <= recognized;
+            endcase
+
+    // Godfather
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            state3 <= 0;
+        else
+            case (state3)
+            0: if ( t_note == G  ) state3 <= 1;
+            1: if ( t_note == C  ) state3 <= 2;
+            2: if ( t_note == Eb ) state3 <= 3;
+            3: if ( t_note == D  ) state3 <= 4;
+            4: if ( t_note == C  ) state3 <= 5;
+            5: if ( t_note == Eb ) state3 <= 6;
+            6: if ( t_note == C  ) state3 <= recognized;
+            endcase
+
+    //------------------------------------------------------------------------
+    //
+    //  The dynamic seven segment display logic
+    //
+    //------------------------------------------------------------------------
+
+    reg [15:0] digit_enable_cnt;
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            digit_enable_cnt <= 0;
+        else
+            digit_enable_cnt <= digit_enable_cnt + 1;
+
+    wire digit_enable = & digit_enable_cnt;
 
     //------------------------------------------------------------------------
 
-    always @*
-    begin
-        new_state = state;
-        
-        case (state)
-        st_wait_C:
-        
-               if ( p_note == C  ) new_state = st_wait_E_or_Ds;
-        
-        st_wait_E_or_Ds:
-        
-               if ( p_note == E  ) new_state = st_wait_G_for_C_major;
-          else if ( p_note == Ds ) new_state = st_wait_G_for_C_minor;
-        
-        st_wait_G_for_C_major:
-        
-               if ( p_note == G  ) new_state = st_C_major;
-        
-        st_wait_G_for_C_minor:
-        
-               if ( p_note == G  ) new_state = st_C_minor;
-        
-        st_C_major, st_C_minor:
-        
-               if ( p_note == C  ) new_state = st_wait_E_or_Ds;
-        endcase
-    end
+    wire [7:0] new_digit = { digit [0], digit [7:1] };
 
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            digit <= 8'b11111110;
+        else if (digit_enable)
+            digit <= new_digit;
+
+    //------------------------------------------------------------------------
+    //
+    //  The output to seven segment display
+    //
     //------------------------------------------------------------------------
 
     always @ (posedge clk or posedge reset)
         if (reset)
-            state <= 0;
-        else
-            state <= new_state;
-
-    //------------------------------------------------------------------------
-
-    assign digit = 8'b1111_1110;
-
-    always @ (posedge clk or posedge reset)
-        if (reset)
+        begin
             abcdefgh <= 8'b11111111;
-        else
-            case (state)
-            // st_wait_C             : abcdefgh <= 8'b00000011;  // 0
-            // st_wait_E_or_Ds       : abcdefgh <= 8'b10011111;  // 1
-            // st_wait_G_for_C_major : abcdefgh <= 8'b00100101;  // 2
-            // st_wait_G_for_C_minor : abcdefgh <= 8'b00001101;  // 3
-            st_C_major            : abcdefgh <= 8'b10001111;  // J for C major
-            st_C_minor            : abcdefgh <= 8'b10011111;  // I for C minor
-            default:
-                case (p_note)
+        end
+        else if (digit_enable)
+        begin
+            if (~ new_digit [3])
+                case (t_note)
                 C  : abcdefgh <= 8'b01100011;  // C   // abcdefgh
                 Cs : abcdefgh <= 8'b01100010;  // C#
                 D  : abcdefgh <= 8'b10000101;  // D   //   --a-- 
@@ -290,6 +413,36 @@ module top
                 B  : abcdefgh <= 8'b11000001;  // B
                 default: ;  // No assignment
                 endcase
-           endcase
+            else if (new_digit [2:0] != 3'b111)
+                case (~ new_digit [2] ? state1 : ~ new_digit [1] ? state2 : state3)
+                4'h0: abcdefgh <= 8'b00000011;
+                4'h1: abcdefgh <= 8'b10011111;
+                4'h2: abcdefgh <= 8'b00100101;
+                4'h3: abcdefgh <= 8'b00001101;
+                4'h4: abcdefgh <= 8'b10011001;
+                4'h5: abcdefgh <= 8'b01001001;
+                4'h6: abcdefgh <= 8'b01000001;
+                4'h7: abcdefgh <= 8'b00011111;
+                4'h8: abcdefgh <= 8'b00000001;
+                4'h9: abcdefgh <= 8'b00011001;
+                4'ha: abcdefgh <= 8'b00010001;
+                4'hb: abcdefgh <= 8'b11000001;
+                4'hc: abcdefgh <= 8'b01100011;
+                4'hd: abcdefgh <= 8'b10000101;
+                4'he: abcdefgh <= 8'b01100001;
+                // 4'hf: abcdefgh <= 8'b01110001;  // F
+                4'hf: abcdefgh <= 8'b00111001;  // Upper o - recognized
+                endcase
+            else
+                abcdefgh <= 8'b11111111;
+        end
+
+    //------------------------------------------------------------------------
+    //
+    //  The auxiliary output to LED
+    //
+    //------------------------------------------------------------------------
+
+    assign led = ~ { 2'b0, state1, state2 };
 
 endmodule
