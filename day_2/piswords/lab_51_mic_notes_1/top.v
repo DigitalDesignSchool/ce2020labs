@@ -2,18 +2,9 @@
 
 // `define USE_STANDARD_FREQUENCIES
 // `define USE_ONE_COMPARISON
-// `define THREE_OCTAVES
-// `define TWO_OCTAVES
-
-`ifdef USE_ONE_COMPARISON
-    `ifdef THREE_OCTAVES
-        error USE_ONE_COMPARISON and THREE_OCTAVES are not compatible
-    `endif
-
-    `ifdef TWO_OCTAVES
-        error USE_ONE_COMPARISON and TWO_OCTAVES are not compatible
-    `endif
-`endif
+`define OCTAVE_4
+`define OCTAVE_5
+`define OCTAVE_6
 
 module top
 # (
@@ -132,44 +123,59 @@ module top
 
     //------------------------------------------------------------------------
 
-    function [19:0] high_distance (input [15:0] freq_100);
-       high_distance = clk_mhz * 1000 * 1000 / freq_100 * 102 / 2;  // 2 to make octave higher
+    function [19:0] high_distance (input [18:0] freq_100);
+       high_distance = clk_mhz * 1000 * 1000 / freq_100 * 102;
     endfunction
 
     //------------------------------------------------------------------------
 
-    function [19:0] low_distance (input [15:0] freq_100);
+    function [19:0] low_distance (input [18:0] freq_100);
        low_distance = clk_mhz * 1000 * 1000 / freq_100 * 98;
     endfunction
 
     //------------------------------------------------------------------------
 
-    function [19:0] check_freq_single_range (input [15:0] freq_100);
+    function [19:0] check_freq_single_range (input [18:0] freq_100);
+
+       check_freq_single_range =
 
        `ifdef USE_ONE_COMPARISON
-           return distance < high_distance (freq_100);
+             distance < high_distance (freq_100);
        `else
-           return   distance > low_distance  (freq_100)
-                  & distance < high_distance (freq_100)
+             distance > low_distance  (freq_100)
+           & distance < high_distance (freq_100);
        `endif
 
     endfunction
 
     //------------------------------------------------------------------------
 
-    function [19:0] check_freq (input [15:0] freq_100);
+    function [19:0] check_freq (input [18:0] freq_100);
+
+       check_freq =
 
        `ifdef USE_ONE_COMPARISON
-           return   check_freq_single_range (freq_100);
-       `elsif THREE_OCTAVES
-           return   check_freq_single_range (freq_100)
-                  | check_freq_single_range (freq_100 * 2)
-                  | check_freq_single_range (freq_100 * 4);
-       `elsif TWO_OCTAVES
-           return   check_freq_single_range (freq_100)
-                  | check_freq_single_range (freq_100 * 2);
+           `ifdef OCTAVE_6
+               check_freq_single_range (freq_100 * 4);
+           `elsif OCTAVE_5
+               check_freq_single_range (freq_100 * 2)
+           `else
+               check_freq_single_range (freq_100);
+           `endif
        `else
-           return   check_freq_single_range (freq_100);
+                 20'd0
+           `ifdef OCTAVE_6
+               | check_freq_single_range (freq_100 * 4)
+           `endif
+
+           `ifdef OCTAVE_5
+               | check_freq_single_range (freq_100 * 2)
+           `endif
+
+           `ifdef OCTAVE_4
+               | check_freq_single_range (freq_100)
+           `endif
+                 ;
        `endif
 
     endfunction
@@ -196,8 +202,6 @@ module top
     //------------------------------------------------------------------------
 
     `ifdef USE_ONE_COMPARISON
-
-    wire check_Ch = check_freq (freq_100_C * 2);
 
     localparam w_note = 13;
 
@@ -253,7 +257,7 @@ module top
         else
             d_note <= note;
 
-    reg  [17:0] t_cnt;           // Threshold counter
+    reg  [18:0] t_cnt;           // Threshold counter
     reg  [w_note - 1:0] t_note;  // Thresholded note
 
     always @(posedge clk or posedge reset)

@@ -51,7 +51,7 @@ then
     iverilog -g2005  \
         -I ..     -I ../../../common     -I ../../../../common      \
            ../*.v    ../../../common/*.v    ../../../../common/*.v  \
-        &> icarus.compile.log 
+        2>&1 | tee icarus.compile.log
         
     ec=$?
 
@@ -61,7 +61,7 @@ then
         error $ec Icarus Verilog compiler errors
     fi
 
-    vvp a.out &> icarus.simulate.log
+    vvp a.out 2>&1 | tee icarus.simulate.log
     ec=$?
 
     sed -i '/^VCD info: dumpfile dump.vcd opened for output.$/d'  \
@@ -91,7 +91,7 @@ then
         gtkwave                                 \
             --dump dump.vcd                     \
             --script xx_gtkwave.tcl  \
-            &> waveform.log
+            2>&1 | tee waveform.log
 
     elif [ ${OSTYPE/[0-9]*/} = "darwin" ]
     # elif [[ "$OSTYPE" = "darwin"* ]]  # Alternative way
@@ -105,7 +105,7 @@ then
 
         /Applications/gtkwave.app/Contents/MacOS/gtkwave-bin  \
             --dump dump.vcd --script xx_gtkwave.tcl           \
-            &> waveform.log
+            2>&1 | tee waveform.log
     else
         error 1 "don't know how to run GTKWave on your OS $OSTYPE"
     fi
@@ -129,7 +129,7 @@ then
        || [ "$OSTYPE" = "cygwin"    ]  \
        || [ "$OSTYPE" = "msys"      ]
     then
-        vsim -gui -do xx_modelsim.tcl &> modelsim.log
+        vsim -gui -do xx_modelsim.tcl 2>&1 | tee modelsim.log
     else
         error 1 "don't know how to run ModelSim on your OS $OSTYPE"
     fi
