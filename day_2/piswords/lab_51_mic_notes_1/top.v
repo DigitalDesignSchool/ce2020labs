@@ -257,7 +257,7 @@ module top
         else
             d_note <= note;
 
-    reg  [18:0] t_cnt;           // Threshold counter
+    reg  [17:0] t_cnt;           // Threshold counter
     reg  [w_note - 1:0] t_note;  // Thresholded note
 
     always @(posedge clk or posedge reset)
