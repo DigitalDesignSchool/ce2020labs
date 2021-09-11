@@ -32,6 +32,10 @@ module top
     assign buzzer = ~ reset;
 
     //------------------------------------------------------------------------
+    //
+    //  The microphone receiver
+    //
+    //------------------------------------------------------------------------
 
     wire [15:0] value;
 
@@ -48,6 +52,10 @@ module top
     assign gpio [ 8] = 1'b0;  // GND
     assign gpio [10] = 1'b1;  // VCC
 
+    //------------------------------------------------------------------------
+    //
+    //  Measuring frequency
+    //
     //------------------------------------------------------------------------
 
     // It is enough for the counter to be 20 bit. Why?
@@ -81,6 +89,10 @@ module top
             end
         end
 
+    //------------------------------------------------------------------------
+    //
+    //  Determining the note
+    //
     //------------------------------------------------------------------------
 
     `ifdef USE_STANDARD_FREQUENCIES
@@ -241,8 +253,20 @@ module top
                                  check_Gs , check_A  , check_As , check_B  };
     `endif
 
+    //------------------------------------------------------------------------
+
     localparam no_note = { w_note { 1'b0 } };
 
+    localparam [w_note - 1:0] Db = Cs,
+                              Eb = Ds,
+                              Gb = Fs,
+                              Ab = Gs,
+                              Bb = As;
+
+    //------------------------------------------------------------------------
+    //
+    //  Note filtering
+    //
     //------------------------------------------------------------------------
 
     reg  [w_note - 1:0] d_note;  // Delayed note
@@ -273,56 +297,71 @@ module top
                 t_note <= d_note;
 
     //------------------------------------------------------------------------
+    //
+    //  FSMs
+    //
+    //------------------------------------------------------------------------
 
-    localparam w_state = 3;
+    localparam w_state = 4;  // Let's keep to 16 states
+    localparam [3:0] recognized = 4'hf;
 
-    localparam [w_state - 1:0] st_wait_C             = 3'd0,
-                               st_wait_E_or_Ds       = 3'd1,
-                               st_wait_G_for_C_major = 3'd2,
-                               st_wait_G_for_C_minor = 3'd3,
-                               st_C_major            = 3'd4,
-                               st_C_minor            = 3'd5;
-
-    reg [w_state - 1:0] state, new_state;
+    reg [w_state - 1:0] state1, state2, state3;
 
     //------------------------------------------------------------------------
 
-    always @*
-    begin
-        new_state = state;
-        
-        case (state)
-        st_wait_C:
-        
-               if ( t_note == C  ) new_state = st_wait_E_or_Ds;
-        
-        st_wait_E_or_Ds:
-        
-               if ( t_note == E  ) new_state = st_wait_G_for_C_major;
-          else if ( t_note == Ds ) new_state = st_wait_G_for_C_minor;
-        
-        st_wait_G_for_C_major:
-        
-               if ( t_note == G  ) new_state = st_C_major;
-        
-        st_wait_G_for_C_minor:
-        
-               if ( t_note == G  ) new_state = st_C_minor;
-        
-        st_C_major, st_C_minor:
-        
-               if ( t_note == C  ) new_state = st_wait_E_or_Ds;
-        endcase
-    end
-
-    //------------------------------------------------------------------------
+    // The story of love, part 1
 
     always @ (posedge clk or posedge reset)
         if (reset)
-            state <= 0;
+            state1 <= 0;
         else
-            state <= new_state;
+            case (state1)
+            0: if ( t_note == Bb ) state1 <= 1;
+            1: if ( t_note == D  ) state1 <= 2;
+            2: if ( t_note == Bb ) state1 <= 3;
+            3: if ( t_note == D  ) state1 <= 4;
+            4: if ( t_note == Eb ) state1 <= 5;
+            5: if ( t_note == D  ) state1 <= 6;
+            6: if ( t_note == C  ) state1 <= 7;
+            7: if ( t_note == A  ) state1 <= recognized;
+            endcase
 
+    // The story of love, part 2
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            state2 <= 0;
+        else
+            case (state2)
+            0: if ( t_note == C  ) state2 <= 1;
+            1: if ( t_note == A  ) state2 <= 2;
+            2: if ( t_note == C  ) state2 <= 3;
+            3: if ( t_note == D  ) state2 <= 4;
+            4: if ( t_note == C  ) state2 <= 5;
+            5: if ( t_note == Bb ) state2 <= 6;
+            6: if ( t_note == G  ) state2 <= recognized;
+            endcase
+
+    // Godfather
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            state3 <= 0;
+        else
+            case (state3)
+            0: if ( t_note == G  ) state3 <= 1;
+            1: if ( t_note == C  ) state3 <= 2;
+            2: if ( t_note == Eb ) state3 <= 3;
+            3: if ( t_note == D  ) state3 <= 4;
+            4: if ( t_note == C  ) state3 <= 5;
+            5: if ( t_note == Eb ) state3 <= 6;
+            6: if ( t_note == C  ) state3 <= recognized;
+            endcase
+
+    //------------------------------------------------------------------------
+    //
+    //  The dynamic seven segment display logic
+    //
     //------------------------------------------------------------------------
 
     reg [15:0] digit_enable_cnt;
@@ -345,6 +384,10 @@ module top
         else if (digit_enable)
             digit <= new_digit;
 
+    //------------------------------------------------------------------------
+    //
+    //  The output to seven segment display
+    //
     //------------------------------------------------------------------------
 
     always @ (posedge clk or posedge reset)
@@ -370,22 +413,36 @@ module top
                 B  : abcdefgh <= 8'b11000001;  // B
                 default: ;  // No assignment
                 endcase
-            else if (~ new_digit [2])
-                case (state)
-                st_wait_C             : abcdefgh <= 8'b00000011;  // 0
-                st_wait_E_or_Ds       : abcdefgh <= 8'b10011111;  // 1
-                st_wait_G_for_C_major : abcdefgh <= 8'b00100101;  // 2
-                st_wait_G_for_C_minor : abcdefgh <= 8'b00001101;  // 3
-                st_C_major            : abcdefgh <= 8'b10001111;  // J for C major
-                st_C_minor            : abcdefgh <= 8'b10011111;  // I for C minor
-                default               : abcdefgh <= 8'b00111001;  // Upper o
+            else if (new_digit [2:0] != 3'b111)
+                case (~ new_digit [2] ? state1 : ~ new_digit [1] ? state2 : state3)
+                4'h0: abcdefgh <= 8'b00000011;
+                4'h1: abcdefgh <= 8'b10011111;
+                4'h2: abcdefgh <= 8'b00100101;
+                4'h3: abcdefgh <= 8'b00001101;
+                4'h4: abcdefgh <= 8'b10011001;
+                4'h5: abcdefgh <= 8'b01001001;
+                4'h6: abcdefgh <= 8'b01000001;
+                4'h7: abcdefgh <= 8'b00011111;
+                4'h8: abcdefgh <= 8'b00000001;
+                4'h9: abcdefgh <= 8'b00011001;
+                4'ha: abcdefgh <= 8'b00010001;
+                4'hb: abcdefgh <= 8'b11000001;
+                4'hc: abcdefgh <= 8'b01100011;
+                4'hd: abcdefgh <= 8'b10000101;
+                4'he: abcdefgh <= 8'b01100001;
+                // 4'hf: abcdefgh <= 8'b01110001;  // F
+                4'hf: abcdefgh <= 8'b00111001;  // Upper o - recognized
                 endcase
             else
                 abcdefgh <= 8'b11111111;
         end
 
     //------------------------------------------------------------------------
+    //
+    //  The auxiliary output to LED
+    //
+    //------------------------------------------------------------------------
 
-    assign led = ~ { 5'b0, state };
+    assign led = ~ { 2'b0, state1, state2 };
 
 endmodule
