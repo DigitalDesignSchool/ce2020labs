@@ -67,29 +67,27 @@ module top
                     h = 8'b11010001,
                     I = 8'b11110011,
                     P = 8'b00110001,
-					O = 8'b00000011,
+                    O = 8'b00000011,
                     X = 8'b10010001;
-
 
     reg [7:0] letter;
     
     always @*
       case (shift_reg)
-      8'h80: letter = C;
-      8'h40: letter = h;
-      8'h20: letter = I;
-      8'h10: letter = P;
-	  8'h08: letter = E;
-      8'h04: letter = X;
-      8'h02: letter = P;
-      8'h01: letter = O;
+      8'h80:   letter = C;
+      8'h40:   letter = h;
+      8'h20:   letter = I;
+      8'h10:   letter = P;
+      8'h08:   letter = E;
+      8'h04:   letter = X;
+      8'h02:   letter = P;
+      8'h01:   letter = O;
       default: letter = E;
-      endcase
+    endcase
 
     assign abcdefgh = letter;
     assign digit    = ~ shift_reg;
-	assign led      = ~ shift_reg;
-	
+    assign led      = ~ shift_reg;
 
     // Exercise 1: Increase the frequency of enable signal
     // to the level your eyes see the letters as a solid word

@@ -18,7 +18,7 @@ module top
     output     [ 7:0] led,
 
     output reg [ 7:0] abcdefgh,
-    output     [ 7:0] digit,
+    output reg [ 7:0] digit,
 
     output            vsync,
     output            hsync,
@@ -47,10 +47,6 @@ module top
 
     assign gpio [ 8] = 1'b0;  // GND
     assign gpio [10] = 1'b1;  // VCC
-
-    //------------------------------------------------------------------------
-
-    assign led = ~ value [13:6];
 
     //------------------------------------------------------------------------
 
@@ -273,7 +269,7 @@ module top
         if (reset)
             t_note <= no_note;
         else
-            if (& t_cnt)
+            if (& t_cnt & d_note != no_note)
                 t_note <= d_note;
 
     //------------------------------------------------------------------------
@@ -329,20 +325,36 @@ module top
 
     //------------------------------------------------------------------------
 
-    assign digit = 8'b1111_1110;
+    reg [15:0] digit_enable_cnt;
 
     always @ (posedge clk or posedge reset)
         if (reset)
-            abcdefgh <= 8'b11111111;
+            digit_enable_cnt <= 0;
         else
-            case (state)
-            // st_wait_C             : abcdefgh <= 8'b00000011;  // 0
-            // st_wait_E_or_Ds       : abcdefgh <= 8'b10011111;  // 1
-            // st_wait_G_for_C_major : abcdefgh <= 8'b00100101;  // 2
-            // st_wait_G_for_C_minor : abcdefgh <= 8'b00001101;  // 3
-            // st_C_major            : abcdefgh <= 8'b10001111;  // J for C major
-            // st_C_minor            : abcdefgh <= 8'b10011111;  // I for C minor
-            default:
+            digit_enable_cnt <= digit_enable_cnt + 1;
+
+    wire digit_enable = & digit_enable_cnt;
+
+    //------------------------------------------------------------------------
+
+    wire [7:0] new_digit = { digit [0], digit [7:1] };
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            digit <= 8'b11111110;
+        else if (digit_enable)
+            digit <= new_digit;
+
+    //------------------------------------------------------------------------
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+        begin
+            abcdefgh <= 8'b11111111;
+        end
+        else if (digit_enable)
+        begin
+            if (~ new_digit [3])
                 case (t_note)
                 C  : abcdefgh <= 8'b01100011;  // C   // abcdefgh
                 Cs : abcdefgh <= 8'b01100010;  // C#
@@ -358,6 +370,22 @@ module top
                 B  : abcdefgh <= 8'b11000001;  // B
                 default: ;  // No assignment
                 endcase
-           endcase
+            else if (~ new_digit [2])
+                case (state)
+                st_wait_C             : abcdefgh <= 8'b00000011;  // 0
+                st_wait_E_or_Ds       : abcdefgh <= 8'b10011111;  // 1
+                st_wait_G_for_C_major : abcdefgh <= 8'b00100101;  // 2
+                st_wait_G_for_C_minor : abcdefgh <= 8'b00001101;  // 3
+                st_C_major            : abcdefgh <= 8'b10001111;  // J for C major
+                st_C_minor            : abcdefgh <= 8'b10011111;  // I for C minor
+                default               : abcdefgh <= 8'b00111001;  // Upper o
+                endcase
+            else
+                abcdefgh <= 8'b11111111;
+        end
+
+    //------------------------------------------------------------------------
+
+    assign led = ~ { 5'b0, state };
 
 endmodule
