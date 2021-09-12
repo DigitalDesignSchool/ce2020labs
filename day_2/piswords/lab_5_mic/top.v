@@ -1,10 +1,6 @@
 `include "config.vh"
 
 // `define USE_STANDARD_FREQUENCIES
-// `define USE_ONE_COMPARISON
-`define OCTAVE_4
-`define OCTAVE_5
-`define OCTAVE_6
 
 module top
 # (
@@ -15,7 +11,7 @@ module top
     input             clk,
     input      [ 3:0] key,
     input      [ 3:0] sw,
-    output     [ 7:0] led,
+    output reg [ 7:0] led,
 
     output reg [ 7:0] abcdefgh,
     output reg [ 7:0] digit,
@@ -109,7 +105,6 @@ module top
                freq_100_A  = 44000,
                freq_100_As = 46616,
                freq_100_B  = 49388;
-
     `else
 
     // Custom measured frequencies
@@ -126,7 +121,6 @@ module top
                freq_100_A  = 44000,
                freq_100_As = 46616,
                freq_100_B  = 49388;
-
     `endif
 
     //------------------------------------------------------------------------
@@ -145,46 +139,17 @@ module top
 
     function [19:0] check_freq_single_range (input [18:0] freq_100);
 
-       check_freq_single_range =
-
-       `ifdef USE_ONE_COMPARISON
-             distance < high_distance (freq_100);
-       `else
-             distance > low_distance  (freq_100)
-           & distance < high_distance (freq_100);
-       `endif
-
+       check_freq_single_range =    distance > low_distance  (freq_100)
+                                  & distance < high_distance (freq_100);
     endfunction
 
     //------------------------------------------------------------------------
 
     function [19:0] check_freq (input [18:0] freq_100);
 
-       check_freq =
-
-       `ifdef USE_ONE_COMPARISON
-           `ifdef OCTAVE_6
-               check_freq_single_range (freq_100 * 4);
-           `elsif OCTAVE_5
-               check_freq_single_range (freq_100 * 2)
-           `else
-               check_freq_single_range (freq_100);
-           `endif
-       `else
-                 20'd0
-           `ifdef OCTAVE_6
-               | check_freq_single_range (freq_100 * 4)
-           `endif
-
-           `ifdef OCTAVE_5
-               | check_freq_single_range (freq_100 * 2)
-           `endif
-
-           `ifdef OCTAVE_4
-               | check_freq_single_range (freq_100)
-           `endif
-                 ;
-       `endif
+       check_freq =   check_freq_single_range (freq_100 * 4)
+                    | check_freq_single_range (freq_100 * 2)
+                    | check_freq_single_range (freq_100);
 
     endfunction
 
@@ -203,39 +168,17 @@ module top
     wire check_As = check_freq (freq_100_As);
     wire check_B  = check_freq (freq_100_B );
 
-    `ifdef USE_ONE_COMPARISON
-    wire check_Ch = check_freq (freq_100_C * 2);
-    `endif
-
     //------------------------------------------------------------------------
-
-    `ifdef USE_ONE_COMPARISON
-
-    localparam w_note = 13;
-
-    localparam [w_note - 1:0] C  = 13'b1000_0000_0000_0,
-                              Cs = 13'b1100_0000_0000_0,
-                              D  = 13'b1110_0000_0000_0,
-                              Ds = 13'b1111_0000_0000_0,
-                              E  = 13'b1111_1000_0000_0,
-                              F  = 13'b1111_1100_0000_0,
-                              Fs = 13'b1111_1110_0000_0,
-                              G  = 13'b1111_1111_0000_0,
-                              Gs = 13'b1111_1111_1000_0,
-                              A  = 13'b1111_1111_1100_0,
-                              As = 13'b1111_1111_1110_0,
-                              B  = 13'b1111_1111_1111_0;
-
-    wire [w_note - 1:0] note = { check_C  , check_Cs , check_D  , check_Ds ,
-                                 check_E  , check_F  , check_Fs , check_G  ,
-                                 check_Gs , check_A  , check_As , check_B  ,
-                                 check_Ch };
-
-    `else  // ! ifdef USE_ONE_COMPARISON
 
     localparam w_note = 12;
 
-    localparam [w_note - 1:0] C  = 12'b1000_0000_0000,
+    wire [w_note - 1:0] note = { check_C  , check_Cs , check_D  , check_Ds ,
+                                 check_E  , check_F  , check_Fs , check_G  ,
+                                 check_Gs , check_A  , check_As , check_B  };
+
+    localparam [w_note - 1:0] no_note = 12'b0,
+
+                              C  = 12'b1000_0000_0000,
                               Cs = 12'b0100_0000_0000,
                               D  = 12'b0010_0000_0000,
                               Ds = 12'b0001_0000_0000,
@@ -248,20 +191,7 @@ module top
                               As = 12'b0000_0000_0010,
                               B  = 12'b0000_0000_0001;
 
-    wire [w_note - 1:0] note = { check_C  , check_Cs , check_D  , check_Ds ,
-                                 check_E  , check_F  , check_Fs , check_G  ,
-                                 check_Gs , check_A  , check_As , check_B  };
-    `endif
-
-    //------------------------------------------------------------------------
-
-    localparam no_note = { w_note { 1'b0 } };
-
-    localparam [w_note - 1:0] Db = Cs,
-                              Eb = Ds,
-                              Gb = Fs,
-                              Ab = Gs,
-                              Bb = As;
+    localparam [w_note - 1:0] Db = Cs, Eb = Ds, Gb = Fs, Ab = Gs, Bb = As;
 
     //------------------------------------------------------------------------
     //
@@ -303,59 +233,172 @@ module top
     //------------------------------------------------------------------------
 
     localparam w_state = 4;  // Let's keep to 16 states
+    localparam n_fsms  = 7;
+
     localparam [3:0] recognized = 4'hf;
 
-    reg [w_state - 1:0] state1, state2, state3;
+    reg [w_state - 1:0] states [0:n_fsms - 1];
 
     //------------------------------------------------------------------------
 
-    // The story of love, part 1
+    // The story of love
 
     always @ (posedge clk or posedge reset)
         if (reset)
-            state1 <= 0;
+            states [0] <= 0;
         else
-            case (state1)
-            0: if ( t_note == Bb ) state1 <= 1;
-            1: if ( t_note == D  ) state1 <= 2;
-            2: if ( t_note == Bb ) state1 <= 3;
-            3: if ( t_note == D  ) state1 <= 4;
-            4: if ( t_note == Eb ) state1 <= 5;
-            5: if ( t_note == D  ) state1 <= 6;
-            6: if ( t_note == C  ) state1 <= 7;
-            7: if ( t_note == A  ) state1 <= recognized;
-            endcase
-
-    // The story of love, part 2
-
-    always @ (posedge clk or posedge reset)
-        if (reset)
-            state2 <= 0;
-        else
-            case (state2)
-            0: if ( t_note == C  ) state2 <= 1;
-            1: if ( t_note == A  ) state2 <= 2;
-            2: if ( t_note == C  ) state2 <= 3;
-            3: if ( t_note == D  ) state2 <= 4;
-            4: if ( t_note == C  ) state2 <= 5;
-            5: if ( t_note == Bb ) state2 <= 6;
-            6: if ( t_note == G  ) state2 <= recognized;
+            case (states [0])
+             0: if ( t_note == Bb ) states [0] <=  1;
+             1: if ( t_note == D  ) states [0] <=  2;
+             2: if ( t_note == Bb ) states [0] <=  3;
+             3: if ( t_note == D  ) states [0] <=  4;
+             4: if ( t_note == Eb ) states [0] <=  5;
+             5: if ( t_note == D  ) states [0] <=  6;
+             6: if ( t_note == C  ) states [0] <=  7;
+             7: if ( t_note == A  ) states [0] <=  8;
+             8: if ( t_note == C  ) states [0] <=  9;
+             9: if ( t_note == A  ) states [0] <= 10;
+            10: if ( t_note == C  ) states [0] <= 11;
+            11: if ( t_note == D  ) states [0] <= 12;
+            12: if ( t_note == C  ) states [0] <= 13;
+            13: if ( t_note == Bb ) states [0] <= 14;
+            14: if ( t_note == G  ) states [0] <= recognized;
             endcase
 
     // Godfather
 
     always @ (posedge clk or posedge reset)
         if (reset)
-            state3 <= 0;
+            states [1] <= 0;
         else
-            case (state3)
-            0: if ( t_note == G  ) state3 <= 1;
-            1: if ( t_note == C  ) state3 <= 2;
-            2: if ( t_note == Eb ) state3 <= 3;
-            3: if ( t_note == D  ) state3 <= 4;
-            4: if ( t_note == C  ) state3 <= 5;
-            5: if ( t_note == Eb ) state3 <= 6;
-            6: if ( t_note == C  ) state3 <= recognized;
+            case (states [1])
+            0: if ( t_note == G  ) states [1] <= 1;
+            1: if ( t_note == C  ) states [1] <= 2;
+            2: if ( t_note == Eb ) states [1] <= 3;
+            3: if ( t_note == D  ) states [1] <= 4;
+            4: if ( t_note == C  ) states [1] <= 5;
+            5: if ( t_note == Eb ) states [1] <= 6;
+            6: if ( t_note == C  ) states [1] <= recognized;
+            endcase
+
+    // The story of love
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            states [2] <= 0;
+        else
+            case (states [2])
+             0: if ( t_note == Bb ) states [2] <=  1;
+             1: if ( t_note == D  ) states [2] <=  2;
+             2: if ( t_note == Bb ) states [2] <=  3;
+             3: if ( t_note == D  ) states [2] <=  4;
+             4: if ( t_note == Eb ) states [2] <=  5;
+             5: if ( t_note == D  ) states [2] <=  6;
+             6: if ( t_note == C  ) states [2] <=  7;
+             7: if ( t_note == A  ) states [2] <=  8;
+             8: if ( t_note == C  ) states [2] <=  9;
+             9: if ( t_note == A  ) states [2] <= 10;
+            10: if ( t_note == C  ) states [2] <= 11;
+            11: if ( t_note == D  ) states [2] <= 12;
+            12: if ( t_note == C  ) states [2] <= 13;
+            13: if ( t_note == Bb ) states [2] <= 14;
+            14: if ( t_note == G  ) states [2] <= recognized;
+            endcase
+
+    // The story of love
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            states [3] <= 0;
+        else
+            case (states [3])
+             0: if ( t_note == Bb ) states [3] <=  1;
+             1: if ( t_note == D  ) states [3] <=  2;
+             2: if ( t_note == Bb ) states [3] <=  3;
+             3: if ( t_note == D  ) states [3] <=  4;
+             4: if ( t_note == Eb ) states [3] <=  5;
+             5: if ( t_note == D  ) states [3] <=  6;
+             6: if ( t_note == C  ) states [3] <=  7;
+             7: if ( t_note == A  ) states [3] <=  8;
+             8: if ( t_note == C  ) states [3] <=  9;
+             9: if ( t_note == A  ) states [3] <= 10;
+            10: if ( t_note == C  ) states [3] <= 11;
+            11: if ( t_note == D  ) states [3] <= 12;
+            12: if ( t_note == C  ) states [3] <= 13;
+            13: if ( t_note == Bb ) states [3] <= 14;
+            14: if ( t_note == G  ) states [3] <= recognized;
+            endcase
+
+    // The story of love
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            states [4] <= 0;
+        else
+            case (states [4])
+             0: if ( t_note == Bb ) states [4] <=  1;
+             1: if ( t_note == D  ) states [4] <=  2;
+             2: if ( t_note == Bb ) states [4] <=  3;
+             3: if ( t_note == D  ) states [4] <=  4;
+             4: if ( t_note == Eb ) states [4] <=  5;
+             5: if ( t_note == D  ) states [4] <=  6;
+             6: if ( t_note == C  ) states [4] <=  7;
+             7: if ( t_note == A  ) states [4] <=  8;
+             8: if ( t_note == C  ) states [4] <=  9;
+             9: if ( t_note == A  ) states [4] <= 10;
+            10: if ( t_note == C  ) states [4] <= 11;
+            11: if ( t_note == D  ) states [4] <= 12;
+            12: if ( t_note == C  ) states [4] <= 13;
+            13: if ( t_note == Bb ) states [4] <= 14;
+            14: if ( t_note == G  ) states [4] <= recognized;
+            endcase
+
+    // The story of love
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            states [5] <= 0;
+        else
+            case (states [5])
+             0: if ( t_note == Bb ) states [5] <=  1;
+             1: if ( t_note == D  ) states [5] <=  2;
+             2: if ( t_note == Bb ) states [5] <=  3;
+             3: if ( t_note == D  ) states [5] <=  4;
+             4: if ( t_note == Eb ) states [5] <=  5;
+             5: if ( t_note == D  ) states [5] <=  6;
+             6: if ( t_note == C  ) states [5] <=  7;
+             7: if ( t_note == A  ) states [5] <=  8;
+             8: if ( t_note == C  ) states [5] <=  9;
+             9: if ( t_note == A  ) states [5] <= 10;
+            10: if ( t_note == C  ) states [5] <= 11;
+            11: if ( t_note == D  ) states [5] <= 12;
+            12: if ( t_note == C  ) states [5] <= 13;
+            13: if ( t_note == Bb ) states [5] <= 14;
+            14: if ( t_note == G  ) states [5] <= recognized;
+            endcase
+
+    // The story of love
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            states [6] <= 0;
+        else
+            case (states [6])
+             0: if ( t_note == Bb ) states [6] <=  1;
+             1: if ( t_note == D  ) states [6] <=  2;
+             2: if ( t_note == Bb ) states [6] <=  3;
+             3: if ( t_note == D  ) states [6] <=  4;
+             4: if ( t_note == Eb ) states [6] <=  5;
+             5: if ( t_note == D  ) states [6] <=  6;
+             6: if ( t_note == C  ) states [6] <=  7;
+             7: if ( t_note == A  ) states [6] <=  8;
+             8: if ( t_note == C  ) states [6] <=  9;
+             9: if ( t_note == A  ) states [6] <= 10;
+            10: if ( t_note == C  ) states [6] <= 11;
+            11: if ( t_note == D  ) states [6] <= 12;
+            12: if ( t_note == C  ) states [6] <= 13;
+            13: if ( t_note == Bb ) states [6] <= 14;
+            14: if ( t_note == G  ) states [6] <= recognized;
             endcase
 
     //------------------------------------------------------------------------
@@ -376,13 +419,20 @@ module top
 
     //------------------------------------------------------------------------
 
-    wire [7:0] new_digit = { digit [0], digit [7:1] };
+    reg  [2:0] i_digit_r;
+    wire [2:0] i_digit = i_digit_r + 3'd1;
 
     always @ (posedge clk or posedge reset)
         if (reset)
-            digit <= 8'b11111110;
+        begin
+            i_digit_r <= 3'd0;
+            digit     <= 8'b0;
+        end
         else if (digit_enable)
-            digit <= new_digit;
+        begin
+            i_digit_r <= i_digit;
+            digit     <= ~ (8'b00000001 << i_digit);
+        end
 
     //------------------------------------------------------------------------
     //
@@ -397,7 +447,7 @@ module top
         end
         else if (digit_enable)
         begin
-            if (~ new_digit [3])
+            if (i_digit == 3'd7)
                 case (t_note)
                 C  : abcdefgh <= 8'b01100011;  // C   // abcdefgh
                 Cs : abcdefgh <= 8'b01100010;  // C#
@@ -413,8 +463,8 @@ module top
                 B  : abcdefgh <= 8'b11000001;  // B
                 default: ;  // No assignment
                 endcase
-            else if (new_digit [2:0] != 3'b111)
-                case (~ new_digit [2] ? state1 : ~ new_digit [1] ? state2 : state3)
+            else if (i_digit < n_fsms)
+                case (states [n_fsms - 1 - i_digit])
                 4'h0: abcdefgh <= 8'b00000011;
                 4'h1: abcdefgh <= 8'b10011111;
                 4'h2: abcdefgh <= 8'b00100101;
@@ -443,6 +493,20 @@ module top
     //
     //------------------------------------------------------------------------
 
-    assign led = ~ { 2'b0, state1, state2 };
+    reg [7:0] new_led;
+    integer i;
+
+    always @*
+    begin
+        new_led [7:1] = 7'b0;
+
+        for (i = 0; i < n_fsms; i = i + 1)
+            new_led [7 - i] = (states [i] == recognized);
+
+        new_led [0] = & new_led [7:1];  // All recognized
+    end
+
+    always @ (posedge clk)
+        led <= new_led;
 
 endmodule
