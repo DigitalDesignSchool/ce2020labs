@@ -191,7 +191,7 @@ module top
                               As = 12'b0000_0000_0010,
                               B  = 12'b0000_0000_0001;
 
-    localparam [w_note - 1:0] Db = Cs, Eb = Ds, Gb = Fs, Ab = Gs, Bb = As;
+    localparam [w_note - 1:0] Df = Cs, Ef = Ds, Gf = Fs, Af = Gs, Bf = As;
 
     //------------------------------------------------------------------------
     //
@@ -241,18 +241,18 @@ module top
 
     //------------------------------------------------------------------------
 
-    // The story of love
+    // No 5. The story of love
 
     always @ (posedge clk or posedge reset)
         if (reset)
             states [0] <= 0;
         else
             case (states [0])
-             0: if ( t_note == Bb ) states [0] <=  1;
+             0: if ( t_note == Bf ) states [0] <=  1;
              1: if ( t_note == D  ) states [0] <=  2;
-             2: if ( t_note == Bb ) states [0] <=  3;
+             2: if ( t_note == Bf ) states [0] <=  3;
              3: if ( t_note == D  ) states [0] <=  4;
-             4: if ( t_note == Eb ) states [0] <=  5;
+             4: if ( t_note == Ef ) states [0] <=  5;
              5: if ( t_note == D  ) states [0] <=  6;
              6: if ( t_note == C  ) states [0] <=  7;
              7: if ( t_note == A  ) states [0] <=  8;
@@ -261,144 +261,152 @@ module top
             10: if ( t_note == C  ) states [0] <= 11;
             11: if ( t_note == D  ) states [0] <= 12;
             12: if ( t_note == C  ) states [0] <= 13;
-            13: if ( t_note == Bb ) states [0] <= 14;
+            13: if ( t_note == Bf ) states [0] <= 14;
             14: if ( t_note == G  ) states [0] <= recognized;
             endcase
 
-    // Godfather
+    // No 8. Godfather
 
     always @ (posedge clk or posedge reset)
         if (reset)
             states [1] <= 0;
         else
             case (states [1])
-            0: if ( t_note == G  ) states [1] <= 1;
-            1: if ( t_note == C  ) states [1] <= 2;
-            2: if ( t_note == Eb ) states [1] <= 3;
-            3: if ( t_note == D  ) states [1] <= 4;
-            4: if ( t_note == C  ) states [1] <= 5;
-            5: if ( t_note == Eb ) states [1] <= 6;
-            6: if ( t_note == C  ) states [1] <= recognized;
+             0: if ( t_note == G  ) states [1] <=  1;
+             1: if ( t_note == C  ) states [1] <=  2;
+             2: if ( t_note == Ef ) states [1] <=  3;
+             3: if ( t_note == D  ) states [1] <=  4;
+             4: if ( t_note == C  ) states [1] <=  5;
+             5: if ( t_note == Ef ) states [1] <=  6;
+             6: if ( t_note == C  ) states [1] <=  7;
+             7: if ( t_note == D  ) states [1] <=  8;
+             8: if ( t_note == C  ) states [1] <=  9;
+             9: if ( t_note == Af ) states [1] <= 10;
+            10: if ( t_note == Bf ) states [1] <= 11;
+            11: if ( t_note == G  ) states [1] <= 12;
+            12: if ( t_note == C  ) states [1] <= 13;
+            13: if ( t_note == Ef ) states [1] <= 14;
+            14: if ( t_note == D  ) states [1] <= recognized;
             endcase
 
-    // The story of love
+    // 11. A Cheerful Beetle
 
     always @ (posedge clk or posedge reset)
         if (reset)
             states [2] <= 0;
         else
             case (states [2])
-             0: if ( t_note == Bb ) states [2] <=  1;
-             1: if ( t_note == D  ) states [2] <=  2;
-             2: if ( t_note == Bb ) states [2] <=  3;
-             3: if ( t_note == D  ) states [2] <=  4;
-             4: if ( t_note == Eb ) states [2] <=  5;
-             5: if ( t_note == D  ) states [2] <=  6;
-             6: if ( t_note == C  ) states [2] <=  7;
-             7: if ( t_note == A  ) states [2] <=  8;
-             8: if ( t_note == C  ) states [2] <=  9;
-             9: if ( t_note == A  ) states [2] <= 10;
-            10: if ( t_note == C  ) states [2] <= 11;
-            11: if ( t_note == D  ) states [2] <= 12;
-            12: if ( t_note == C  ) states [2] <= 13;
-            13: if ( t_note == Bb ) states [2] <= 14;
+             0: if ( t_note == E  ) states [2] <=  1;
+             1: if ( t_note == G  ) states [2] <=  2;
+             2: if ( t_note == E  ) states [2] <=  3;
+             3: if ( t_note == F  ) states [2] <=  4;
+             4: if ( t_note == G  ) states [2] <=  5;
+             5: if ( t_note == F  ) states [2] <=  6;
+             6: if ( t_note == A  ) states [2] <=  7;
+             7: if ( t_note == G  ) states [2] <=  8;
+             8: if ( t_note == E  ) states [2] <=  9;
+             9: if ( t_note == C  ) states [2] <= 10;
+            10: if ( t_note == E  ) states [2] <= 11;
+            11: if ( t_note == G  ) states [2] <= 12;
+            12: if ( t_note == E  ) states [2] <= 13;
+            13: if ( t_note == F  ) states [2] <= 14;
             14: if ( t_note == G  ) states [2] <= recognized;
             endcase
 
-    // The story of love
+    // 13. V.Kosma. A music from The Toy movie
 
     always @ (posedge clk or posedge reset)
         if (reset)
             states [3] <= 0;
         else
             case (states [3])
-             0: if ( t_note == Bb ) states [3] <=  1;
-             1: if ( t_note == D  ) states [3] <=  2;
-             2: if ( t_note == Bb ) states [3] <=  3;
-             3: if ( t_note == D  ) states [3] <=  4;
-             4: if ( t_note == Eb ) states [3] <=  5;
+             0: if ( t_note == D  ) states [3] <=  1;
+             1: if ( t_note == Bf ) states [3] <=  2;
+             2: if ( t_note == Fs ) states [3] <=  3;
+             3: if ( t_note == A  ) states [3] <=  4;
+             4: if ( t_note == G  ) states [3] <=  5;
              5: if ( t_note == D  ) states [3] <=  6;
-             6: if ( t_note == C  ) states [3] <=  7;
-             7: if ( t_note == A  ) states [3] <=  8;
-             8: if ( t_note == C  ) states [3] <=  9;
-             9: if ( t_note == A  ) states [3] <= 10;
+             6: if ( t_note == G  ) states [3] <=  7;
+             7: if ( t_note == F  ) states [3] <=  8;
+             8: if ( t_note == F  ) states [3] <=  9;
+             9: if ( t_note == Ef ) states [3] <= 10;
             10: if ( t_note == C  ) states [3] <= 11;
-            11: if ( t_note == D  ) states [3] <= 12;
-            12: if ( t_note == C  ) states [3] <= 13;
-            13: if ( t_note == Bb ) states [3] <= 14;
-            14: if ( t_note == G  ) states [3] <= recognized;
+            11: if ( t_note == A  ) states [3] <= 12;
+            12: if ( t_note == G  ) states [3] <= 13;
+            13: if ( t_note == G  ) states [3] <= 14;
+            14: if ( t_note == Fs ) states [3] <= recognized;
             endcase
 
-    // The story of love
+    // 16.I Just Called To Say I Love You
 
     always @ (posedge clk or posedge reset)
         if (reset)
             states [4] <= 0;
         else
             case (states [4])
-             0: if ( t_note == Bb ) states [4] <=  1;
-             1: if ( t_note == D  ) states [4] <=  2;
-             2: if ( t_note == Bb ) states [4] <=  3;
-             3: if ( t_note == D  ) states [4] <=  4;
-             4: if ( t_note == Eb ) states [4] <=  5;
-             5: if ( t_note == D  ) states [4] <=  6;
-             6: if ( t_note == C  ) states [4] <=  7;
-             7: if ( t_note == A  ) states [4] <=  8;
+             0: if ( t_note == G  ) states [4] <=  1;
+             1: if ( t_note == B  ) states [4] <=  2;
+             2: if ( t_note == C  ) states [4] <=  3;
+             3: if ( t_note == G  ) states [4] <=  4;
+             4: if ( t_note == B  ) states [4] <=  5;
+             5: if ( t_note == C  ) states [4] <=  6;
+             6: if ( t_note == G  ) states [4] <=  7;
+             7: if ( t_note == B  ) states [4] <=  8;
              8: if ( t_note == C  ) states [4] <=  9;
-             9: if ( t_note == A  ) states [4] <= 10;
-            10: if ( t_note == C  ) states [4] <= 11;
-            11: if ( t_note == D  ) states [4] <= 12;
-            12: if ( t_note == C  ) states [4] <= 13;
-            13: if ( t_note == Bb ) states [4] <= 14;
-            14: if ( t_note == G  ) states [4] <= recognized;
+             9: if ( t_note == B  ) states [4] <= 10;
+            10: if ( t_note == D  ) states [4] <= 11;
+            11: if ( t_note == E  ) states [4] <= 12;
+            12: if ( t_note == D  ) states [4] <= 13;
+            13: if ( t_note == C  ) states [4] <= 14;
+            14: if ( t_note == B  ) states [4] <= recognized;
             endcase
 
-    // The story of love
+    // 3. Yesterday by Beatles
 
     always @ (posedge clk or posedge reset)
         if (reset)
             states [5] <= 0;
         else
             case (states [5])
-             0: if ( t_note == Bb ) states [5] <=  1;
-             1: if ( t_note == D  ) states [5] <=  2;
-             2: if ( t_note == Bb ) states [5] <=  3;
-             3: if ( t_note == D  ) states [5] <=  4;
-             4: if ( t_note == Eb ) states [5] <=  5;
+             0: if ( t_note == G  ) states [5] <=  1;
+             1: if ( t_note == F  ) states [5] <=  2;
+             2: if ( t_note == A  ) states [5] <=  3;
+             3: if ( t_note == B  ) states [5] <=  4;
+             4: if ( t_note == Cs ) states [5] <=  5;
              5: if ( t_note == D  ) states [5] <=  6;
-             6: if ( t_note == C  ) states [5] <=  7;
-             7: if ( t_note == A  ) states [5] <=  8;
-             8: if ( t_note == C  ) states [5] <=  9;
-             9: if ( t_note == A  ) states [5] <= 10;
+             6: if ( t_note == E  ) states [5] <=  7;
+             7: if ( t_note == F  ) states [5] <=  8;
+             8: if ( t_note == E  ) states [5] <=  9;
+             9: if ( t_note == D  ) states [5] <= 10;
             10: if ( t_note == C  ) states [5] <= 11;
-            11: if ( t_note == D  ) states [5] <= 12;
-            12: if ( t_note == C  ) states [5] <= 13;
-            13: if ( t_note == Bb ) states [5] <= 14;
-            14: if ( t_note == G  ) states [5] <= recognized;
+            11: if ( t_note == Bf ) states [5] <= 12;
+            12: if ( t_note == A  ) states [5] <= 13;
+            13: if ( t_note == G  ) states [5] <= 14;
+            14: if ( t_note == Bf ) states [5] <= recognized;
             endcase
 
-    // The story of love
+    // 9. Blue moon
 
     always @ (posedge clk or posedge reset)
         if (reset)
             states [6] <= 0;
         else
             case (states [6])
-             0: if ( t_note == Bb ) states [6] <=  1;
-             1: if ( t_note == D  ) states [6] <=  2;
-             2: if ( t_note == Bb ) states [6] <=  3;
-             3: if ( t_note == D  ) states [6] <=  4;
-             4: if ( t_note == Eb ) states [6] <=  5;
-             5: if ( t_note == D  ) states [6] <=  6;
-             6: if ( t_note == C  ) states [6] <=  7;
-             7: if ( t_note == A  ) states [6] <=  8;
-             8: if ( t_note == C  ) states [6] <=  9;
-             9: if ( t_note == A  ) states [6] <= 10;
-            10: if ( t_note == C  ) states [6] <= 11;
-            11: if ( t_note == D  ) states [6] <= 12;
-            12: if ( t_note == C  ) states [6] <= 13;
-            13: if ( t_note == Bb ) states [6] <= 14;
-            14: if ( t_note == G  ) states [6] <= recognized;
+             0: if ( t_note == Bf ) states [6] <=  1;
+             1: if ( t_note == Af ) states [6] <=  2;
+             2: if ( t_note == Bf ) states [6] <=  3;
+             3: if ( t_note == C  ) states [6] <=  4;
+             4: if ( t_note == Bf ) states [6] <=  5;
+             5: if ( t_note == Af ) states [6] <=  6;
+             6: if ( t_note == Bf ) states [6] <=  7;
+             7: if ( t_note == F  ) states [6] <=  8;
+             8: if ( t_note == G  ) states [6] <=  9;
+             9: if ( t_note == Af ) states [6] <= 10;
+            10: if ( t_note == G  ) states [6] <= 11;
+            11: if ( t_note == F  ) states [6] <= 12;
+            12: if ( t_note == G  ) states [6] <= 13;
+            13: if ( t_note == Ef ) states [6] <= 14;
+            14: if ( t_note == F  ) states [6] <= recognized;
             endcase
 
     //------------------------------------------------------------------------
