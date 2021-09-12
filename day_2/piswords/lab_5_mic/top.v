@@ -60,7 +60,7 @@ module top
     reg [19:0] counter;
     reg [19:0] distance;
 
-    localparam [15:0] threshold = 16'h1000;
+    localparam [15:0] threshold = 16'h1100;
 
     always @ (posedge clk or posedge reset)
         if (reset)
@@ -73,7 +73,7 @@ module top
         begin
             prev_value <= value;
 
-            if (  value      > threshold
+            if (  value      >= threshold
                 & prev_value < threshold)
             begin
                distance <= counter;
