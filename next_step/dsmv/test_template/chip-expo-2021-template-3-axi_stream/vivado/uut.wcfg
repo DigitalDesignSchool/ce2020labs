@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0 ps"></ZoomStartTime>
+      <ZoomEndTime time="10 ps"></ZoomEndTime>
+      <Cursor1Time time="0 ps"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="282"></NameColumnWidth>
+      <ValueColumnWidth column_width="90"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="10" />
+   <wvobject type="logic" fp_name="/tb/uut/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/reset_n">
+      <obj_property name="ElementShortName">reset_n</obj_property>
+      <obj_property name="ObjectShortName">reset_n</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/in_tdata">
+      <obj_property name="ElementShortName">in_tdata[79:0]</obj_property>
+      <obj_property name="ObjectShortName">in_tdata[79:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/in_tvalid">
+      <obj_property name="ElementShortName">in_tvalid</obj_property>
+      <obj_property name="ObjectShortName">in_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/in_tready">
+      <obj_property name="ElementShortName">in_tready</obj_property>
+      <obj_property name="ObjectShortName">in_tready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/out_tdata">
+      <obj_property name="ElementShortName">out_tdata[39:0]</obj_property>
+      <obj_property name="ObjectShortName">out_tdata[39:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/out_tvalid">
+      <obj_property name="ElementShortName">out_tvalid</obj_property>
+      <obj_property name="ObjectShortName">out_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/out_tready">
+      <obj_property name="ElementShortName">out_tready</obj_property>
+      <obj_property name="ObjectShortName">out_tready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/n">
+      <obj_property name="ElementShortName">n[31:0]</obj_property>
+      <obj_property name="ObjectShortName">n[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/nb">
+      <obj_property name="ElementShortName">nb[31:0]</obj_property>
+      <obj_property name="ObjectShortName">nb[31:0]</obj_property>
+   </wvobject>
+</wave_config>

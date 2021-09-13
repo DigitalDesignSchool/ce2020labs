@@ -1,0 +1,3 @@
+
+test_id=    0 test_name:          direct         TEST_PASSED
+test_id=    1 test_name:       randomize         TEST_PASSED

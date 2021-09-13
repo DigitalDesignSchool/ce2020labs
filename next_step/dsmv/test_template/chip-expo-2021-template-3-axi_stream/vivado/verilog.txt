@@ -1,0 +1,2 @@
+../src/design.sv
+../src/testbench.sv

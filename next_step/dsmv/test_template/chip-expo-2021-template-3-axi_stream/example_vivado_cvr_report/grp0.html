@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>Xcrg Coverage Report</title>
+    <link type="text/css" rel="stylesheet" href=".css/.grpheader.css">
+    <link type="text/css" rel="stylesheet" href=".css/.grptable.css">
+    <link type="text/css" rel="stylesheet" href=".css/.grplayout.css">
+    <link type="text/css" rel="stylesheet" href=".css/.tabs.css">
+    <link type="text/css" rel="stylesheet" href=".css/.collapse.css">
+    <link type="text/css" rel="stylesheet" href=".css/.colorbuttons.css">
+    <link type="text/css" rel="stylesheet" href=".css/.accordin.css">
+    <link type="text/css" rel="stylesheet" href=".css/.cptables.css">
+    <link type="text/css" rel="stylesheet" href=".css/.tooltips.css">
+    <link type="text/css" rel="stylesheet" href=".css/.checkboxes.css">
+    <link type="text/css" rel="stylesheet" href=".css/.bintables.css">
+    <link type="text/css" rel="stylesheet" href=".css/.crosstable.css">
+    <link type="text/css" rel="stylesheet" href=".css/.sorttablebuttons.css">
+    <link type="text/css" rel="stylesheet" href=".css/.grpdivs.css">
+
+</head>
+
+
+
+
+<body>
+
+    <div class="grpheader" id="grpheader">
+        <a class="logo">  </a>
+        <div class="grpheader-right">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="groups.html">Groups</a>
+        </div>
+    </div>
+
+<div class='row'>
+<div class='column left'  style='background-color:#fff;'>
+<div>
+<button class='collapsible' style='font-size:14px'  onclick="document.getElementById('acc_cvr').click();"> <b> Group - tb.uut.dut::cvr</b></button>
+<div class='contentdefaultopen'>
+<span style='font-size:12px'> Group Info : cvr</span>
+<br clear=all>
+<div class='groupInfoSummary'>
+<table align=left>
+<tr>
+<td nowrap width=65 bgcolor='#BCC6CC'>Score</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Num Insts</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Avg Insts Score</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Weight</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Goal</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Merge Insts</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Get Inst Crvg</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Per Inst</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Auto Bin Max</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Print Missing</td>
+<td nowrap width=80 bgcolor='#BCC6CC'>Comment</td>
+</tr>
+<tr>
+<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>100</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>64</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#FFFFFF'>Comment for the report: user_axis</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<span style='font-size:12px'>Source File(s) :  </span>
+<a style='font-size:12px;' target='_blank'; href="file:/xprj/chip/2021dev_current_dsmv/examples/test_template/chip-expo-2021-template-3-axi_stream/src/bind_user_axis.sv"> /xprj/chip/2021dev_current_dsmv/examples/test_template/chip-expo-2021-template-3-axi_stream/src/bind_user_axis.sv</a>
+<br clear=all>
+<br clear=all>
+<span style='font-size:12px'> Group Instance[s] Info : 1 (Total)</span>
+<br clear=all>
+<div class='groupInstanceInfoSummary'>
+<table align=left id='sortable0'> 
+<tr>
+<td nowrap width=80 bgcolor='#E5E4E2' onclick='sortTable(0,0)'>Name<button class='sortbutton2'>&#8645;</button></td>
+<td nowrap width=50 bgcolor='#E5E4E2' onclick='sortTable(0,1)'>Score<button class='sortbutton2'>&#8645;</button></td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Weight</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Goal</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>At Least</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Auto Bin Max</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Print Missing</td>
+<td nowrap width=65 bgcolor='#E5E4E2'>Comment</td>
+</tr>
+<tr>
+<td nowrap width=80 bgcolor='#FFFFFF'><button class='color1button' onclick="openInst(1); smoothScroll(document.getElementById('inst_tag_cg'));"> cg</button></td>
+<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>64</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#FFFFFF'>Comment for the report: user_axis</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+</div>    
+</div>    
+<div>
+<br clear=all>
+</div>
+<div>
+<button class='collapsible' style='font-size:14px; background-color:#E0FFFF;'  onclick="document.getElementById('acc_cg').click();"><b> Instance : cg</b></button>
+<div id='inst_tag_cg' class='content'>
+<span style='font-size:12px'> Instance Info : cg</span>
+<br clear=all>
+<div class='instanceInfoSummary'>
+<table align=left>
+<tr>
+<td nowrap width=65 bgcolor='#BCC6CC'>Score</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Weight</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Goal</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>At Least</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Auto Bin Max</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Print Missing</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Is Instantized</td>
+<td nowrap width=65 bgcolor='#BCC6CC'>Comment</td>
+</tr>
+<tr>
+<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>64</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>Comment for the report: user_axis</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<span style='font-size:12px'> Instance Variable[s] Summary : cg</span>
+<br clear=all>
+<br clear=all>
+<div class='instanceVariablesSummary'>
+<table align=left>
+<tr>
+<td nowrap width=50 bgcolor='#E5E4E2'>Cover Points</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Category</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Expected</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Uncovered</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Covered</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Avg Percent</td>
+</tr>
+<tr>
+<td bgcolor='#FFFFFF'>5</td>
+<td bgcolor='#FFFFFF'>Variables</td>
+<td bgcolor='#FFFFFF'>14</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>14</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+<tr>
+<td bgcolor='#FFFFFF'>2</td>
+<td bgcolor='#FFFFFF'>Crosses</td>
+<td bgcolor='#FFFFFF'>8</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>8</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<span style='font-size:12px'> Instance Cover Point[s] Details : cg </span>
+<br clear=all>
+<div class='instanceCoverPointDetails'>
+<table align=left id='sortable1'>
+<tr>
+<td nowrap width=80 bgcolor='#E5E4E2' onclick='sortTable(1,0)'>Name<button class='sortbutton2'>&#8645;</button></td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Expected</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Uncovered</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Covered</td>
+<td nowrap width=50 bgcolor='#E5E4E2' onclick='sortTable(1,4)'>Percent<button class='sortbutton2'>&#8645;</button></td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Goal</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Weight</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>At Least</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Auto Bin Max</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Comment</td>
+</tr>
+<tr>
+<td nowrap width='80' bgcolor='#FFFFFF'><button class='tooltip3' onclick="document.getElementById('cg_in_tvalid').click();"> in_tval ...<span class='tooltiptext3'>in_tvalid</span> </button></td>
+<td bgcolor='#FFFFFF'>2</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>64</td>
+<td bgcolor='#FFFFFF'></td>
+</tr>
+<tr>
+<td nowrap width='80' bgcolor='#FFFFFF'><button class='tooltip3' onclick="document.getElementById('cg_in_tready').click();"> in_trea ...<span class='tooltiptext3'>in_tready</span> </button></td>
+<td bgcolor='#FFFFFF'>2</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>64</td>
+<td bgcolor='#FFFFFF'></td>
+</tr>
+<tr>
+<td nowrap width='80' bgcolor='#FFFFFF'><button class='tooltip3' onclick="document.getElementById('cg_out_tvalid').click();"> out_tva ...<span class='tooltiptext3'>out_tvalid</span> </button></td>
+<td bgcolor='#FFFFFF'>2</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>64</td>
+<td bgcolor='#FFFFFF'></td>
+</tr>
+<tr>
+<td nowrap width='80' bgcolor='#FFFFFF'><button class='tooltip3' onclick="document.getElementById('cg_out_tready').click();"> out_tre ...<span class='tooltiptext3'>out_tready</span> </button></td>
+<td bgcolor='#FFFFFF'>2</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>64</td>
+<td bgcolor='#FFFFFF'></td>
+</tr>
+<tr>
+<td nowrap width='80' bgcolor='#FFFFFF'><button class='tooltip3' onclick="document.getElementById('cg_o_rdy_transitions').click();"> o_rdy_t ...<span class='tooltiptext3'>o_rdy_transitions</span> </button></td>
+<td bgcolor='#FFFFFF'>6</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>6</td>
+<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>64</td>
+<td bgcolor='#FFFFFF'></td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<span style='font-size:12px'> Instance Cross[es] Details : cg </span>
+<br clear=all>
+<div class='instanceCrossesDetails'>
+<table align=left id='sortable2'>
+<tr>
+<td nowrap width=80 bgcolor='#E5E4E2' onclick='sortTable(2,0)'>Name<button class='sortbutton2'>&#8645;</button></td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Expected</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Uncovered</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Covered</td>
+<td nowrap width=50 bgcolor='#E5E4E2' onclick='sortTable(2,4)'>Percent<button class='sortbutton2'>&#8645;</button></td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Goal</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Weight</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>At Least</td>
+<td nowrap width=50 bgcolor='#E5E4E2'>Comment</td>
+</tr>
+<tr>
+<td nowrap width='80' bgcolor='#FFFFFF'><button class='tooltip5' onclick="document.getElementById('cg_i_vld_rdy').click();"> i_vld_r ...<span class='tooltiptext5'>i_vld_rdy</span> </button></td>
+<td bgcolor='#FFFFFF'>4</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>4</td>
+<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'></td>
+</tr>
+<tr>
+<td nowrap width='80' bgcolor='#FFFFFF'><button class='tooltip5' onclick="document.getElementById('cg_o_vld_rdy').click();"> o_vld_r ...<span class='tooltiptext5'>o_vld_rdy</span> </button></td>
+<td bgcolor='#FFFFFF'>4</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>4</td>
+<td bgcolor='#98FF98'>100</td>
+<td bgcolor='#FFFFFF'>100</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'>1</td>
+<td bgcolor='#FFFFFF'></td>
+</tr>
+</table>
+</div>
+<br clear=all>
+</div>          
+<div><br clear=all></div>
+</div>
+</div>
+<div class='column middle'  style='background-color:#fff;'>
+<div>
+<div align='centre' style='background-color:#FFFFFF; left-margin:8px; border: 1px solid black;'>
+<div align='centre' style='background-color:#7DFDFE; text-align: center; padding:8px; font-size:14px; border-bottom: 1px solid black;'><b> Cover Points </b></div>
+<div style='overflow: auto;'> 
+<button class='accordion' id='acc_cg' style='background-color:#EFEFEF;'> <font size='1' color=#1569C7><b> Inst cg </b></font> </button>
+<div class='panel' style='margin-left:36px;'>
+<label class='container2'>in_tvalid
+<input type='checkbox' id='cg_in_tvalid' onclick="checkdisp('cg_in_tvalid', 'cg_in_tvalid_table');openCPTable('cg_in_tvalid_tablecontent');" > 
+<span class='checkmark2'></span>
+</label>
+<label class='container2'>in_tready
+<input type='checkbox' id='cg_in_tready' onclick="checkdisp('cg_in_tready', 'cg_in_tready_table');openCPTable('cg_in_tready_tablecontent');" > 
+<span class='checkmark2'></span>
+</label>
+<label class='container2'>out_tvalid
+<input type='checkbox' id='cg_out_tvalid' onclick="checkdisp('cg_out_tvalid', 'cg_out_tvalid_table');openCPTable('cg_out_tvalid_tablecontent');" > 
+<span class='checkmark2'></span>
+</label>
+<label class='container2'>out_tready
+<input type='checkbox' id='cg_out_tready' onclick="checkdisp('cg_out_tready', 'cg_out_tready_table');openCPTable('cg_out_tready_tablecontent');" > 
+<span class='checkmark2'></span>
+</label>
+<label class='container2'>o_rdy_transitions
+<input type='checkbox' id='cg_o_rdy_transitions' onclick="checkdisp('cg_o_rdy_transitions', 'cg_o_rdy_transitions_table');openCPTable('cg_o_rdy_transitions_tablecontent');" > 
+<span class='checkmark2'></span>
+</label>
+<label class='container3'>i_vld_rdy(cross)
+<input type='checkbox' id='cg_i_vld_rdy' onclick="checkdisp('cg_i_vld_rdy', 'cg_i_vld_rdy_table');openCPTable('cg_i_vld_rdy_tablecontent');" > 
+<span class='checkmark3'></span>
+</label>
+<label class='container3'>o_vld_rdy(cross)
+<input type='checkbox' id='cg_o_vld_rdy' onclick="checkdisp('cg_o_vld_rdy', 'cg_o_vld_rdy_table');openCPTable('cg_o_vld_rdy_tablecontent');" > 
+<span class='checkmark3'></span>
+</label>
+</div>
+<br clear=all>
+</div>
+</div>
+</div>
+</div>
+<div class='column right'  style='background-color:#fff;'>
+<div>
+<div id='cg_in_tvalid_table' style='display:none; font-size:12px;'>
+<button class='cptable' id='cg_in_tvalid_tablecontent'><b><font size='1' color='#1569C7'> Details of Instance Cover Point - cg :: in_tvalid</font></b></button>
+<div class='cpcontent'>
+<span style='font-size:12px'> Summary of Cover Point - in_tvalid</span>
+<br clear=all>
+<div class='cpsummarytable'><table align=left>
+<tr>
+<td nowrap width=80 bgcolor='#BCC6CC'>Category</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Expected</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Uncovered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Covered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Percent</td>
+</tr>
+<tr bgcolor='#FFFFFF'>
+<td nowrap width=80 style='font-size:10px'>User Defined Bins</td>
+<td>2</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<br clear=all>
+<span style='font-size:12px'>User Generated Bins for Instance Cover Point - cg :: in_tvalid</span>
+<br clear=all>
+<button class='bintable2'> Covered bins </button>
+<div class='bintablecontent2'>
+<table align=left id='sortable3'>
+<tr bgcolor='#E5E4E2'>
+<td nowrap width=50 onclick='sortTable(3,0)'> Name<button class=sortbutton2> &#8645;</button></td>
+<td nowrap width=50 onclick='sortTable(3,1)'> Hit Count<button class=sortbutton2> &#8645;</button></td>
+<td nowrap width=50>At least</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ivld</td>
+<td>977</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>no_ivld</td>
+<td>1005</td>
+<td>1</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+</div>
+<br clear=all>
+</div>      
+<div id='cg_in_tready_table' style='display:none; font-size:12px;'>
+<button class='cptable' id='cg_in_tready_tablecontent'><b><font size='1' color='#1569C7'> Details of Instance Cover Point - cg :: in_tready</font></b></button>
+<div class='cpcontent'>
+<span style='font-size:12px'> Summary of Cover Point - in_tready</span>
+<br clear=all>
+<div class='cpsummarytable'><table align=left>
+<tr>
+<td nowrap width=80 bgcolor='#BCC6CC'>Category</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Expected</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Uncovered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Covered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Percent</td>
+</tr>
+<tr bgcolor='#FFFFFF'>
+<td nowrap width=80 style='font-size:10px'>User Defined Bins</td>
+<td>2</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<br clear=all>
+<span style='font-size:12px'>User Generated Bins for Instance Cover Point - cg :: in_tready</span>
+<br clear=all>
+<button class='bintable2'> Covered bins </button>
+<div class='bintablecontent2'>
+<table align=left id='sortable4'>
+<tr bgcolor='#E5E4E2'>
+<td nowrap width=50 onclick='sortTable(4,0)'> Name<button class=sortbutton2> &#8645;</button></td>
+<td nowrap width=50 onclick='sortTable(4,1)'> Hit Count<button class=sortbutton2> &#8645;</button></td>
+<td nowrap width=50>At least</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>irdy</td>
+<td>1273</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>no_irdy</td>
+<td>709</td>
+<td>1</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+</div>
+<br clear=all>
+</div>      
+<div id='cg_out_tvalid_table' style='display:none; font-size:12px;'>
+<button class='cptable' id='cg_out_tvalid_tablecontent'><b><font size='1' color='#1569C7'> Details of Instance Cover Point - cg :: out_tvalid</font></b></button>
+<div class='cpcontent'>
+<span style='font-size:12px'> Summary of Cover Point - out_tvalid</span>
+<br clear=all>
+<div class='cpsummarytable'><table align=left>
+<tr>
+<td nowrap width=80 bgcolor='#BCC6CC'>Category</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Expected</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Uncovered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Covered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Percent</td>
+</tr>
+<tr bgcolor='#FFFFFF'>
+<td nowrap width=80 style='font-size:10px'>User Defined Bins</td>
+<td>2</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<br clear=all>
+<span style='font-size:12px'>User Generated Bins for Instance Cover Point - cg :: out_tvalid</span>
+<br clear=all>
+<button class='bintable2'> Covered bins </button>
+<div class='bintablecontent2'>
+<table align=left id='sortable5'>
+<tr bgcolor='#E5E4E2'>
+<td nowrap width=50 onclick='sortTable(5,0)'> Name<button class=sortbutton2> &#8645;</button></td>
+<td nowrap width=50 onclick='sortTable(5,1)'> Hit Count<button class=sortbutton2> &#8645;</button></td>
+<td nowrap width=50>At least</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ovld</td>
+<td>977</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>no_ovld</td>
+<td>1005</td>
+<td>1</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+</div>
+<br clear=all>
+</div>      
+<div id='cg_out_tready_table' style='display:none; font-size:12px;'>
+<button class='cptable' id='cg_out_tready_tablecontent'><b><font size='1' color='#1569C7'> Details of Instance Cover Point - cg :: out_tready</font></b></button>
+<div class='cpcontent'>
+<span style='font-size:12px'> Summary of Cover Point - out_tready</span>
+<br clear=all>
+<div class='cpsummarytable'><table align=left>
+<tr>
+<td nowrap width=80 bgcolor='#BCC6CC'>Category</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Expected</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Uncovered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Covered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Percent</td>
+</tr>
+<tr bgcolor='#FFFFFF'>
+<td nowrap width=80 style='font-size:10px'>User Defined Bins</td>
+<td>2</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>2</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<br clear=all>
+<span style='font-size:12px'>User Generated Bins for Instance Cover Point - cg :: out_tready</span>
+<br clear=all>
+<button class='bintable2'> Covered bins </button>
+<div class='bintablecontent2'>
+<table align=left id='sortable6'>
+<tr bgcolor='#E5E4E2'>
+<td nowrap width=50 onclick='sortTable(6,0)'> Name<button class=sortbutton2> &#8645;</button></td>
+<td nowrap width=50 onclick='sortTable(6,1)'> Hit Count<button class=sortbutton2> &#8645;</button></td>
+<td nowrap width=50>At least</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ordy</td>
+<td>1273</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>no_ordy</td>
+<td>709</td>
+<td>1</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+</div>
+<br clear=all>
+</div>      
+<div id='cg_o_rdy_transitions_table' style='display:none; font-size:12px;'>
+<button class='cptable' id='cg_o_rdy_transitions_tablecontent'><b><font size='1' color='#1569C7'> Details of Instance Cover Point - cg :: o_rdy_transitions</font></b></button>
+<div class='cpcontent'>
+<span style='font-size:12px'> Summary of Cover Point - o_rdy_transitions</span>
+<br clear=all>
+<div class='cpsummarytable'><table align=left>
+<tr>
+<td nowrap width=80 bgcolor='#BCC6CC'>Category</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Expected</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Uncovered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Covered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Percent</td>
+</tr>
+<tr bgcolor='#FFFFFF'>
+<td nowrap width=80 style='font-size:10px'>User Defined Bins</td>
+<td>6</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>6</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<br clear=all>
+<span style='font-size:12px'>User Generated Bins for Instance Cover Point - cg :: o_rdy_transitions</span>
+<br clear=all>
+<button class='bintable2'> Covered bins </button>
+<div class='bintablecontent2'>
+<table align=left id='sortable7'>
+<tr bgcolor='#E5E4E2'>
+<td nowrap width=50 onclick='sortTable(7,0)'> Name<button class=sortbutton2> &#8645;</button></td>
+<td nowrap width=50 onclick='sortTable(7,1)'> Hit Count<button class=sortbutton2> &#8645;</button></td>
+<td nowrap width=50>At least</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ordy_010</td>
+<td>30</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ordy_101</td>
+<td>47</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ordy_1001</td>
+<td>34</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ordy_101_or_1001</td>
+<td>81</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ordy_10001</td>
+<td>47</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ordy_1_from_3_5_0_1</td>
+<td>99</td>
+<td>1</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+</div>
+<br clear=all>
+</div>      
+<div id='cg_i_vld_rdy_table' style='display:none; font-size:12px;'>
+<button class='cptable' id='cg_i_vld_rdy_tablecontent'><b><font size='1' color='#ffb566'> Details of Instance Cross Point - cg :: i_vld_rdy</font></b></button>
+<div class='cpcontent'>
+<span style='font-size:12px'> Samples Crossed : i_vld_rdy</span>
+<br clear=all>
+<br clear=all>
+<span style='font-size:12px'> Summary of Cross Point - i_vld_rdy</span>
+<br clear=all>
+<div class='cpsummarytable'><table align=left>
+<tr>
+<td nowrap width=80 bgcolor='#BCC6CC'>Category</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Expected</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Uncovered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Covered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Percent</td>
+</tr>
+<tr>
+<td nowrap width=80 style='font-size:10px'> Total </td>
+<td>4</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>4</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+<tr bgcolor='#FFFFFF'>
+<td nowrap width=90 style='font-size:10px'>Auto Generated Bins</td>
+<td>4</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>4</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<span style='font-size:12px'>Automatically Generated Bins for Group Cross Point - cg :: i_vld_rdy</span>
+<br clear=all>
+<button class='bintable2'> Covered bins </button>
+<div class='bintablecontent2'>
+<table class='crosstable' align=left>
+<tr bgcolor='#E5E4E2'>
+<td nowrap width=50>in_tvalid</td>
+<td nowrap width=50>in_tready</td>
+<td nowrap width=50>Hit Count</td>
+<td nowrap width=50>At least</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ivld</td>
+<td>irdy</td>
+<td>505</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ivld</td>
+<td>no_irdy</td>
+<td>472</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>no_ivld</td>
+<td>irdy</td>
+<td>768</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>no_ivld</td>
+<td>no_irdy</td>
+<td>237</td>
+<td>1</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+</div>
+<br clear=all>
+</div>      
+<div id='cg_o_vld_rdy_table' style='display:none; font-size:12px;'>
+<button class='cptable' id='cg_o_vld_rdy_tablecontent'><b><font size='1' color='#ffb566'> Details of Instance Cross Point - cg :: o_vld_rdy</font></b></button>
+<div class='cpcontent'>
+<span style='font-size:12px'> Samples Crossed : o_vld_rdy</span>
+<br clear=all>
+<br clear=all>
+<span style='font-size:12px'> Summary of Cross Point - o_vld_rdy</span>
+<br clear=all>
+<div class='cpsummarytable'><table align=left>
+<tr>
+<td nowrap width=80 bgcolor='#BCC6CC'>Category</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Expected</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Uncovered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Covered</td>
+<td nowrap width=50 bgcolor='#BCC6CC'>Percent</td>
+</tr>
+<tr>
+<td nowrap width=80 style='font-size:10px'> Total </td>
+<td>4</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>4</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+<tr bgcolor='#FFFFFF'>
+<td nowrap width=90 style='font-size:10px'>Auto Generated Bins</td>
+<td>4</td>
+<td bgcolor='#FFFFFF'>0</td>
+<td bgcolor='#98FF98'>4</td>
+<td bgcolor='#98FF98'>100</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+<span style='font-size:12px'>Automatically Generated Bins for Group Cross Point - cg :: o_vld_rdy</span>
+<br clear=all>
+<button class='bintable2'> Covered bins </button>
+<div class='bintablecontent2'>
+<table class='crosstable' align=left>
+<tr bgcolor='#E5E4E2'>
+<td nowrap width=50>out_tvalid</td>
+<td nowrap width=50>out_tready</td>
+<td nowrap width=50>Hit Count</td>
+<td nowrap width=50>At least</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ovld</td>
+<td>ordy</td>
+<td>505</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>ovld</td>
+<td>no_ordy</td>
+<td>472</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>no_ovld</td>
+<td>ordy</td>
+<td>768</td>
+<td>1</td>
+</tr>
+<tr bgcolor='#98FF98'>
+<td>no_ovld</td>
+<td>no_ordy</td>
+<td>237</td>
+<td>1</td>
+</tr>
+</table>
+</div>
+<br clear=all>
+</div>
+<br clear=all>
+</div>      
+</div>
+</div>
+</div>
+<script type='text/javascript' src='.js/.stickyheader.js'></script>
+<script type='text/javascript' src='.js/.collapsible.js'></script>
+<script type='text/javascript' src='.js/.checkdisp.js'></script>
+<script type='text/javascript' src='.js/.smoothscroll.js'></script>
+<script type='text/javascript' src='.js/.togglevisibility.js'></script>
+<script type='text/javascript' src='.js/.showaccordin.js'></script>
+<script type='text/javascript' src='.js/.cptablecollapse.js'></script>
+<script type='text/javascript' src='.js/.showbintable.js'></script>
+<script type='text/javascript' src='.js/.sortTable.js'></script>
+<script> function openInst(i) {document.getElementsByClassName('collapsible')[i].click();} </script>
+<script> document.getElementById('acc_cvr').click(); </script>
+<script> function openCPTable(id) {document.getElementById(id).click();} </script>
+</body>
+</html>

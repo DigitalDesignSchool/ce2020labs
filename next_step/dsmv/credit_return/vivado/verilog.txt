@@ -1,0 +1,6 @@
+../src/ram256x16.sv
+../src/ram256x256.sv
+../src/fifo_256.sv
+../src/credit_return.sv
+../src/binding_coverage_credit_return.sv
+../src/testbench.sv

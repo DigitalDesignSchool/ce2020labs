@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="587.800 ns"></ZoomStartTime>
+      <ZoomEndTime time="759.801 ns"></ZoomEndTime>
+      <Cursor1Time time="705.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="282"></NameColumnWidth>
+      <ValueColumnWidth column_width="134"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="18" />
+   <wvobject type="logic" fp_name="/tb/uut/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/rst">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/upstream_data">
+      <obj_property name="ElementShortName">upstream_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">upstream_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/upstream_valid">
+      <obj_property name="ElementShortName">upstream_valid</obj_property>
+      <obj_property name="ObjectShortName">upstream_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/upstream_ready">
+      <obj_property name="ElementShortName">upstream_ready</obj_property>
+      <obj_property name="ObjectShortName">upstream_ready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/downstream_data">
+      <obj_property name="ElementShortName">downstream_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">downstream_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/downstream_valid">
+      <obj_property name="ElementShortName">downstream_valid</obj_property>
+      <obj_property name="ObjectShortName">downstream_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/downstream_ready">
+      <obj_property name="ElementShortName">downstream_ready</obj_property>
+      <obj_property name="ObjectShortName">downstream_ready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/data_a">
+      <obj_property name="ElementShortName">data_a[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_a[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/data_b">
+      <obj_property name="ElementShortName">data_b[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_b[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/valid_a">
+      <obj_property name="ElementShortName">valid_a</obj_property>
+      <obj_property name="ObjectShortName">valid_a</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/valid_b">
+      <obj_property name="ElementShortName">valid_b</obj_property>
+      <obj_property name="ObjectShortName">valid_b</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/data_a_nxt">
+      <obj_property name="ElementShortName">data_a_nxt[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_a_nxt[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/data_b_nxt">
+      <obj_property name="ElementShortName">data_b_nxt[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data_b_nxt[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/valid_a_nxt">
+      <obj_property name="ElementShortName">valid_a_nxt</obj_property>
+      <obj_property name="ObjectShortName">valid_a_nxt</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/valid_b_nxt">
+      <obj_property name="ElementShortName">valid_b_nxt</obj_property>
+      <obj_property name="ObjectShortName">valid_b_nxt</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/upstream_ready_nxt">
+      <obj_property name="ElementShortName">upstream_ready_nxt</obj_property>
+      <obj_property name="ObjectShortName">upstream_ready_nxt</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/bits">
+      <obj_property name="ElementShortName">bits[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bits[31:0]</obj_property>
+   </wvobject>
+</wave_config>

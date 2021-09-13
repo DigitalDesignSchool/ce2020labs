@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="87671fs"></ZoomStartTime>
+      <ZoomEndTime time="87728fs"></ZoomEndTime>
+      <Cursor1Time time="87706fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="348"></NameColumnWidth>
+      <ValueColumnWidth column_width="365"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="29" />
+   <wvobject type="logic" fp_name="/tb/uut/fifo/reset_p">
+      <obj_property name="ElementShortName">reset_p</obj_property>
+      <obj_property name="ObjectShortName">reset_p</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/fifo/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/data_i">
+      <obj_property name="ElementShortName">data_i[255:0]</obj_property>
+      <obj_property name="ObjectShortName">data_i[255:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/size_i">
+      <obj_property name="ElementShortName">size_i[3:0]</obj_property>
+      <obj_property name="ObjectShortName">size_i[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/fifo/data_we">
+      <obj_property name="ElementShortName">data_we</obj_property>
+      <obj_property name="ObjectShortName">data_we</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/data_o">
+      <obj_property name="ElementShortName">data_o[15:0]</obj_property>
+      <obj_property name="ObjectShortName">data_o[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/fifo/data_rd">
+      <obj_property name="ElementShortName">data_rd</obj_property>
+      <obj_property name="ObjectShortName">data_rd</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/w_valid">
+      <obj_property name="ElementShortName">w_valid[15:0]</obj_property>
+      <obj_property name="ObjectShortName">w_valid[15:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/cnt_wr_z">
+      <obj_property name="ElementShortName">cnt_wr_z[7:0]</obj_property>
+      <obj_property name="ObjectShortName">cnt_wr_z[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/w_data">
+      <obj_property name="ElementShortName">w_data[255:0]</obj_property>
+      <obj_property name="ObjectShortName">w_data[255:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/cnt_rd">
+      <obj_property name="ElementShortName">cnt_rd[7:0]</obj_property>
+      <obj_property name="ObjectShortName">cnt_rd[7:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/fifo/full">
+      <obj_property name="ElementShortName">full</obj_property>
+      <obj_property name="ObjectShortName">full</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/fifo/empty">
+      <obj_property name="ElementShortName">empty</obj_property>
+      <obj_property name="ObjectShortName">empty</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/mem">
+      <obj_property name="ElementShortName">mem[0:15][255:0]</obj_property>
+      <obj_property name="ObjectShortName">mem[0:15][255:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/uut/fifo/rstp">
+      <obj_property name="ElementShortName">rstp</obj_property>
+      <obj_property name="ObjectShortName">rstp</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/data_z">
+      <obj_property name="ElementShortName">data_z[255:0]</obj_property>
+      <obj_property name="ObjectShortName">data_z[255:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/start_word">
+      <obj_property name="ElementShortName">start_word[3:0]</obj_property>
+      <obj_property name="ObjectShortName">start_word[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/cnt_wr">
+      <obj_property name="ElementShortName">cnt_wr[7:0]</obj_property>
+      <obj_property name="ObjectShortName">cnt_wr[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/word_cnt">
+      <obj_property name="ElementShortName">word_cnt[7:0]</obj_property>
+      <obj_property name="ObjectShortName">word_cnt[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/last">
+      <obj_property name="ElementShortName">last[4:0]</obj_property>
+      <obj_property name="ObjectShortName">last[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/n_start_word">
+      <obj_property name="ElementShortName">n_start_word[3:0]</obj_property>
+      <obj_property name="ObjectShortName">n_start_word[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/n_cnt_wr">
+      <obj_property name="ElementShortName">n_cnt_wr[7:0]</obj_property>
+      <obj_property name="ObjectShortName">n_cnt_wr[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/n_word_cnt">
+      <obj_property name="ElementShortName">n_word_cnt[7:0]</obj_property>
+      <obj_property name="ObjectShortName">n_word_cnt[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/n_last">
+      <obj_property name="ElementShortName">n_last[4:0]</obj_property>
+      <obj_property name="ObjectShortName">n_last[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/n_w_data">
+      <obj_property name="ElementShortName">n_w_data[255:0]</obj_property>
+      <obj_property name="ObjectShortName">n_w_data[255:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/n_w_valid">
+      <obj_property name="ElementShortName">n_w_valid[15:0]</obj_property>
+      <obj_property name="ObjectShortName">n_w_valid[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/n_current">
+      <obj_property name="ElementShortName">n_current[4:0]</obj_property>
+      <obj_property name="ObjectShortName">n_current[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/n_write">
+      <obj_property name="ElementShortName">n_write[4:0]</obj_property>
+      <obj_property name="ObjectShortName">n_write[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/uut/fifo/DEPTH">
+      <obj_property name="ElementShortName">DEPTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">DEPTH[31:0]</obj_property>
+   </wvobject>
+</wave_config>

@@ -1,0 +1,2 @@
+var g_data = {"6":{"pr":"/tb/uut/dut","ty":2,"dui":3,"dun":"work.bind_user_axis","cvgs":[{"h":["\\/tb/uut/dut/cg ",2,1,15,7],"cov":[22,22,100.00],"opts":{"goal":"100","comment":"Comment for the report: user_axis","per_instance":"true"}},{"h":["/tb/uut/dut/cvr",1,1,7],"cov":[22,22,100.00],"opts":{"goal":"100"}}]}};
+processCovergroupsData(g_data);

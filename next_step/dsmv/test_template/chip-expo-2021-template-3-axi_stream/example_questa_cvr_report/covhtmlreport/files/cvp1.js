@@ -1,0 +1,2 @@
+var g_data = {"16":["ivld","no_ivld"],"17":["irdy","no_irdy"],"18":["ovld","no_ovld"],"19":["ordy","no_ordy"],"20":["ordy_010","ordy_101","ordy_1001","ordy_101_or_1001","ordy_10001","ordy_1_from_3_5_0_1"]};
+processCoverpointsMapData(g_data);

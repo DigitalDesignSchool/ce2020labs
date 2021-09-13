@@ -1,0 +1,2 @@
+var g_data = {"6":{"pr":"/tb/uut/dut","ty":2,"dui":3,"dun":"work.bind_fifo_w8","cvgs":[{"h":["\\/tb/uut/dut/cg ",2,1,16,7],"cov":[48,48,100.00],"opts":{"goal":"100","comment":"Comment for the report: fifo_w8","per_instance":"true"}},{"h":["/tb/uut/dut/cvr",1,1,7],"cov":[48,48,100.00],"opts":{"goal":"100"}}]}};
+processCovergroupsData(g_data);
