@@ -55,6 +55,7 @@ module i2s
     reg   [7:0] cnt;
     wire [15:0] value;
     wire  [7:0] cnt_max;
+    wire [15:0] lut_y;
 
     always @ (posedge clk or posedge reset)
         if (reset)
@@ -85,13 +86,19 @@ module i2s
                 shift <= shift << 1;
         end
 
+    /*
+     * TODO: Exercise 1:
+     * Decrease sound level.
+     */
+    assign value = lut_y;
+
     lut lut
     (
         .octave ( octave  ),
         .note   ( note    ),
         .x      ( cnt     ),
         .x_max  ( cnt_max ),
-        .y      ( value   )
+        .y      ( lut_y   )
     );
 
 endmodule
@@ -113,7 +120,11 @@ module top
 
     reg  [2:0] octave;
     reg  [3:0] note;
-    reg  [5:0] note_cnt;
+
+    /*
+     * TODO: Exercise 2:
+     * Change (increase/decrease) music speed.
+     */
     reg [23:0] clk_div;
 
     always @ (posedge clk or posedge reset)
@@ -122,11 +133,13 @@ module top
         else
             clk_div <= clk_div + 1;
 
+    reg  [5:0] note_cnt;
+
     always @ (posedge clk or posedge reset)
         if (reset)
             note_cnt <= 0;
         else
-            if (&clk_div)
+            if (&clk_div && note != silence)
                 note_cnt <= note_cnt + 1;
 
     localparam [3:0] C  = 4'd0,
@@ -141,6 +154,15 @@ module top
                      A  = 4'd9,
                      As = 4'd10,
                      B  = 4'd11;
+
+    localparam [3:0] Df = Cs, Ef = Ds, Gf = Fs, Af = Gs, Bf = As;
+
+    localparam [3:0] silence = 4'd12;
+
+    /*
+     * TODO: Exercise 3:
+     * Add another soundtrack.
+     */
 
     always @ (*)
         case (note_cnt)
@@ -218,8 +240,45 @@ module top
         60: { octave, note } = { 3'b1, C  };
         61: { octave, note } = { 3'b0, B  };
 
-        default: {octave, note } = { 3'b0, 4'd12 };
+        default: { octave, note } = { 3'b0, silence };
         endcase
+
+//    always @ (*)
+//        case (note_cnt)
+//        0:  { octave, note } = { 3'b0, G   };
+//        1:  { octave, note } = { 3'b1, C   };
+//        2:  { octave, note } = { 3'b1, Ef  };
+//
+//        3:  { octave, note } = { 3'b1, D   };
+//        4:  { octave, note } = { 3'b1, C   };
+//        5:  { octave, note } = { 3'b1, Ef  };
+//        6:  { octave, note } = { 3'b1, C   };
+//        7:  { octave, note } = { 3'b1, D   };
+//        8:  { octave, note } = { 3'b1, C   };
+//        9:  { octave, note } = { 3'b0, Af  };
+//        10: { octave, note } = { 3'b0, Bf  };
+//
+//        11: { octave, note } = { 3'b0, G   };
+//        12: { octave, note } = { 3'b0, G   };
+//        13: { octave, note } = { 3'b0, G   };
+//        13: { octave, note } = { 3'b0, G   };
+//
+//        14: { octave, note } = { 3'b1, C   };
+//        15: { octave, note } = { 3'b1, Ef  };
+//        16: { octave, note } = { 3'b1, D   };
+//        17: { octave, note } = { 3'b1, C   };
+//        18: { octave, note } = { 3'b1, Ef  };
+//        19: { octave, note } = { 3'b1, C   };
+//        20: { octave, note } = { 3'b1, D   };
+//
+//        21: { octave, note } = { 3'b1, C   };
+//        22: { octave, note } = { 3'b0, G   };
+//        23: { octave, note } = { 3'b0, Gf  };
+//        24: { octave, note } = { 3'b0, F   };
+//        25: { octave, note } = { 3'b0, F   };
+//        26: { octave, note } = { 3'b0, F   };
+//        default: { octave, note } = { 3'b0, silence };
+//        endcase
 
     assign led  = { 1'b1, ~ octave };
 
