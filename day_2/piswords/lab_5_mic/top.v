@@ -60,7 +60,7 @@ module top
     reg [19:0] counter;
     reg [19:0] distance;
 
-    localparam [15:0] threshold = 16'h1100;
+    localparam [15:0] threshold = 16'h1200;
 
     always @ (posedge clk or posedge reset)
         if (reset)
@@ -207,7 +207,7 @@ module top
         else
             d_note <= note;
 
-    reg  [17:0] t_cnt;           // Threshold counter
+    reg  [19:0] t_cnt;           // Threshold counter
     reg  [w_note - 1:0] t_note;  // Thresholded note
 
     always @(posedge clk or posedge reset)
@@ -223,7 +223,7 @@ module top
         if (reset)
             t_note <= no_note;
         else
-            if (& t_cnt & d_note != no_note)
+            if (& t_cnt)
                 t_note <= d_note;
 
     //------------------------------------------------------------------------
@@ -240,6 +240,7 @@ module top
     reg [w_state - 1:0] states [0:n_fsms - 1];
 
     //------------------------------------------------------------------------
+
 
     // No 5. The story of love
 
@@ -289,7 +290,7 @@ module top
             14: if ( t_note == D  ) states [1] <= recognized;
             endcase
 
-    // 11. A Cheerful Beetle
+    // No 1. Gangsters Song
 
     always @ (posedge clk or posedge reset)
         if (reset)
@@ -297,71 +298,71 @@ module top
         else
             case (states [2])
              0: if ( t_note == E  ) states [2] <=  1;
-             1: if ( t_note == G  ) states [2] <=  2;
+             1: if ( t_note == F  ) states [2] <=  2;
              2: if ( t_note == E  ) states [2] <=  3;
-             3: if ( t_note == F  ) states [2] <=  4;
-             4: if ( t_note == G  ) states [2] <=  5;
-             5: if ( t_note == F  ) states [2] <=  6;
-             6: if ( t_note == A  ) states [2] <=  7;
-             7: if ( t_note == G  ) states [2] <=  8;
-             8: if ( t_note == E  ) states [2] <=  9;
+             3: if ( t_note == A  ) states [2] <=  4;
+             4: if ( t_note == B  ) states [2] <=  5;
+             5: if ( t_note == C  ) states [2] <=  6;
+             6: if ( t_note == D  ) states [2] <=  7;
+             7: if ( t_note == C  ) states [2] <=  8;
+             8: if ( t_note == B  ) states [2] <=  9;
              9: if ( t_note == C  ) states [2] <= 10;
-            10: if ( t_note == E  ) states [2] <= 11;
-            11: if ( t_note == G  ) states [2] <= 12;
-            12: if ( t_note == E  ) states [2] <= 13;
-            13: if ( t_note == F  ) states [2] <= 14;
-            14: if ( t_note == G  ) states [2] <= recognized;
+            10: if ( t_note == G  ) states [2] <= 11;
+            11: if ( t_note == C  ) states [2] <= 12;
+            12: if ( t_note == A  ) states [2] <= 13;
+            13: if ( t_note == C  ) states [2] <= 14;
+            14: if ( t_note == A  ) states [2] <= recognized;
             endcase
 
-    // 13. V.Kosma. A music from The Toy movie
+    // No 4. Fly away on the wings of wind
 
     always @ (posedge clk or posedge reset)
         if (reset)
             states [3] <= 0;
         else
             case (states [3])
-             0: if ( t_note == D  ) states [3] <=  1;
-             1: if ( t_note == Bf ) states [3] <=  2;
-             2: if ( t_note == Fs ) states [3] <=  3;
-             3: if ( t_note == A  ) states [3] <=  4;
-             4: if ( t_note == G  ) states [3] <=  5;
-             5: if ( t_note == D  ) states [3] <=  6;
+             0: if ( t_note == G  ) states [3] <=  1;
+             1: if ( t_note == D  ) states [3] <=  2;
+             2: if ( t_note == C  ) states [3] <=  3;
+             3: if ( t_note == D  ) states [3] <=  4;
+             4: if ( t_note == Bf ) states [3] <=  5;
+             5: if ( t_note == A  ) states [3] <=  6;
              6: if ( t_note == G  ) states [3] <=  7;
-             7: if ( t_note == F  ) states [3] <=  8;
-             8: if ( t_note == F  ) states [3] <=  9;
-             9: if ( t_note == Ef ) states [3] <= 10;
-            10: if ( t_note == C  ) states [3] <= 11;
+             7: if ( t_note == A  ) states [3] <=  8;
+             8: if ( t_note == Bf ) states [3] <=  9;
+             9: if ( t_note == C  ) states [3] <= 10;
+            10: if ( t_note == D  ) states [3] <= 11;
             11: if ( t_note == A  ) states [3] <= 12;
             12: if ( t_note == G  ) states [3] <= 13;
-            13: if ( t_note == G  ) states [3] <= 14;
-            14: if ( t_note == Fs ) states [3] <= recognized;
+            13: if ( t_note == F  ) states [3] <= 14;
+            14: if ( t_note == D  ) states [3] <= recognized;
             endcase
 
-    // 16.I Just Called To Say I Love You
+    // No 2. Winged Swing
 
     always @ (posedge clk or posedge reset)
         if (reset)
             states [4] <= 0;
         else
             case (states [4])
-             0: if ( t_note == G  ) states [4] <=  1;
-             1: if ( t_note == B  ) states [4] <=  2;
-             2: if ( t_note == C  ) states [4] <=  3;
-             3: if ( t_note == G  ) states [4] <=  4;
-             4: if ( t_note == B  ) states [4] <=  5;
-             5: if ( t_note == C  ) states [4] <=  6;
-             6: if ( t_note == G  ) states [4] <=  7;
-             7: if ( t_note == B  ) states [4] <=  8;
-             8: if ( t_note == C  ) states [4] <=  9;
-             9: if ( t_note == B  ) states [4] <= 10;
-            10: if ( t_note == D  ) states [4] <= 11;
-            11: if ( t_note == E  ) states [4] <= 12;
-            12: if ( t_note == D  ) states [4] <= 13;
-            13: if ( t_note == C  ) states [4] <= 14;
-            14: if ( t_note == B  ) states [4] <= recognized;
+             0: if ( t_note == A  ) states [4] <=  1;
+             1: if ( t_note == Fs ) states [4] <=  2;
+             2: if ( t_note == G  ) states [4] <=  3;
+             3: if ( t_note == Fs ) states [4] <=  4;
+             4: if ( t_note == E  ) states [4] <=  5;
+             5: if ( t_note == B  ) states [4] <=  6;
+             6: if ( t_note == A  ) states [4] <=  7;
+             7: if ( t_note == Gs ) states [4] <=  8;
+             8: if ( t_note == A  ) states [4] <=  9;
+             9: if ( t_note == D  ) states [4] <= 10;
+            10: if ( t_note == C  ) states [4] <= 11;
+            11: if ( t_note == Bf ) states [4] <= 12;
+            12: if ( t_note == A  ) states [4] <= 13;
+            13: if ( t_note == B  ) states [4] <= 14;
+            14: if ( t_note == A  ) states [4] <= recognized;
             endcase
 
-    // 3. Yesterday by Beatles
+    // No 3. Yesterday by Beatles
 
     always @ (posedge clk or posedge reset)
         if (reset)
@@ -469,7 +470,7 @@ module top
                 A  : abcdefgh <= 8'b00010001;  // A   //  |     |
                 As : abcdefgh <= 8'b00010000;  // A#  //   --d--  h
                 B  : abcdefgh <= 8'b11000001;  // B
-                default: ;  // No assignment
+                default : abcdefgh <= 8'b11111111;
                 endcase
             else if (i_digit < n_fsms)
                 case (states [n_fsms - 1 - i_digit])

@@ -57,7 +57,7 @@ module top
     reg [19:0] counter;
     reg [19:0] distance;
 
-    localparam [15:0] threshold = 16'h1100;
+    localparam [15:0] threshold = 16'h1200;
 
     always @ (posedge clk or posedge reset)
         if (reset)
@@ -204,7 +204,7 @@ module top
         else
             d_note <= note;
 
-    reg  [17:0] t_cnt;           // Threshold counter
+    reg  [19:0] t_cnt;           // Threshold counter
     reg  [w_note - 1:0] t_note;  // Thresholded note
 
     always @(posedge clk or posedge reset)
@@ -237,6 +237,16 @@ module top
     reg [w_state - 1:0] states [0:n_fsms - 1];
 
     //------------------------------------------------------------------------
+
+/*
+ * TODO: Exercise 1:
+ * Change melogy set.
+ */
+
+`define SONGS_581
+//`define SONGS_423
+
+`ifdef SONGS_581
 
     // No 5. The story of love
 
@@ -309,6 +319,82 @@ module top
             13: if ( t_note == C  ) states [2] <= 14;
             14: if ( t_note == A  ) states [2] <= recognized;
             endcase
+
+`elsif SONGS_423
+
+    // No 4. Fly away on the wings of wind
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            states [0] <= 0;
+        else
+            case (states [0])
+             0: if ( t_note == G  ) states [0] <=  1;
+             1: if ( t_note == D  ) states [0] <=  2;
+             2: if ( t_note == C  ) states [0] <=  3;
+             3: if ( t_note == D  ) states [0] <=  4;
+             4: if ( t_note == Bf ) states [0] <=  5;
+             5: if ( t_note == A  ) states [0] <=  6;
+             6: if ( t_note == G  ) states [0] <=  7;
+             7: if ( t_note == A  ) states [0] <=  8;
+             8: if ( t_note == Bf ) states [0] <=  9;
+             9: if ( t_note == C  ) states [0] <= 10;
+            10: if ( t_note == D  ) states [0] <= 11;
+            11: if ( t_note == A  ) states [0] <= 12;
+            12: if ( t_note == G  ) states [0] <= 13;
+            13: if ( t_note == F  ) states [0] <= 14;
+            14: if ( t_note == D  ) states [0] <= recognized;
+            endcase
+
+    // No 2. Winged Swing
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            states [1] <= 0;
+        else
+            case (states [1])
+             0: if ( t_note == A  ) states [1] <=  1;
+             1: if ( t_note == Fs ) states [1] <=  2;
+             2: if ( t_note == G  ) states [1] <=  3;
+             3: if ( t_note == Fs ) states [1] <=  4;
+             4: if ( t_note == E  ) states [1] <=  5;
+             5: if ( t_note == B  ) states [1] <=  6;
+             6: if ( t_note == A  ) states [1] <=  7;
+             7: if ( t_note == Gs ) states [1] <=  8;
+             8: if ( t_note == A  ) states [1] <=  9;
+             9: if ( t_note == D  ) states [1] <= 10;
+            10: if ( t_note == C  ) states [1] <= 11;
+            11: if ( t_note == Bf ) states [1] <= 12;
+            12: if ( t_note == A  ) states [1] <= 13;
+            13: if ( t_note == B  ) states [1] <= 14;
+            14: if ( t_note == A  ) states [1] <= recognized;
+            endcase
+
+    // No 3. Yesterday by Beatles
+
+    always @ (posedge clk or posedge reset)
+        if (reset)
+            states [2] <= 0;
+        else
+            case (states [2])
+             0: if ( t_note == G  ) states [2] <=  1;
+             1: if ( t_note == F  ) states [2] <=  2;
+             2: if ( t_note == A  ) states [2] <=  3;
+             3: if ( t_note == B  ) states [2] <=  4;
+             4: if ( t_note == Cs ) states [2] <=  5;
+             5: if ( t_note == D  ) states [2] <=  6;
+             6: if ( t_note == E  ) states [2] <=  7;
+             7: if ( t_note == F  ) states [2] <=  8;
+             8: if ( t_note == E  ) states [2] <=  9;
+             9: if ( t_note == D  ) states [2] <= 10;
+            10: if ( t_note == C  ) states [2] <= 11;
+            11: if ( t_note == Bf ) states [2] <= 12;
+            12: if ( t_note == A  ) states [2] <= 13;
+            13: if ( t_note == G  ) states [2] <= 14;
+            14: if ( t_note == Bf ) states [2] <= recognized;
+            endcase
+
+`endif
 
     //------------------------------------------------------------------------
     //
