@@ -25,7 +25,7 @@ module top
 );
 
     wire   reset  = ~ key [3];
-    assign buzzer = ~ reset;
+    assign buzzer = 1'b1;
 
     //------------------------------------------------------------------------
     //
@@ -60,7 +60,7 @@ module top
     reg [19:0] counter;
     reg [19:0] distance;
 
-    localparam [15:0] threshold = 16'h1200;
+    localparam [15:0] threshold = 16'h1100;
 
     always @ (posedge clk or posedge reset)
         if (reset)
@@ -207,7 +207,7 @@ module top
         else
             d_note <= note;
 
-    reg  [19:0] t_cnt;           // Threshold counter
+    reg  [17:0] t_cnt;           // Threshold counter
     reg  [w_note - 1:0] t_note;  // Thresholded note
 
     always @(posedge clk or posedge reset)
