@@ -1,0 +1,5 @@
+1.      Functional verification (доклад 15.09 в 15:45) https://edaplayground.com/x/7YxH
+
+2.      Верификация AXI (доклад 16.09 в 13:30) https://edaplayground.com/x/Swjy
+
+3.      Верификация с помощью UVM (доклад 16.09 в 15:45)  https://edaplayground.com/x/8kg_
