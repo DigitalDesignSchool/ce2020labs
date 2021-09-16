@@ -22,7 +22,7 @@ always_ff @(posedge intf.Clk or posedge intf.Reset)
     if (intf.Reset) begin
                     DI0 <= 32'h0;
                     DI1 <= 32'h0;
-                    Instruction <= 32'h0;
+                    Instruction <= 2'h0;
                     end
     else begin
          DI0 <= intf.D0;
