@@ -103,7 +103,7 @@ assert property ( @(posedge intf.Clk) disable iff (intf.Reset)  intf.Command == 
 assert property ( @(posedge intf.Clk) disable iff (intf.Reset)  intf.Command == 1 |->  ##1 intf.Q == (Main_inst.DI0 - Main_inst.DI1)) else $display("SUB operation error %X - %X != %X",Main_inst.DI0,Main_inst.DI1,intf.Q);
 assert property ( @(posedge intf.Clk) disable iff (intf.Reset)  intf.Command == 2 |->  ##1 intf.Q == (Main_inst.DI0 & Main_inst.DI1)) else $display("AND operation error %X & %X != %X",Main_inst.DI0,Main_inst.DI1,intf.Q);
 assert property ( @(posedge intf.Clk) disable iff (intf.Reset)  intf.Command == 3 |->  ##1 intf.Q == (Main_inst.DI0 | Main_inst.DI1)) else $display("OR error %X | %X != %X",Main_inst.DI0,Main_inst.DI1,intf.Q);
-assert property ( @(posedge intf.Clk) intf.Reset |-> ~Main_inst.DI0 & ~Main_inst.DI0) else $display("No reset");
+assert property ( @(posedge intf.Clk) intf.Reset |-> (Main_inst.DI0==32'h0) && (Main_inst.DI1==32'h0) && (Main_inst.Instruction==32'h0)) else $display("No reset");
 
 final begin
 $display("game over");
