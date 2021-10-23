@@ -57,8 +57,8 @@ module incomplete_fp_adder
   
   // Check carry and adjust
   
-  logic [ 7:0] sum_exp;
-  logic [22:0] sum_mant;
+  reg [ 7:0] sum_exp;
+  reg [22:0] sum_mant;
   
   always @*
     if (carry)
