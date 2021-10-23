@@ -25,7 +25,6 @@ module top
 
     reg  [31:0] a;
     reg  [31:0] b;
-    wire [31:0] sum;
 
     always @*
     begin
@@ -94,15 +93,18 @@ module top
         endcase
     end
 
+    wire [31:0] sum;
+    wire zero, pos_inf, neg_inf, nan;
+
     incomplete_fp_adder adder
     (
       .a       ( a       ),
       .b       ( b       ),
       .sum     ( sum     ),
-      .zero    ( led [0] ),
-      .pos_inf ( led [1] ),
-      .neg_inf ( led [2] ),
-      .nan     ( led [3] )
+      .zero    ( zero    ),
+      .pos_inf ( pos_inf ),
+      .neg_inf ( neg_inf ),
+      .nan     ( nan     )
     );
 
     seven_segment_4_digits display
@@ -113,5 +115,7 @@ module top
         .abcdefgh ( abcdefgh                              ),
         .digit    ( digit                                 )
     );
-    
+
+    assign led = ~ { zero, pos_inf, neg_inf, nan };
+
 endmodule
