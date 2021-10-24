@@ -78,8 +78,8 @@ module incomplete_fp_adder
     = { 1'b0,  // sign is not implemented
         sum_exp, sum_mant };
   
-  wire a_zero = a [30:0] == 31'b0;
-  wire b_zero = b [30:0] == 31'b0;
+  wire a_zero = (a [30:0] == 31'b0);
+  wire b_zero = (b [30:0] == 31'b0);
   
   assign sum = a_zero ? b : b_zero ? a : calculated_sum;
                  
