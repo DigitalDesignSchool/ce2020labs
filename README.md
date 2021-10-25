@@ -63,11 +63,13 @@ These run subdirectories are not supposed to be checked in, they are ignored by 
 To run this scripts under Linux:
 
 cd ~/github/ce2020labs/scripts
+
 ./create_run_directories.bash
 
 To run this scripts under Windows:
 
 cd c:\github\ce2020labs\scripts
+
 bash create_run_directories.bash
 
 Under Windows you can also associate .bash extension with bash.exe executable and run the script automatically in Far Commander by pressing Enter.
@@ -97,11 +99,13 @@ xx_modelsim.tcl   - is used by x_simulate.bash
 To run this scripts under Linux:
 
 cd ~/github/ce2020labs/scripts
+
 ./create_ce2020labs_zip.bash
 
 To run this scripts under Windows:
 
 cd c:\github\ce2020labs\scripts
+
 bash create_ce2020labs_zip.bash
 
 This script does the following:
@@ -111,6 +115,7 @@ This script does the following:
 3) Create two zip files with timestamps:
 
 ce2020labs_before_20210613_111848.zip - a file with simple exercises to check that the system is ready for the rest of the lab (Quartus is installed, all drivers are working with a board a student has).
+
 ce2020labs_20210613_111844.zip - a complete package.
 
 These zip files can be put into some web location for download. After a student gets this file, all he has to do is to unzip it, run Quartus GUI and open projects from the appropriate run directories. All work can be done in GUI, without command line.
