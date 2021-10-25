@@ -34,9 +34,9 @@ This is necessary for a script that is going to create a user package.
 
 For Windows, in System Properties / Environment Variables / Path add the following paths:
 
-C:\intelFPGA_lite\20.1\modelsim_ase\win32aloem
-C:\intelFPGA_lite\20.1\quartus\bin64
-%PROGRAMFILES(x86)%\GnuWin32\bin
+C:\intelFPGA_lite\20.1\modelsim_ase\win32aloem  
+C:\intelFPGA_lite\20.1\quartus\bin64  
+%PROGRAMFILES(x86)%\GnuWin32\bin  
 
 #### 7. Create a directory where you would like to put the tree. For example,  you can create C:\github under Windows or ~/github under Linux.
 
@@ -62,15 +62,13 @@ These run subdirectories are not supposed to be checked in, they are ignored by 
 
 To run this scripts under Linux:
 
-cd ~/github/ce2020labs/scripts
-
-./create_run_directories.bash
+cd ~/github/ce2020labs/scripts  
+./create_run_directories.bash  
 
 To run this scripts under Windows:
 
-cd c:\github\ce2020labs\scripts
-
-bash create_run_directories.bash
+cd c:\github\ce2020labs\scripts  
+bash create_run_directories.bash  
 
 Under Windows you can also associate .bash extension with bash.exe executable and run the script automatically in Far Commander by pressing Enter.
 
@@ -79,34 +77,32 @@ Each created run directory contains the following files:
 top.qpf - the main project file. You can load the project into Quartus GUI by doing "File | Open project" menu. Note that practically everyone confuses this menu item with a "File | Open file" menu item from time to time.
 Note that top.qpf is empty. It is OK because Quartus gets the actual information from top.qsf and top.sdc located in the same subdirectory as top.qpf.
 
-top.qsf - Tcl file with the project settings, like bindings of FPGA pins to signal names.
-top.sdc - Tcl file with the timing settings.
+top.qsf - Tcl file with the project settings, like bindings of FPGA pins to signal names.  
+top.sdc - Tcl file with the timing settings.  
 
 Scripts to use in the command line:
 
-x_simulate.bash   - runs either Icarus Verilog or Mentor / Siemens EDA ModelSim.
-x_synthesize.bash - runs x_configure.bash if the synthesis is successful.
-x_configure.bash  - requires x_synthesize.bash to run first.
+x_simulate.bash   - runs either Icarus Verilog or Mentor / Siemens EDA ModelSim.  
+x_synthesize.bash - runs x_configure.bash if the synthesis is successful.  
+x_configure.bash  - requires x_synthesize.bash to run first.  
 
 Scripts in each run directory used by other scripts:
 
-x_setup.bash      - is sourced by other x_* scripts.
-xx_gtkwave.tcl    - is used by x_simulate.bash
-xx_modelsim.tcl   - is used by x_simulate.bash
+x_setup.bash      - is sourced by other x_* scripts.  
+xx_gtkwave.tcl    - is used by x_simulate.bash  
+xx_modelsim.tcl   - is used by x_simulate.bash  
 
 #### 11. You can use create_ce2020labs_zip.bash script to create a zip file for anybody who does not want to use git, bash scripts or command line.
 
 To run this scripts under Linux:
 
-cd ~/github/ce2020labs/scripts
-
-./create_ce2020labs_zip.bash
+cd ~/github/ce2020labs/scripts  
+./create_ce2020labs_zip.bash  
 
 To run this scripts under Windows:
 
-cd c:\github\ce2020labs\scripts
-
-bash create_ce2020labs_zip.bash
+cd c:\github\ce2020labs\scripts  
+bash create_ce2020labs_zip.bash  
 
 This script does the following:
 
@@ -114,7 +110,7 @@ This script does the following:
 2) Clones schoolRISCV repository for the 3rd day lab exercises from https://github.com/zhelnio/schoolRISCV .
 3) Create two zip files with timestamps:
 
-ce2020labs_before_20210613_111848.zip - a file with simple exercises to check that the system is ready for the rest of the lab (Quartus is installed, all drivers are working with a board a student has).
+ce2020labs_before_20210613_111848.zip - a file with simple exercises to check that the system is ready for the rest of the lab (Quartus is installed, all drivers are working with a board a student has).  
 
 ce2020labs_20210613_111844.zip - a complete package.
 
@@ -128,8 +124,8 @@ These zip files can be put into some web location for download. After a student 
 
 #### 1.2. Config your name and email
 
-git config --global user.name  "Your Name"
-git config --global user.email your@email.com
+git config --global user.name  "Your Name"  
+git config --global user.email your@email.com  
 
 #### 1.3. Clone a git repository from github
 
@@ -167,7 +163,7 @@ git checkout .
 
 #### 2.9. After you finish editing, commit. Note that -a option automatically stages all modifications and file deletions, but not the additions. You need use 'git add' to add files or directories explicitly.
 
-**Important Note 1: Please run "git status" and "git diff" before any commit. Undoing committed and especially pushed changes is more difficult than undoing uncommitted changes.**
+**Important Note 1: Please run "git status" and "git diff" before any commit. Undoing committed and especially pushed changes is more difficult than undoing uncommitted changes.**  
 **Important Note 2: Please put a meaningful comment for each commit.**
 
 git commit -a -m "A meaningful comment"
