@@ -58,8 +58,10 @@ module mux_4_1
 
   // TODO
 
-  // Using code for mux_2_1 as an example,
-  // write code for 4:1 mux using only &, | and ~ operations.
+  // Using code for mux_2_1_width_1, mux_2_1_width_2,
+  // mux_4_1_width_1 as examples,
+  // write code for 4:1 mux using only &, | and ~ operations,
+  // and possibly some wire continuous assignments.
 
 
 endmodule
