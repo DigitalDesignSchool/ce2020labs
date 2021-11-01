@@ -1,4 +1,4 @@
-module mux_4_1_bits_2
+module mux_4_1_width_2
 (
   input  [1:0] d0, d1, d2, d3,
   input  [1:0] sel,
@@ -22,7 +22,7 @@ module mux_4_1
   // TODO
 
   // Implement mux_4_1 with 4-bit data
-  // using two instances of mux_4_1_bits_2 with 2-bit data
+  // using two instances of mux_4_1_width_2 with 2-bit data
 
 
 endmodule
