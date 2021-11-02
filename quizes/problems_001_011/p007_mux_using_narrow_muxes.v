@@ -29,7 +29,7 @@ endmodule
 
 //----------------------------------------------------------------------------
 
-module mux_4_2_tb;
+module testbench;
 
   logic [3:0] d0, d1, d2, d3;
   logic [1:0] sel;

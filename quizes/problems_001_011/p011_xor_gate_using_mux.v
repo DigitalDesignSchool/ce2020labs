@@ -28,7 +28,7 @@ endmodule
 
 //----------------------------------------------------------------------------
 
-module xor_gate_using_mux_tb;
+module testbench;
 
   logic a, b, o;
   int i, j;

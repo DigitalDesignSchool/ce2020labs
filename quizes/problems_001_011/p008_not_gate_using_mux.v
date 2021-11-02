@@ -27,7 +27,7 @@ endmodule
 
 //----------------------------------------------------------------------------
 
-module not_gate_using_mux_tb;
+module testbench;
 
   logic a, o;
   int i;
