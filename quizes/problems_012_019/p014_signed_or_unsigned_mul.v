@@ -112,7 +112,7 @@ module testbench;
   localparam signed [n - 1:0] smin = 1'b1 << (n - 1);
   localparam signed [n - 1:0] smax = ~ smin;
   localparam        [n - 1:0] umax = ~ { n { 1'b0 } };
-  
+
   initial
     begin
       for (int i = 0; i <= umax; i ++)

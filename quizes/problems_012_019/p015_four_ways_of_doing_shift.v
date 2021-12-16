@@ -24,7 +24,10 @@ module left_shift_of_8_by_3_using_for_inside_generate (input  [7:0] a, output [7
 
   generate
     for (i = 0; i < 8; i ++)
-      assign res [i] = i < 3 ? 1'b0 : a [i - 3];
+      if (i < 3)
+        assign res [i] = 1'b0;
+      else
+        assign res [i] = a [i - 3];
   endgenerate
 
 endmodule
