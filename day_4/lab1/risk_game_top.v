@@ -157,8 +157,8 @@ module risk_game_top
     wire [`X_WIDTH   - 1:0] sprite_torpedo_write_x;
     wire [`Y_WIDTH   - 1:0] sprite_torpedo_write_y;
 
-    reg  [             1:0] sprite_torpedo_write_dx;
-    reg  [             2:0] sprite_torpedo_write_dy;
+    wire  [             1:0] sprite_torpedo_write_dx;
+    wire  [             2:0] sprite_torpedo_write_dy;
 
     wire                    sprite_torpedo_enable_update;
 
@@ -360,21 +360,21 @@ localparam NUM_SPRITE   = 1;
 localparam  DX_WIDTH    = 2;
 localparam  DY_WIDTH    = 3;
 
-logic  [NUM_SPRITE-1:0]                             sprite_write_xy;   //! 1 - запись координат спрайта
-logic  [NUM_SPRITE-1:0]                             sprite_write_dxy;  //! 1 - запись приращения координат спрайта
-logic  [NUM_SPRITE-1:0]     [`X_WIDTH   - 1:0]      sprite_write_x;    //! координата X спрайта; запись при sprite_write_xy==1
-logic  [NUM_SPRITE-1:0]     [`Y_WIDTH   - 1:0]      sprite_write_y;    //! координата Y спрайта; запись при sprite_write_xy==1
-logic  [NUM_SPRITE-1:0]     [ DX_WIDTH  - 1:0]      sprite_write_dx;   //! приращение координаты X спрайта; запись при sprite_write_dxy==1
-logic  [NUM_SPRITE-1:0]     [ DY_WIDTH  - 1:0]      sprite_write_dy;   //! приращение координаты Y спрайта; запись при sprite_write_dxy==1
-logic  [NUM_SPRITE-1:0]                             sprite_enable_update;  //! 1 - разрешение обновления координат спрайта через приращение
-logic  [NUM_SPRITE-1:0]    [`X_WIDTH   - 1:0]       sprite_x;       //! текущая координата X спрайта
-logic  [NUM_SPRITE-1:0]    [`Y_WIDTH   - 1:0]       sprite_y;       //! текущая координата Y спрайта
+wire  [NUM_SPRITE-1:0]                             sprite_write_xy;   //! 1 - запись координат спрайта
+wire  [NUM_SPRITE-1:0]                             sprite_write_dxy;  //! 1 - запись приращения координат спрайта
+wire  [NUM_SPRITE-1:0]     [`X_WIDTH   - 1:0]      sprite_write_x;    //! координата X спрайта; запись при sprite_write_xy==1
+wire  [NUM_SPRITE-1:0]     [`Y_WIDTH   - 1:0]      sprite_write_y;    //! координата Y спрайта; запись при sprite_write_xy==1
+wire  [NUM_SPRITE-1:0]     [ DX_WIDTH  - 1:0]      sprite_write_dx;   //! приращение координаты X спрайта; запись при sprite_write_dxy==1
+wire  [NUM_SPRITE-1:0]     [ DY_WIDTH  - 1:0]      sprite_write_dy;   //! приращение координаты Y спрайта; запись при sprite_write_dxy==1
+wire  [NUM_SPRITE-1:0]                             sprite_enable_update;  //! 1 - разрешение обновления координат спрайта через приращение
+wire  [NUM_SPRITE-1:0]    [`X_WIDTH   - 1:0]       sprite_x;       //! текущая координата X спрайта
+wire  [NUM_SPRITE-1:0]    [`Y_WIDTH   - 1:0]       sprite_y;       //! текущая координата Y спрайта
 
-logic [31:0]                   vcu_reg_control;            //! control register for video control unit (vcu)  
-logic                          vcu_reg_control_we;         //! 1 - new data in the vcu_reg_control
-logic [31:0]                   vcu_reg_wdata;              //! data register for video control unit (vcu)
-logic                          vcu_reg_wdata_we;           //! 1 - new data in the vcu_reg_wdata
-logic [31:0]                   vcu_reg_rdata;              //! input data 
+wire [31:0]                   vcu_reg_control;            //! control register for video control unit (vcu)  
+wire                          vcu_reg_control_we;         //! 1 - new data in the vcu_reg_control
+wire [31:0]                   vcu_reg_wdata;              //! data register for video control unit (vcu)
+wire                          vcu_reg_wdata_we;           //! 1 - new data in the vcu_reg_wdata
+wire [31:0]                   vcu_reg_rdata;              //! input data 
 
 
 assign sprite_torpedo_write_xy          = sprite_write_xy[0];
@@ -422,14 +422,13 @@ risk_sprite_engine
 
 );
 
-logic   [ 4:0]  regAddr = '0;    // debug access reg address
-logic  [31:0]   regData;        // debug access reg data
+wire   [ 4:0]  regAddr = '0;    // debug access reg address
+wire  [31:0]   regData;        // debug access reg data
 
     //instruction memory
 wire    [31:0]  imAddr;
 wire    [31:0]  imData;
-sm_rom reset_rom(imAddr, imData);
-
+sm_rom #(.SIZE( 128 )) reset_rom(imAddr, imData);
 
 sr_cpu_vc  sm_cpu_vc
 (

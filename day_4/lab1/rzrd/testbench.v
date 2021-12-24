@@ -38,7 +38,7 @@ module testbench;
     initial
     begin
         #0
-        $dumpvars(4);
+        $dumpvars(6);
 
         key_sw <= 4'b0;
 

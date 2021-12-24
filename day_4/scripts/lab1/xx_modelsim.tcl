@@ -1,6 +1,7 @@
 #vlib work
 vlog -O0 +acc=mnprt ../../../common/*.v ../../../../common/*.v
-vlog -O0 +acc=mnprt +incdir+../../../common +incdir+../../../../common ../../*.sv
+#vlog -O0 +acc=mnprt +incdir+../../../common +incdir+../../../../common ../../*.sv
+vlog -O0 +acc=mnprt +incdir+../../../common +incdir+../../../../common ../../*.v
 vlog -O0 +acc=mnprt +incdir+../../../common +incdir+../../../../common ../*.v
 vsim work.testbench
 
@@ -21,6 +22,7 @@ add wave -radix hex sim:/testbench/i_top.i_game_top.imData
 add wave -radix hex sim:/testbench/i_top.i_game_top.sprite_torpedo_write_xy
 add wave -radix hex sim:/testbench/i_top.i_game_top.sprite_torpedo_write_x
 add wave -radix hex sim:/testbench/i_top.i_game_top.sprite_torpedo_write_y
+add wave -radix hex sim:/testbench/i_top.i_game_top.sm_cpu_vc.rf.rf
 
 
 run -all

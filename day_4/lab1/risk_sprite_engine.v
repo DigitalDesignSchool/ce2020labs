@@ -36,11 +36,11 @@ module risk_sprite_engine
     input  wire                         clk,
     input  wire                         reset,      //!  1 - сброс
 
-    output reg                      [NUM_SPRITE-1:0]        sprite_write_xy,   //! 1 - запись координат спрайта
+    output wire                      [NUM_SPRITE-1:0]        sprite_write_xy,   //! 1 - запись координат спрайта
     output wire                     [NUM_SPRITE-1:0]        sprite_write_dxy,  //! 1 - запись приращения координат спрайта
 
-    output reg  [NUM_SPRITE-1:0]    [ `X_WIDTH   - 1:0]     sprite_write_x,    //! координата X спрайта, запись при sprite_write_xy==1
-    output reg  [NUM_SPRITE-1:0]    [ `Y_WIDTH   - 1:0]     sprite_write_y,    //! координата Y спрайта, запись при sprite_write_xy==1
+    output wire  [NUM_SPRITE-1:0]    [ `X_WIDTH   - 1:0]     sprite_write_x,    //! координата X спрайта, запись при sprite_write_xy==1
+    output wire  [NUM_SPRITE-1:0]    [ `Y_WIDTH   - 1:0]     sprite_write_y,    //! координата Y спрайта, запись при sprite_write_xy==1
 
     output wire [NUM_SPRITE-1:0]    [ DX_WIDTH  - 1:0]      sprite_write_dx,   //! приращение координаты X спрайта, запись при sprite_write_dxy==1
     output wire [NUM_SPRITE-1:0]    [ DY_WIDTH  - 1:0]      sprite_write_dy,   //! приращение координаты Y спрайта, запись при sprite_write_dxy==1
@@ -60,9 +60,14 @@ module risk_sprite_engine
 
 );
 
-logic           vsync_z;
-logic           flag_new_vsync;
-logic [2:0]     sel;
+reg           vsync_z;
+reg           flag_new_vsync;
+reg [2:0]     sel;
+
+reg                     [NUM_SPRITE-1:0]        sprite_write_xy_i;   // 1 - запись координат спрайта
+reg [NUM_SPRITE-1:0]    [ `X_WIDTH   - 1:0]     sprite_write_x_i;    // координата X спрайта, запись при sprite_write_xy==1
+reg [NUM_SPRITE-1:0]    [ `Y_WIDTH   - 1:0]     sprite_write_y_i;    // координата Y спрайта, запись при sprite_write_xy==1
+
 
 
 always @(posedge clk)   vsync_z <= #1 vsync;
@@ -74,7 +79,7 @@ always @(posedge clk) begin
             flag_new_vsync <= #1 1;
 end    
     
-logic [31:0] vcu_reg_rdata_i;
+reg [31:0] vcu_reg_rdata_i;
 assign vcu_reg_rdata = vcu_reg_rdata_i;
 
 always @(posedge clk) begin
@@ -86,7 +91,7 @@ always @(posedge clk) begin
         sel <= #1 sel + 1;
 end
 
-always_comb begin
+always @(vcu_reg_control, flag_new_vsync) begin
     if( vcu_reg_control[7:0]==8'hFF )
         vcu_reg_rdata_i <= { 31'h0, flag_new_vsync };
     // else if( vcu_reg_control[7:0]<NUM_SPRITE ) 
@@ -104,35 +109,43 @@ genvar  ii;
 generate
 
 
-    for( ii=0; ii<NUM_SPRITE; ii++ ) begin : gen_sprite
+    for( ii=0; ii<NUM_SPRITE; ii=ii+1 ) begin : gen_sprite
     
         always @(posedge clk) begin
             if( vcu_reg_wdata_we && vcu_reg_control[7:0]==ii ) begin
 
                 case( sel )
-                    0: sprite_write_x[ii] <= #1 vcu_reg_wdata[`X_WIDTH   - 1:0];
-                    1: sprite_write_y[ii] <= #1 vcu_reg_wdata[`Y_WIDTH   - 1:0];
+                    0: sprite_write_x_i[ii] <= #1 vcu_reg_wdata[`X_WIDTH   - 1:0];
+                    1: sprite_write_y_i[ii] <= #1 vcu_reg_wdata[`Y_WIDTH   - 1:0];
                 endcase
 
             end
 
             if( 3'b001==sel && vcu_reg_wdata_we && vcu_reg_control[7:0]==ii )
-                sprite_write_xy[ii] <= #1 1;    // обновление координат производится при записи Y
+                sprite_write_xy_i[ii] <= #1 1;    // обновление координат производится при записи Y
             else
-                sprite_write_xy[ii] <= #1 0;
+                sprite_write_xy_i[ii] <= #1 0;
 
         end
 
-        assign sprite_write_dxy[ii] = 0;
-        assign sprite_write_dx[ii] = '0;
-        assign sprite_write_dy[ii] = '0;
-        assign sprite_enable_update[ii] = '0;
+
+        assign sprite_write_xy[ii] = sprite_write_xy_i[ii];
+        assign sprite_write_x[ii]  = sprite_write_x_i[ii];
+        assign sprite_write_y[ii]  = sprite_write_y_i[ii];
+
+
     
     end
 
 
 
 endgenerate    
+
+assign sprite_write_dxy = 0;
+assign sprite_write_dx = '0;
+assign sprite_write_dy = '0;
+assign sprite_enable_update = '0;
+
 
 endmodule
 

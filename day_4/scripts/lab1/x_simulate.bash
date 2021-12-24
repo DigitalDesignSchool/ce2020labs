@@ -50,9 +50,9 @@ fi
 
 if [ $run_iverilog = 1 ]
 then
-    iverilog -g2012  \
+    iverilog -g2005  \
         -I ..     -I ../../../common     -I ../../../../common      \
-           ../*.v  ../*.v  ../../*.sv  ../../../common/*.v    ../../../../common/*.v  \
+           ../*.v  ../../*.v  ../../../common/*.v      \
         2>&1 | tee icarus.compile.log
         
     ec=$?
