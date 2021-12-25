@@ -1,0 +1,30 @@
+Info: *******************************************************************
+Info: Running Quartus Prime Shell
+Info: Command: quartus_sh --no_banner --flow compile top
+Info: Quartus(args): compile top
+Info: Project Name = /xprj/chip/ce2020labs/scripts/all_intel_fpga_boards/top
+Info: Revision Name = top
+Info: *******************************************************************
+Info: Running Quartus Prime Analysis & Synthesis
+    Info: Version 21.1.0 Build 842 10/21/2021 SJ Lite Edition
+    Info: Processing started: Tue Nov 23 10:26:23 2021
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off top -c top
+Info (20034): Auto device selection is not supported for Cyclone V device family. The default device, 5CGXFC7C7F23C8, is set.
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Error (12007): Top-level design entity "top" is undefined
+Error: Quartus Prime Analysis & Synthesis was unsuccessful. 1 error, 1 warning
+    Error: Peak virtual memory: 534 megabytes
+    Error: Processing ended: Tue Nov 23 10:26:37 2021
+    Error: Elapsed time: 00:00:14
+    Error: Total CPU time (on all processors): 00:00:24
+Error (293001): Quartus Prime Full Compilation was unsuccessful. 3 errors, 1 warning
+Error: Flow compile (for project /xprj/chip/ce2020labs/scripts/all_intel_fpga_boards/top) was not successful
+Error: ERROR: Error(s) found while running an executable. See report file(s) for error message(s). Message log indicates which executable was run last.
+
+Error (23031): Evaluation of Tcl script /home/user52/intelFPGA_lite/21.1/quartus/common/tcl/internal/qsh_flow.tcl unsuccessful
+Error: Quartus Prime Shell was unsuccessful. 10 errors, 1 warning
+    Error: Peak virtual memory: 620 megabytes
+    Error: Processing ended: Tue Nov 23 10:26:37 2021
+    Error: Elapsed time: 00:00:15
+    Error: Total CPU time (on all processors): 00:00:25

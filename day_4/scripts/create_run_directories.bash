@@ -6,3 +6,7 @@ mkdir ../lab1/rzrd/run
 cp lab1/* ../lab1/rzrd/run
 cp rzrd/* ../lab1/rzrd/run
 
+
+mkdir ../lab2/rzrd/run
+cp lab2/* ../lab2/rzrd/run
+cp rzrd/* ../lab2/rzrd/run

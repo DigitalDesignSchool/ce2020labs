@@ -45,14 +45,15 @@ module risk_sprite_engine
     output wire  [              NUM_SPRITE-1:0]        sprite_enable_update,  //! 1 - разрешение обновления координат спрайта через приращение
     input  wire  [`X_WIDTH *    NUM_SPRITE- 1:0]       sprite_x,       //! текущая координата X спрайта
     input  wire  [`Y_WIDTH *    NUM_SPRITE- 1:0]       sprite_y,       //! текущая координата Y спрайта
-    
+
     input wire [31:0]                   vcu_reg_control,            //! control register for video control unit (vcu)  
     input wire                          vcu_reg_control_we,         //! 1 - new data in the vcu_reg_control
     input wire [31:0]                   vcu_reg_wdata,              //! data register for video control unit (vcu)
     input wire                          vcu_reg_wdata_we,           //! 1 - new data in the vcu_reg_wdata
     output wire [31:0]                  vcu_reg_rdata,              //! input data 
 
-    input wire                          vsync                  //! 1 - идёт отображение
+    input wire                          vsync,                      //! 1 - идёт отображение
+    input wire [3:0]                    key_sw                      //! кнопки управления, 1 - кнопка нажата
 
 );
 
@@ -89,7 +90,24 @@ end
 
 always @(vcu_reg_control, flag_new_vsync) begin
     if( vcu_reg_control[7:0]==8'hFF )
-        vcu_reg_rdata_i <= { 31'h0, flag_new_vsync };
+        case( vcu_reg_control[10:8] ) 
+            0: begin
+                vcu_reg_rdata_i <= { 31'h0, flag_new_vsync };
+            end
+            1: begin
+                vcu_reg_rdata_i <= { 31'h0, key_sw[0] };
+            end
+            2: begin
+                vcu_reg_rdata_i <= { 31'h0, key_sw[1] };
+            end
+            3: begin
+                vcu_reg_rdata_i <= { 31'h0, key_sw[2] };
+            end
+            4: begin
+                vcu_reg_rdata_i <= { 31'h0, key_sw[3] };
+            end
+
+        endcase
     // else if( vcu_reg_control[7:0]<NUM_SPRITE ) 
     //     case( sel )
     //         0: vcu_reg_rdata_i <= sprite_x[vcu_reg_control[7:0]]; 
@@ -111,9 +129,9 @@ generate
             if( vcu_reg_wdata_we && vcu_reg_control[7:0]==ii ) begin
 
                 case( sel )
-                    0: sprite_write_x_i[(ii+1)*`X_WIDTH-1:ii*`X_WIDTH] <= #1 vcu_reg_wdata[`X_WIDTH   - 1:0];
-                    1: sprite_write_y_i[(ii+1)*`X_WIDTH-1:ii*`Y_WIDTH] <= #1 vcu_reg_wdata[`Y_WIDTH   - 1:0];
-                endcase
+                0: sprite_write_x_i[(ii+1)*`X_WIDTH-1:ii*`X_WIDTH] <= #1 vcu_reg_wdata[`X_WIDTH   - 1:0];
+                1: sprite_write_y_i[(ii+1)*`X_WIDTH-1:ii*`Y_WIDTH] <= #1 vcu_reg_wdata[`Y_WIDTH   - 1:0];
+            endcase
 
             end
 
@@ -124,10 +142,6 @@ generate
 
         end
 
-
-
-
-    
     end
 
 
@@ -137,7 +151,6 @@ endgenerate
 assign sprite_write_xy = sprite_write_xy_i;
 assign sprite_write_x  = sprite_write_x_i;
 assign sprite_write_y  = sprite_write_y_i;
-
 
 assign sprite_write_dxy = 0;
 assign sprite_write_dx = 0;

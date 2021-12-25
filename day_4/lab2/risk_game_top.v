@@ -6,15 +6,17 @@ module risk_game_top
               strobe_to_update_xy_counter_width = 20
 )
 (
-    input        clk,
-    input        reset,
+    input           clk,
+    input           reset,
 
-    input        launch_key,
-    input  [1:0] left_right_keys,
+    input           launch_key,
+    input  [1:0]    left_right_keys,
+    input  [3:0]    key_sw,                      //! кнопки управления, 1 - кнопка нажата
 
-    output       hsync,
-    output       vsync,
-    output [2:0] rgb
+
+    output          hsync,
+    output          vsync,
+    output [2:0]    rgb
 );
 
     //------------------------------------------------------------------------
@@ -388,6 +390,7 @@ assign sprite_torpedo_enable_update     = sprite_enable_update[0];
 assign sprite_x[(0+1)*`X_WIDTH-1:0*`X_WIDTH] = sprite_torpedo_x;
 assign sprite_y[(0+1)*`Y_WIDTH-1:0*`Y_WIDTH] = sprite_torpedo_y;
 
+
 risk_sprite_engine     
 #(
     .NUM_SPRITE             (   NUM_SPRITE  ),
@@ -418,7 +421,8 @@ risk_sprite_engine
     .vcu_reg_wdata          (   vcu_reg_wdata       ),   // данные на запись
     .vcu_reg_wdata_we       (   vcu_reg_wdata_we    ),   // 1 - запись данных
     .vcu_reg_rdata          (   vcu_reg_rdata       ),   // данные для чтения
-    .vsync                  (   vsync               )
+    .vsync                  (   vsync               ),
+    .key_sw                 (   key_sw              )
 
 );
 
