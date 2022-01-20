@@ -1,0 +1,337 @@
+ALL PROBLEMS 
+VCD info: dumpfile dump.vcd opened for output.
+VCD warning: $dumpvars: Package ($unit) is not dumpable with VCD.
+                 empty      [ ]
+push 63                     [ 63 ]
+push 12                     [ 12 63 ]
+                            [ 12 63 ]
+                            [ 12 63 ]
+push aa  pop 63             [ aa 12 ]
+push 8f  pop 12             [ 8f aa ]
+push c5  pop aa             [ c5 8f ]
+push 65  pop 8f             [ 65 c5 ]
+push 20                     [ 20 65 c5 ]
+push 13  pop c5             [ 13 20 65 ]
+         pop 65             [ 13 20 ]
+push 1d  pop 20             [ 1d 13 ]
+push ca                     [ ca 1d 13 ]
+                            [ ca 1d 13 ]
+         pop 13             [ ca 1d ]
+                            [ ca 1d ]
+push 2a                     [ 2a ca 1d ]
+         pop 1d             [ 2a ca ]
+         pop ca             [ 2a ]
+                            [ 2a ]
+                            [ 2a ]
+                            [ 2a ]
+push 5b  pop 2a             [ 5b ]
+push d7  pop 5b             [ d7 ]
+push c2                     [ c2 d7 ]
+         pop d7             [ c2 ]
+         pop c2  empty      [ ]
+push 85                     [ 85 ]
+                            [ 85 ]
+                            [ 85 ]
+push fa  pop 85             [ fa ]
+push 2f                     [ 2f fa ]
+         pop fa             [ 2f ]
+push 5a  pop 2f             [ 5a ]
+push 65  pop 5a             [ 65 ]
+         pop 65  empty      [ ]
+push ab                     [ ab ]
+push fd                     [ fd ab ]
+                            [ fd ab ]
+         pop ab             [ fd ]
+push 94                     [ 94 fd ]
+push db  pop fd             [ db 94 ]
+push 76                     [ 76 db 94 ]
+                            [ 76 db 94 ]
+                            [ 76 db 94 ]
+         pop 94             [ 76 db ]
+push 2e  pop db             [ 2e 76 ]
+push 29                     [ 29 2e 76 ]
+push 3d                     [ 3d 29 2e 76 ]
+push ba  pop 76             [ ba 3d 29 2e ]
+                            [ ba 3d 29 2e ]
+         pop 2e             [ ba 3d 29 ]
+push b6                     [ b6 ba 3d 29 ]
+                            [ b6 ba 3d 29 ]
+push cf                full [ cf b6 ba 3d 29 ]
+         pop 29             [ cf b6 ba 3d ]
+         pop 3d             [ cf b6 ba ]
+push 29                     [ 29 cf b6 ba ]
+push 4b  pop ba             [ 4b 29 cf b6 ]
+push 4e  pop b6             [ 4e 4b 29 cf ]
+push 0e                full [ 0e 4e 4b 29 cf ]
+         pop cf             [ 0e 4e 4b 29 ]
+         pop 29             [ 0e 4e 4b ]
+         pop 4b             [ 0e 4e ]
+                            [ 0e 4e ]
+                            [ 0e 4e ]
+                            [ 0e 4e ]
+push fa                     [ fa 0e 4e ]
+push 84                     [ 84 fa 0e 4e ]
+                            [ 84 fa 0e 4e ]
+push 0b                full [ 0b 84 fa 0e 4e ]
+                       full [ 0b 84 fa 0e 4e ]
+push 8f  pop 4e        full [ 8f 0b 84 fa 0e ]
+push 9b  pop 0e        full [ 9b 8f 0b 84 fa ]
+push 4b  pop fa        full [ 4b 9b 8f 0b 84 ]
+                       full [ 4b 9b 8f 0b 84 ]
+         pop 84             [ 4b 9b 8f 0b ]
+                            [ 4b 9b 8f 0b ]
+push 04  pop 0b             [ 04 4b 9b 8f ]
+push b8  pop 8f             [ b8 04 4b 9b ]
+push 2b  pop 9b             [ 2b b8 04 4b ]
+push a1                full [ a1 2b b8 04 4b ]
+push 04  pop 4b        full [ 04 a1 2b b8 04 ]
+         pop 04             [ 04 a1 2b b8 ]
+push 2b                full [ 2b 04 a1 2b b8 ]
+                       full [ 2b 04 a1 2b b8 ]
+         pop b8             [ 2b 04 a1 2b ]
+         pop 2b             [ 2b 04 a1 ]
+push 2a                     [ 2a 2b 04 a1 ]
+         pop a1             [ 2a 2b 04 ]
+push 68  pop 04             [ 68 2a 2b ]
+                            [ 68 2a 2b ]
+push f6                     [ f6 68 2a 2b ]
+                            [ f6 68 2a 2b ]
+         pop 2b             [ f6 68 2a ]
+push e1                     [ e1 f6 68 2a ]
+         pop 2a             [ e1 f6 68 ]
+                            [ e1 f6 68 ]
+push 2c  pop 68             [ 2c e1 f6 ]
+s020_generic_flip_flop_fifo.v PASS
+s020_generic_flip_flop_fifo.v:276: $finish called at 1056 (1s)
+VCD info: dumpfile dump.vcd opened for output.
+VCD warning: $dumpvars: Package ($unit) is not dumpable with VCD.
+                 empty      [ ]
+push 63                     [ 63 ]
+push 12                     [ 12 63 ]
+                            [ 12 63 ]
+                            [ 12 63 ]
+push aa  pop 63             [ aa 12 ]
+push 8f  pop 12             [ 8f aa ]
+push c5  pop aa             [ c5 8f ]
+push 65  pop 8f             [ 65 c5 ]
+push 20                     [ 20 65 c5 ]
+push 13  pop c5             [ 13 20 65 ]
+         pop 65             [ 13 20 ]
+push 1d  pop 20             [ 1d 13 ]
+push ca                     [ ca 1d 13 ]
+                            [ ca 1d 13 ]
+         pop 13             [ ca 1d ]
+                            [ ca 1d ]
+push 2a                     [ 2a ca 1d ]
+         pop 1d             [ 2a ca ]
+         pop ca             [ 2a ]
+                            [ 2a ]
+                            [ 2a ]
+                            [ 2a ]
+push 5b  pop 2a             [ 5b ]
+push d7  pop 5b             [ d7 ]
+push c2                     [ c2 d7 ]
+         pop d7             [ c2 ]
+         pop c2  empty      [ ]
+push 85                     [ 85 ]
+                            [ 85 ]
+                            [ 85 ]
+push fa  pop 85             [ fa ]
+push 2f                     [ 2f fa ]
+         pop fa             [ 2f ]
+push 5a  pop 2f             [ 5a ]
+push 65  pop 5a             [ 65 ]
+         pop 65  empty      [ ]
+push ab                     [ ab ]
+push fd                     [ fd ab ]
+                            [ fd ab ]
+         pop ab             [ fd ]
+push 94                     [ 94 fd ]
+push db  pop fd             [ db 94 ]
+push 76                     [ 76 db 94 ]
+                            [ 76 db 94 ]
+                            [ 76 db 94 ]
+         pop 94             [ 76 db ]
+push 2e  pop db             [ 2e 76 ]
+push 29                     [ 29 2e 76 ]
+push 3d                full [ 3d 29 2e 76 ]
+         pop 76             [ 3d 29 2e ]
+                            [ 3d 29 2e ]
+push 37  pop 2e             [ 37 3d 29 ]
+push b6                full [ b6 37 3d 29 ]
+                       full [ b6 37 3d 29 ]
+                       full [ b6 37 3d 29 ]
+                       full [ b6 37 3d 29 ]
+push 17  pop 29        full [ 17 b6 37 3d ]
+push f5  pop 3d        full [ f5 17 b6 37 ]
+         pop 37             [ f5 17 b6 ]
+push 8a  pop b6             [ 8a f5 17 ]
+         pop 17             [ 8a f5 ]
+push 9f                     [ 9f 8a f5 ]
+push 9e                full [ 9e 9f 8a f5 ]
+push 79  pop f5        full [ 79 9e 9f 8a ]
+                       full [ 79 9e 9f 8a ]
+                       full [ 79 9e 9f 8a ]
+                       full [ 79 9e 9f 8a ]
+         pop 8a             [ 79 9e 9f ]
+push 84                full [ 84 79 9e 9f ]
+                       full [ 84 79 9e 9f ]
+push 8e  pop 9f        full [ 8e 84 79 9e ]
+                       full [ 8e 84 79 9e ]
+push 8f  pop 9e        full [ 8f 8e 84 79 ]
+push 9b  pop 79        full [ 9b 8f 8e 84 ]
+push 4b  pop 84        full [ 4b 9b 8f 8e ]
+                       full [ 4b 9b 8f 8e ]
+         pop 8e             [ 4b 9b 8f ]
+                            [ 4b 9b 8f ]
+push 04  pop 8f             [ 04 4b 9b ]
+push b8  pop 9b             [ b8 04 4b ]
+push 2b  pop 4b             [ 2b b8 04 ]
+push a1                full [ a1 2b b8 04 ]
+push 04  pop 04        full [ 04 a1 2b b8 ]
+         pop b8             [ 04 a1 2b ]
+push 2b                full [ 2b 04 a1 2b ]
+                       full [ 2b 04 a1 2b ]
+         pop 2b             [ 2b 04 a1 ]
+         pop a1             [ 2b 04 ]
+push 2a                     [ 2a 2b 04 ]
+         pop 04             [ 2a 2b ]
+push 68  pop 2b             [ 68 2a ]
+                            [ 68 2a ]
+push f6                     [ f6 68 2a ]
+                            [ f6 68 2a ]
+         pop 2a             [ f6 68 ]
+push e1                     [ e1 f6 68 ]
+         pop 68             [ e1 f6 ]
+                            [ e1 f6 ]
+push 2c  pop f6             [ 2c e1 ]
+s021_gen_dff_fifo_pow2_depth.v PASS
+s021_gen_dff_fifo_pow2_depth.v:273: $finish called at 1056 (1s)
+VCD info: dumpfile dump.vcd opened for output.
+VCD warning: $dumpvars: Package ($unit) is not dumpable with VCD.
+   0               
+   1               
+   2               
+   3               
+   4  a 0001 b 0100
+   5  a 0002 b 0200
+   6  a 0003 b 0300 sum 0101
+   7  a 0004 b 0400 sum 0202
+   8  a 0005 b 0500 sum 0303
+   9  a 0006 b 0600 sum 0404
+  10  a 0007 b 0700 sum 0505
+  11  a 0008 b 0800 sum 0606
+  12  a 0009 b 0900 sum 0707
+  13  a 000a b 0a00 sum 0808
+  14  a 000b        sum 0909
+  15  a 000c        sum 0a0a
+  16  a 000d       
+  17  a 000e       
+  18  a 000f       
+  19               
+  20               
+  21               
+  22               
+  23               
+  24               
+  25               
+  26               
+  27               
+  28         b 0b00
+  29               
+  30  a 0010 b 0c00 sum 0b0b
+  31               
+  32  a 0011       
+  33         b 0d00
+  34         b 0e00
+  35  a 0012 b 0f00
+  36  a 0013       
+  37  a 0014 b 1000
+  38         b 1100 sum 0c0c
+  39  a 0015 b 1200
+  40  a 0016        sum 0d0d
+  41         b 1300
+  42  a 0017 b 1400
+  43         b 1500 sum 0e0e
+  44                sum 0f0f
+  45  a 0018        sum 1010
+  46         b 1600
+  47  a 0019 b 1700 sum 1111
+  48  a 001a b 1800
+  49  a 001b b 1900
+  50                sum 1212
+  51         b 1a00 sum 1313
+  52         b 1b00 sum 1414
+  53  a 001c        sum 1515
+  54  a 001d       
+  55  a 001e       
+  56  a 001f b 1c00
+  57         b 1d00 sum 1616
+  58               
+  59  a 0020        sum 1717
+  60         b 1e00 sum 1818
+  61  a 0021        sum 1919
+  62         b 1f00
+  63  a 0022        sum 1a1a
+  64  a 0023 b 2000
+  65  a 0024       
+  66         b 2100
+  67                sum 1b1b
+  68         b 2200 sum 1c1c
+  69         b 2300
+  70  a 0025        sum 1d1d
+  71  a 0026 b 2400 sum 1e1e
+  72  a 0027 b 2500 sum 1f1f
+  73  a 0028 b 2600
+  74  a 0029 b 2700 sum 2020
+  75                sum 2121
+  76  a 002a b 2800 sum 2222
+  77  a 002b        sum 2323
+  78  a 002c b 2900
+  79  a 002d       
+  80         b 2a00
+  81         b 2b00
+  82         b 2c00 sum 2424
+  83         b 2d00
+  84  a 002e       
+  85         b 2e00 sum 2525
+  86               
+  87  a 002f        sum 2626
+  88                sum 2727
+  89  a 0030 b 2f00
+  90  a 0031        sum 2828
+  91               
+  92  a 0032 b 3000 sum 2929
+  93               
+  94  a 0033 b 3100 sum 2a2a
+  95         b 3200
+  96  a 0034 b 3300 sum 2b2b
+  97                sum 2c2c
+  98  a 0035       
+  99  a 0036 b 3400 sum 2d2d
+ 100         b 3500 sum 2e2e
+ 101  a 0037 b 3600 sum 2f2f
+ 102  a 0038        sum 3030
+ 103  a 0039 b 3700
+ 104  a 003a b 3800 sum 3131
+ 105                sum 3232
+ 106  a 003b       
+ 107  a 003c b 3900
+ 108         b 3a00 sum 3333
+ 109         b 3b00 sum 3434
+ 110  a 003d       
+ 111  a 003e        sum 3535
+ 112               
+ 113  a 003f        sum 3636
+ 114         b 3c00
+ 115  a 0040 b 3d00
+ 116                sum 3737
+ 117         b 3e00 sum 3838
+ 118  a 0041 b 3f00
+ 119  a 0042        sum 3939
+ 120                sum 3a3a
+ 121  a 0043 b 4000 sum 3b3b
+ 122         b 4100 sum 3c3c
+ 123  a 0044 b 4200
+s022_three_fifos_around_adder.v PASS
+s022_three_fifos_around_adder.v:339: $finish called at 1235 (1s)
