@@ -1,0 +1,7 @@
+src_calc/fifo_simple.sv
+src_calc/example_cpu.sv 
+school_risk/sm_rom_p0.sv
+school_risk/sm_rom_p1.sv
+school_risk/sm_register.v
+school_risk/sr_cpu_vc.v
+src_tb/tb.sv  

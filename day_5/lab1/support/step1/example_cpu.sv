@@ -213,45 +213,46 @@ assign led_p[1] = fifo_prog_full;
 assign led_p[2] = fifo_full;
 assign led_p[3] = is_write_enable;
 
-assign fifo_i_data      = p0_vcu_reg_wdata;
-assign fifo_i_data_we   = (p0_vcu_reg_control[3:0]==4'b1000) ? p0_vcu_reg_wdata_we : 0;
+// assign fifo_i_data      = p0_vcu_reg_wdata;
+// assign fifo_i_data_we   = (p0_vcu_reg_control[3:0]==4'b1000) ? p0_vcu_reg_wdata_we : 0;
 
-assign fifo_o_data_rd   = (p1_vcu_reg_control[3:0]==4'b0101) ? p1_vcu_reg_control_we : 0;
+// assign fifo_o_data_rd   = (p1_vcu_reg_control[3:0]==4'b0101) ? p1_vcu_reg_control_we : 0;
 
-assign is_write_enable = (credit_counter=='0) ? 0 : 1;
+// assign is_write_enable = (credit_counter=='0) ? 0 : 1;
+//assign is_write_enable = 1
 
-//assign credit_counter = '0;
-always @(posedge clk) begin
-    if( rstp )
-        credit_counter <= #1 4'h8;
-    else if( fifo_i_data_we & ~fifo_o_data_rd ) 
-        credit_counter <= #1 credit_counter - 1;
-    else if( ~fifo_i_data_we & fifo_o_data_rd ) 
-        credit_counter <= #1 credit_counter + 1;
+assign credit_counter = '0;
+// always @(posedge clk) begin
+//     if( rstp )
+//         credit_counter <= #1 4'h8;
+//     else if( fifo_i_data_we & ~fifo_o_data_rd ) 
+//         credit_counter <= #1 credit_counter - 1;
+//     else if( ~fifo_i_data_we & fifo_o_data_rd ) 
+//         credit_counter <= #1 credit_counter + 1;
 
-end
+// end
 
-fifo_simple
-#(
-    .WIDTH                  (       32      ),
-    .DEPTH                  (       8       ),
-    .PROG_FULL              (       4       )
-)    
-fifo_msg
-(
-    .reset_p                (       rstp    ),    
-    .clk                    (       clk     ),    
+// fifo_simple
+// #(
+//     .WIDTH                  (       32      ),
+//     .DEPTH                  (       8       ),
+//     .PROG_FULL              (       4       )
+// )    
+// fifo_msg
+// (
+//     .reset_p                (       rstp    ),    
+//     .clk                    (       clk     ),    
 
-    .data_i                 (       fifo_i_data     ),
-    .data_we                (       fifo_i_data_we  ),
+//     .data_i                 (       fifo_i_data     ),
+//     .data_we                (       fifo_i_data_we  ),
 
-    .data_o                 (       fifo_o_data     ),
-    .data_rd                (       fifo_o_data_rd  ),
-    .prog_full              (       fifo_prog_full  ),
-    .full                   (       fifo_full       ),
-    .empty                  (       fifo_empty      )
+//     .data_o                 (       fifo_o_data     ),
+//     .data_rd                (       fifo_o_data_rd  ),
+//     .prog_full              (       fifo_prog_full  ),
+//     .full                   (       fifo_full       ),
+//     .empty                  (       fifo_empty      )
 
-);
+// );
 
 endmodule
 

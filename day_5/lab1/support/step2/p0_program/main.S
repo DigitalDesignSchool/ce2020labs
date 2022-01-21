@@ -21,11 +21,11 @@ start:      li t6, 2
 
             li t5, 0  # reset status 
 
-           li t6, 4
-            addi a0, a0, 0     
-            addi a0, a0, 0     
-            addi a0, a0, 0     
-            beq t5, zero, start  # credit_counter==0
+#           li t6, 4
+#            addi a0, a0, 0     
+#            addi a0, a0, 0     
+#            addi a0, a0, 0     
+#            beq t5, zero, start  # credit_counter==0
 
             li t6, 8
             addi a0, a0, 1

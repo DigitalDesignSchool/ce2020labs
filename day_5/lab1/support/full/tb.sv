@@ -5,7 +5,7 @@
 module tb
   #( 
       parameter         test_id=1,
-      parameter         DEPTH=16
+      parameter         DEPTH=8
    )
   ();
   
