@@ -16,10 +16,10 @@ Info: Running Quartus Prime Programmer
     Info: Intel and sold by Intel or its authorized distributors.  Please
     Info: refer to the applicable agreement for further details, at
     Info: https://fpgasoftware.intel.com/eula.
-    Info: Processing started: Sat Jan 29 03:42:58 2022
+    Info: Processing started: Sat Jan 29 13:53:56 2022
 Info: Command: quartus_pgm -l
 Info: Quartus Prime Programmer was successful. 0 errors, 0 warnings
     Info: Peak virtual memory: 315 megabytes
-    Info: Processing ended: Sat Jan 29 03:42:58 2022
-    Info: Elapsed time: 00:00:00
+    Info: Processing ended: Sat Jan 29 13:53:57 2022
+    Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:00
