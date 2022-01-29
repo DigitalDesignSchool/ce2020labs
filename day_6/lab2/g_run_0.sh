@@ -1,0 +1,1 @@
+vsim -gui  -voptargs="+acc" work.tb +test_id=0 
