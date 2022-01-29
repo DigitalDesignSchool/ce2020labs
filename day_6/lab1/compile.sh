@@ -1,0 +1,1 @@
+vlog '-timescale' '1ns/1ns' -sv -f systemverilog.txt +incdir+./shool_risk

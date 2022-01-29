@@ -1,0 +1,1 @@
+vsim -gui  -voptargs="+acc" work.tb -g test_id=0 -g DEPTH=17
