@@ -1,5 +1,5 @@
-rmdir /q /s sim
-mkdir       sim
-cd          sim
+rmdir /q /s run
+mkdir       run
+cd          run
 
 vsim -c -do ../questa_script.tcl
