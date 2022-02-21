@@ -1,0 +1,7 @@
+syn.log
+output_files
+db
+incremental_db
+p0_program.hex
+p1_program.hex
+.cable_list
