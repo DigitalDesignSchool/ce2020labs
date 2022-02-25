@@ -16,9 +16,11 @@ module downsizing_coverage
 
   input reg [W      - 1:0] out_tdata,
   input reg                out_tvalid,
-  input                    out_tready
+  input                    out_tready,
+  
+  input                    sel
 );
-
+  
   covergroup cvr @ (posedge aclk iff aresetn);
 
     option.comment      = "Comment for the report: downsizing covergroup";
@@ -131,16 +133,17 @@ module downsizing_coverage
       bins i_vld_o_rdy_lower_o_vld_1110 = { 4'b1110 };
       bins i_vld_o_rdy_lower_o_vld_1111 = { 4'b1111 };
     }
+
   endgroup
       
   cvr cg = new ();
 
   final
   begin
-    $display ("Total coverage                   : %0d <= cg.get_coverage ());
-    $display ("i_vld_lower_o_vld_o_rdy coverage : %0d <= cg.o_rdy_transitions.get_coverage ());
+    $display ("Total coverage                   : %0d", cg.get_coverage ());
+    $display ("i_vld_lower_o_vld_o_rdy coverage : %0d", cg.o_rdy_transitions.get_coverage ());
   end
 
 endmodule
 
-bind downsizing downsizing_assertions # (.W (W)) assertions (.*);
+bind downsizing downsizing_coverage # (.W (W)) coverage (.*);

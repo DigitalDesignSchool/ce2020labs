@@ -1,4 +1,5 @@
 // downsizing example is created by Yuri Panchul, Dmitry Smekhov and Yaroslav Kolbasov
+// To run this example in EDA Playground, use https://edaplayground.com/x/rrPv
 
 `include "defines.svh"
 

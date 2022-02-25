@@ -3,7 +3,7 @@ vcs -R \
 -sverilog \
 -timescale=1ns/1ns \
 +vcs+flush+all \
-design.sv testbench.sv
+design.sv assertions.sv coverage.sv testbench.sv
 
 urg -dir simv.vdb -format text
 ls -l urgReport/*txt

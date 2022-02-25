@@ -20,7 +20,7 @@ module downsizing_assertions
 );
 
   keep_in_tvalid_until_in_tready: assert property
-    (@ (posedge clock) disable iff (~ aresetn)
+    (@ (posedge aclk) disable iff (~ aresetn)
         in_tvalid & ~ in_tready |-> ##1 in_tvalid)
     else
         $fatal ("in_tvalid is removed before getting in_tready");

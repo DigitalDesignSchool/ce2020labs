@@ -67,7 +67,7 @@ module testbench;
         wait_ready ();
         in_tdata  <= "IJKLMONP";
         wait_ready ();
-        in_tdata  <= "HELLOWAR";
+        in_tdata  <= "QWERTYUI";
         wait_ready ();
         in_tdata  <= "PQRSTUVW";
         wait_ready ();
