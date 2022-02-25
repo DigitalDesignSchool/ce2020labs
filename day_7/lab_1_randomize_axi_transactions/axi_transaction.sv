@@ -1,3 +1,5 @@
+// This AXI transaction randomization example is written by Yuri Panchul
+
 // To see the details of AXI protocol, google: amba axi protocol specification
 // To run this example in EDA Playground, use https://edaplayground.com/x/Y_SF
 

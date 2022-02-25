@@ -1,3 +1,5 @@
+// This AXI transaction randomization example is written by Yuri Panchul
+
 import axi_transaction::*;
 
 class my_axi_transaction extends axi_transaction;
