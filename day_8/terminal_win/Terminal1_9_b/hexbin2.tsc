@@ -1,0 +1,54 @@
+//******************************
+// Created: 26.7.2004 12:30:38
+//******************************
+program test;
+
+function IntToBin(value:integer): string;
+var temp:string;
+    temp1,i:integer;
+begin
+  result:='';
+  temp1:=value;
+  for i:=0 to 7 do
+  begin
+    result:=chr(temp1 mod 2+48)+result;
+    temp1:=temp1 div 2;
+  end;
+end;
+
+function IntToHex(value:integer): string;
+var hi,lo:integer;
+begin
+  hi:=(value and $F0) shr 4;
+  if (hi>9) then hi:=hi+7;
+  hi:=hi+48;
+
+  lo:=value and $0F;
+  if (lo>9) then lo:=lo+7;
+  lo:=lo+48;
+
+  result:=chr(hi)+chr(lo);
+end;
+
+
+// main
+var test_str: string;
+    i: integer;
+begin
+
+  for i:=0 to 255 do
+  begin
+    writeln(Inttobin(i)+' '+inttohex(i));
+  end;
+
+  while (true) do
+  begin
+    test_str:=comreadln();
+    if not(test_str='') then 
+    begin
+      writeln(IntToHex(255));
+      //ShowMessage(test_str); 
+      //writeln(test_str);
+    end;
+  end;
+end.

@@ -1,0 +1,22 @@
+program ScriptTest;
+
+const STRING1 = 'DMX test';
+
+var i: longint;
+    x: longint;
+begin
+  writeln(STRING1);
+  comsendstr(STRING1);
+
+  for x:=0 to 255 do
+  begin 
+    comsendbreak();
+    // send DMX packet
+    for i:=0 to 512 do
+    begin
+      if ((i mod 3)=1) then comsendchr(x*6) else comsendchr(0);
+    end;
+  end;
+
+
+end.

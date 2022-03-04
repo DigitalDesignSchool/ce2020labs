@@ -1,0 +1,47 @@
+//******************************
+// Terminal Script
+// Created: 7.10.2005 16:55:12
+//******************************
+program test;
+
+function IntToHex(value:integer): string;
+var hi,lo:integer;
+begin
+  hi:=(value and $F0) shr 4;
+  if (hi>9) then hi:=hi+7;
+  hi:=hi+ord('0');
+
+  lo:=value and $0F;
+  if (lo>9) then lo:=lo+7;
+  lo:=lo+ord('0');
+
+  result:=chr(hi)+chr(lo);
+end;
+
+procedure send_command(cmd: string);
+var command_str: string;
+begin
+  writeln('command: '+cmd);
+  case cmd of
+   '1': comsendmacro('command ##1$0D');
+   '2': comsendmacro('command ##2$0D');
+   '3': comsendmacro('command ##3$0D');
+  end;
+end;
+
+// main program
+var stop: boolean;
+    command: string;
+begin
+  stop:=false;
+  writeln('Chose your command #:');
+  while not(stop) do
+  begin
+    Readln(command);
+    if command='Q' then stop:=true; // WARNING - don't touch :)
+    if command='1' then send_command('1');
+    if command='2' then send_command('2');
+    if command='3' then send_command('3');
+  end;
+  writeln('End');
+end.

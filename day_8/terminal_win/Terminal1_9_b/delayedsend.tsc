@@ -1,0 +1,16 @@
+//******************************
+// Terminal Script
+// Created: 10.11.2004 12:30:44
+//******************************
+program test;
+var command: string;
+    i: integer;
+begin
+  command:='ATZ'+#13;
+
+  for i:=1 to length(command) do
+  begin
+   comsendstr(copy(command,i,1));
+   Delay(100); // delay between characters in ms
+  end;
+end.
