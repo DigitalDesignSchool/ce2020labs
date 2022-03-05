@@ -65,10 +65,10 @@ set_global_assignment -name VERILOG_FILE ../common/Calculator/calculator.v
 set_global_assignment -name VERILOG_FILE ../common/Calculator/alu.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../common/top.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../common/seven_segment_4_digits.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../common/mfp_uart_receiver.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../common/ascii_to_action.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../common/uart_tx.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../common/uart_transmitter.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../common/uart_receiver.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../common/data_aggregator.sv
 
 set_global_assignment -name VERILOG_FILE top.v
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to tx

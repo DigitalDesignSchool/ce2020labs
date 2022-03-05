@@ -66,17 +66,16 @@ set_location_assignment PIN_132 -to nx_digit[2]
 set_location_assignment PIN_129 -to nx_digit[1]
 set_location_assignment PIN_23 -to clock
 
-
 set_global_assignment -name VERILOG_INCLUDE_FILE ../common/Calculator/defines.vh
 set_global_assignment -name VERILOG_FILE ../common/Calculator/stack.v
 set_global_assignment -name VERILOG_FILE ../common/Calculator/calculator.v
 set_global_assignment -name VERILOG_FILE ../common/Calculator/alu.v
 set_global_assignment -name SYSTEMVERILOG_FILE ../common/top.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../common/seven_segment_4_digits.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../common/mfp_uart_receiver.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../common/ascii_to_action.sv
-set_global_assignment -name SYSTEMVERILOG_FILE ../common/uart_tx.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../common/uart_transmitter.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../common/uart_receiver.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../common/data_aggregator.sv
 
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top

@@ -13,9 +13,9 @@ module top (
   wire [7:0] ascii_data;
 
   uart_receiver listener (
-      .clock     (clock),
-      .reset_n   (reset_n),
-      .rx        (rx),
+      .clock  (clock),
+      .reset_n(reset_n),
+      .rx     (rx),
 
       .byte_data (ascii_data),
       .byte_ready(byte_ready)
@@ -31,48 +31,48 @@ module top (
       .data (ascii_data),
 
       .separator(separator),
-      .add  (add),
+      .add      (add),
       .multiply (multiply),
-      .digit(digit),
-      .enter(enter),
-      .clear(clear),
-      .error(error_ascii)
+      .digit    (digit),
+      .enter    (enter),
+      .clear    (clear),
+      .error    (error_ascii)
   );
 
 
   // Prepare and accumulate data 
 
-  reg [7:0] number;
-  reg enter_occured;
+  logic [7:0] number;
+  logic enter_occured;
 
-  always @(posedge clock) begin
-    if (!reset_n) begin
-      number <= 8'b0;
-      enter_occured <= 1'b0;
-    end else if (enter) begin
-      number <= {number[3:0], digit};
-      enter_occured <= 1'b1;
-    end else if (add || multiply || error_ascii) begin
-      enter_occured <= 1'b0;
-    end else if (separator) begin
-      number <= 8'b0;
-    end
-  end
+  data_aggregator aggregator (
+      .clock    (clock),
+      .reset    (~reset_n),
+      .enter    (enter),
+      .add      (add),
+      .multiply (multiply),
+      .separator(separator),
+      .data     (digit),
+
+      .number       (number),
+      .enter_occured(enter_occured)
+  );
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   wire [15:0] result;
   wire overflow, newresult;
   wire [3:0] error_calculator;
   wire is_tx_busy;
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   calculator calculator (
-      .clock(clock),
-      .reset(~reset_n || clear),
-      .enter(separator & enter_occured),
-      .add  (add),
+      .clock   (clock),
+      .reset   (~reset_n || clear),
+      .enter   (separator & enter_occured),
+      .add     (add),
       .multiply(multiply),
-      .data (number),
-      
+      .data    (number),
+
       .newresult(newresult),
       .result   (result),
       .overflow (overflow),
@@ -84,17 +84,17 @@ module top (
       .reset (~reset_n),
       .number(result),
 
-      .digit(nx_digit),
+      .digit   (nx_digit),
       .abcdefgh(abcdefgh)
   );
 
-  two_bytes_uart_tx loader (
+  uart_transmitter loader (
       .clock(clock),
       .reset(~reset_n),
       .start(newresult),
       .data (result),
 
-      .q(tx),
+      .q   (tx),
       .busy(is_tx_busy)
   );
 
