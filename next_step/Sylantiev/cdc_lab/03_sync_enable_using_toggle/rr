@@ -1,0 +1,311 @@
+#!/bin/bash
+
+set +e  # Don't exit immediately if a command exits with a non-zero status
+
+#-----------------------------------------------------------------------------
+
+readonly script=$(basename "$0")
+
+#-----------------------------------------------------------------------------
+
+IVERILOG=iverilog
+VVP=vvp
+
+GTKWAVE=gtkwave
+
+if [ ${OSTYPE/[0-9]*/} = "darwin" ]
+then
+    GTKWAVE=/Applications/gtkwave.app/Contents/MacOS/gtkwave-bin
+fi
+
+VSIM=vsim
+
+#-----------------------------------------------------------------------------
+
+export MODELSIM_ROOTDIR="$HOME/intelFPGA_lite/18.1/modelsim_ase"
+export PATH="${PATH}:$MODELSIM_ROOTDIR/bin"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$MODELSIM_ROOTDIR/lib32"
+
+#-----------------------------------------------------------------------------
+
+SIM_DIR=${PWD}/sim
+SYN_DIR=${PWD}/syn
+
+#-----------------------------------------------------------------------------
+
+is_number ()
+{
+    # Is it working in POSIX sh?
+    # [ "$1" != "" ] && echo $1 | grep -q ^[0-9]*$
+    # Is it working only in bash?
+    # [ "$1" != "" ] && grep -q <<< "$1" ^[0-9]*$
+    # Is it working only in bash?
+    test -n "${1##*[!0-9]*}"
+}
+
+#-----------------------------------------------------------------------------
+
+error ()
+{
+    if is_number $1
+    then
+        ec=$1
+        shift
+    else
+        ec=1
+    fi
+
+    [ $ec != 0 ] || return
+
+    printf "$script: error: $*" 1>&2
+    
+    if [ $ec != 1 ]
+    then
+        printf ". Exiting with code $ec." 1>&2
+    fi
+    
+    printf "\n" 1>&2
+    exit $ec
+}
+
+#-----------------------------------------------------------------------------
+
+warning ()
+{
+    printf "$script: warning: $*\n" 1>&2
+}
+
+#-----------------------------------------------------------------------------
+
+info ()
+{
+    printf "$script: $*\n" 1>&2
+}
+
+#-----------------------------------------------------------------------------
+
+is_command_available ()
+{
+    command -v $1 &> /dev/null
+}
+
+#-----------------------------------------------------------------------------
+
+command_is_available_or_error ()
+{
+    is_command_available $1 || \
+        error "program $1$2 is not in the path or cannot be run"
+}
+
+#-----------------------------------------------------------------------------
+
+guarded ()
+{
+    command_is_available_or_error $1
+    eval "$*" || error $? "cannot $*"
+}
+
+#-----------------------------------------------------------------------------
+
+command_is_available_or_error getopt
+
+getopt_version=$(getopt -V | sed 's/getopt //')
+
+getopt -T &>/dev/null
+
+[ $? -eq 4 ] || error \
+    "\"$(which getopt)\" program is too old;" \
+    "its version is \"$getopt_version\"."
+
+#-----------------------------------------------------------------------------
+
+getopt_result=$(eval $(tr -d '\n' <<END
+getopt
+ --name $script
+ --options hd:ivw
+ --longoptions
+ help,
+extra-dir:,
+iverilog-priority,
+vsim-priority,
+no-waves
+ --
+ $*
+END
+)) || error "failed parsing options. Run $script -h for more information."
+
+set -- $getopt_result
+
+#-----------------------------------------------------------------------------
+
+readonly help_text=$(cat <<END_HELP
+
+Usage: $script [POSIX or GNU style options]
+
+-h        --help
+-d <dir>  --extra-dir <dir>
+-i        --iverilog-priority
+-v        --vsim-priority
+-w        --no-waves
+
+END_HELP
+)
+
+#-----------------------------------------------------------------------------
+
+show_help=0
+extra_dirs=()
+iverilog_has_priority=0
+vsim_has_priority=0
+display_waves=1
+
+#-----------------------------------------------------------------------------
+
+while true
+do
+    [ $# -gt 0 ] || error "internal error parsing arguments." \
+              "getopt should return \"--\" at the end of its result."
+
+    case "$1" in
+    -h | --help              ) show_help=1             ; shift   ;;
+    -d | --extra-dir         ) extra_dirs+=($2)        ; shift 2 ;;
+    -i | --iverilog-priority ) iverilog_has_priority=1 ; shift   ;;
+    -v | --vsim-priority     ) vsim_has_priority=1     ; shift   ;;
+    -w | --no-waves          ) display_waves=0         ; shift   ;;
+    -- ) shift ; break ;;
+    *  )
+         error "internal error parsing argument \"$1\"." \
+               "getopt should check the options earlier."
+         ;;
+    esac
+done
+
+#-----------------------------------------------------------------------------
+
+if [ $show_help = 1 ]
+then
+    echo "$help_text"
+    exit 0
+fi
+
+#-----------------------------------------------------------------------------
+
+guarded rm    -rf $SIM_DIR
+guarded mkdir -p  $SIM_DIR
+guarded cd        $SIM_DIR
+
+#-----------------------------------------------------------------------------
+
+run_iverilog=0
+run_gtkwave=0
+run_vsim=0
+
+is_command_available $IVERILOG && run_iverilog=1
+is_command_available $GTKWAVE  && run_gtkwave=1
+is_command_available $VSIM     && run_vsim=1
+
+#-----------------------------------------------------------------------------
+
+if [ $run_iverilog = 1 ] && [ $run_vsim = 1 ]
+then
+    if [ $iverilog_has_priority = 1 ]
+    then
+        run_vsim=0
+
+    elif [ $vsim_has_priority = 1 ]
+    then
+        run_iverilog=0
+    else
+        printf "Two Verilog simulators are available to run:"
+        printf " Icarus Verilog and Mentor ModelSim\n"
+        printf "Which do you want to run?\n"
+
+        options="Icarus ModelSim Both"
+        PS3="Your choice: "
+
+        select simulator in $options
+        do
+            case $simulator in
+            Icarus)   run_vsim=0     ; break ;;
+            ModelSim) run_iverilog=0 ; break ;;
+            Both)                      break ;;
+            esac
+        done
+    fi
+fi
+
+# TODO: Consider removing check for run_iverilog
+
+if [ $run_iverilog = 0 ] || [ $display_waves = 0 ]
+then
+    run_gtkwave=0
+fi
+
+[ $run_iverilog = 0 ] && [ $run_vsim = 0 ] && \
+    error "No Verilog simulator is available to run." \
+          "You need to install either Icarus Verilog" \
+          "or Mentor Questa / ModelSim."
+
+#-----------------------------------------------------------------------------
+
+if [ $run_iverilog = 1 ]
+then
+    # TODO --extra-dir option support
+
+    $IVERILOG -g2005 -I .. ../*.v &> icarus.compile.log
+    ec=$?
+
+    if [ $ec != 0 ]
+    then
+        grep -i -A 5 error icarus.compile.log 2>&1
+        error $ec Icarus Verilog compiler errors
+    fi
+
+    $VVP a.out &> icarus.simulate.log
+    ec=$?
+
+    sed -i .bak '/^VCD info: dumpfile dump.vcd opened for output.$/d' \
+        icarus.simulate.log
+
+    if [ $ec != 0 ]
+    then
+        grep -i -A 5 error icarus.simulate.log 2>&1
+        tail -n 5 icarus.simulate.log 2>&1
+        error $ec Icarus Verilog simulator errors
+    fi
+
+    info Icarus Verilog simulation successfull
+    tail -n 5 icarus.simulate.log
+fi
+
+#-----------------------------------------------------------------------------
+
+if [ $run_gtkwave = 1 ]
+then
+    $GTKWAVE --dump dump.vcd --script ../gtkwave.tcl &> waveform.log
+    ec=$?
+
+    if [ $ec != 0 ]
+    then
+        grep -i -A 5 error waveform.log 2>&1
+        error $ec "waveform viewer failed"
+    fi
+fi
+
+#-----------------------------------------------------------------------------
+
+if [ $run_vsim = 1 ]
+then
+    $VSIM -do ../modelsim.tcl &> modelsim.log
+    ec=$?
+
+    if [ $ec != 0 ]
+    then
+        grep -i -A 5 error modelsim.log 2>&1
+        error $ec "ModelSim failed"
+    fi
+fi
+
+#-----------------------------------------------------------------------------
+
+exit 0
