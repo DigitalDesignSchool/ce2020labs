@@ -1,5 +1,6 @@
 day_?/rzrd/
 run/
+work/
 *~
 *.bak
 *.swp
@@ -9,3 +10,4 @@ ce2020labs*.zip
 problems*.zip
 gitt
 schoolRISCV
+transcript
