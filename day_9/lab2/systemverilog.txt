@@ -1,0 +1,10 @@
+src_calc/video_memory.sv
+src_calc/text_rom.sv
+src_calc/example_cpu.sv 
+school_risc/sm_rom_p0.sv
+school_risc/sm_rom_p1.sv
+school_risc/sm_register.v
+school_risc/sr_cpu_vc.v
+src_rzrd/top.sv
+common/vga.v
+src_tb/tb.sv  
