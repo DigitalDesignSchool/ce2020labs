@@ -1,0 +1,22 @@
+C:\Users\callo\Desktop\Science\Visual Studio Projects\RGBPaint\bin\Debug\RGBPaint.exe.config
+C:\Users\callo\Desktop\Science\Visual Studio Projects\RGBPaint\bin\Debug\RGBPaint.exe
+C:\Users\callo\Desktop\Science\Visual Studio Projects\RGBPaint\bin\Debug\RGBPaint.pdb
+C:\Users\callo\Desktop\Science\Visual Studio Projects\RGBPaint\obj\Debug\RGBPaint.csproj.AssemblyReference.cache
+C:\Users\callo\Desktop\Science\Visual Studio Projects\RGBPaint\obj\Debug\RGBPaint.csproj.SuggestedBindingRedirects.cache
+C:\Users\callo\Desktop\Science\Visual Studio Projects\RGBPaint\obj\Debug\RGBPaint.Form1.resources
+C:\Users\callo\Desktop\Science\Visual Studio Projects\RGBPaint\obj\Debug\RGBPaint.Properties.Resources.resources
+C:\Users\callo\Desktop\Science\Visual Studio Projects\RGBPaint\obj\Debug\RGBPaint.csproj.GenerateResource.cache
+C:\Users\callo\Desktop\Science\Visual Studio Projects\RGBPaint\obj\Debug\RGBPaint.csproj.CoreCompileInputs.cache
+C:\Users\callo\Desktop\Science\Visual Studio Projects\RGBPaint\obj\Debug\RGBPaint.exe
+C:\Users\callo\Desktop\Science\Visual Studio Projects\RGBPaint\obj\Debug\RGBPaint.pdb
+D:\Users\callo\Documents\GitHub\VGA-Framebuffer\RGBPaint\bin\Debug\RGBPaint.exe.config
+D:\Users\callo\Documents\GitHub\VGA-Framebuffer\RGBPaint\bin\Debug\RGBPaint.exe
+D:\Users\callo\Documents\GitHub\VGA-Framebuffer\RGBPaint\bin\Debug\RGBPaint.pdb
+D:\Users\callo\Documents\GitHub\VGA-Framebuffer\RGBPaint\obj\Debug\RGBPaint.csproj.AssemblyReference.cache
+D:\Users\callo\Documents\GitHub\VGA-Framebuffer\RGBPaint\obj\Debug\RGBPaint.csproj.SuggestedBindingRedirects.cache
+D:\Users\callo\Documents\GitHub\VGA-Framebuffer\RGBPaint\obj\Debug\RGBPaint.Form1.resources
+D:\Users\callo\Documents\GitHub\VGA-Framebuffer\RGBPaint\obj\Debug\RGBPaint.Properties.Resources.resources
+D:\Users\callo\Documents\GitHub\VGA-Framebuffer\RGBPaint\obj\Debug\RGBPaint.csproj.GenerateResource.cache
+D:\Users\callo\Documents\GitHub\VGA-Framebuffer\RGBPaint\obj\Debug\RGBPaint.csproj.CoreCompileInputs.cache
+D:\Users\callo\Documents\GitHub\VGA-Framebuffer\RGBPaint\obj\Debug\RGBPaint.exe
+D:\Users\callo\Documents\GitHub\VGA-Framebuffer\RGBPaint\obj\Debug\RGBPaint.pdb
